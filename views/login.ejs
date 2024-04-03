@@ -1,0 +1,16 @@
+<h2>Login</h2>
+
+<form action="/login" method="post">
+    <label for="name-id">Enter the user name :</label>
+    <input id="name-id" type="text" name="name" required>
+    <p style="color: red;"><%= nameErrorMsg %></p>
+
+    <label for="password-id">Enter a passcode :</label>
+    <input id="password-id" type="text" name="password">
+    <p style="color: red;"><%= passwordErrorMsg %></p>
+
+    <button type="submit">Go</button>
+</form>
+
+<hr>
+<p><i>didnt create an account ?</i> <a href="/register"><button>Register</button></a></p>

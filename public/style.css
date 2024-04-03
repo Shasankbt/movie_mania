@@ -1,0 +1,277 @@
+@import url('https://fonts.googleapis.com/css?family=PT%20Sans:700|PT%20Sans:400');
+
+body {
+  font-family: 'PT Sans';
+  font-weight: 400;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'PT Sans';
+  font-weight: 700;
+}
+
+html {font-size: 100%;} /* 16px */
+
+h1 {font-size: 4.210rem; /* 67.36px */}
+
+h2 {font-size: 3.158rem; /* 50.56px */}
+
+h3 {font-size: 2.369rem; /* 37.92px */}
+
+h4 {font-size: 1.777rem; /* 28.48px */}
+
+h5 {font-size: 1.333rem; /* 21.28px */}
+
+small {font-size: 0.750rem; /* 12px */}
+
+input[type="text"] {
+    outline: none;
+}
+
+.top-bar{
+    display: flex;
+    position: fixed;
+    width: 90%;
+    left:5%;
+    min-height: 3rem;
+    top: 0.5rem;
+    background-color:rgba(119, 106, 174, 0.1);
+    height:fit-content;
+    border-radius: 2rem;
+    border-bottom: 0.5px rgba(30, 42, 56,0.5) solid;
+    box-shadow: 0 0px 40px 10px rgba(0,0,0,0.37);
+
+    z-index: 2;
+
+}
+
+/* the below code is for the correct working in chrome , edge ( chromium based browsers ) */
+.top-bar::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(50px);
+    border-radius: 2rem;
+    z-index: -1;
+}
+
+.search-div{
+    z-index: 3;
+    position: relative;
+    left: 50%;
+    top: 0.5rem;
+    transform: translate(-50%,0%);
+    
+    height : 2rem;
+    min-width: 50%;
+
+    background-color: rgba(95, 124, 41, 0);
+    color:rgb(198, 209, 219);
+    border-radius: 1rem;
+    
+    padding-left: 0.25rem; 
+    display: flex;
+}
+
+.search-div > .search-label{
+    flex: 0 0 auto;
+
+    color : white;
+
+    padding: 0.5rem;
+    
+}
+.search-div > .search-bar-div{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    backdrop-filter: blur(40px);
+    background-color: rgba(52, 52, 52, 0.07);
+    box-shadow: 0 0px 40px 10px rgba(0,0,0,0.37);
+    border-radius: 1rem;
+
+    z-index: 2;
+}
+.search-div > .search-bar-div > .search-input{
+    width: auto;
+    min-height: 2rem;
+    border-radius: 1rem;
+    border: none;
+    
+    background-color: rgba(49, 49, 49, 0);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding-inline-start: 2rem;
+    
+    
+}
+.search-div > .search-bar-div > .search-output{
+    flex-direction: row;
+    flex: 1;
+    max-height: 40rem;
+    overflow-y: auto;
+    border-bottom-left-radius: 1rem ;
+    border-bottom-right-radius: 1rem ;
+    box-shadow: 0 0px 40px 10px rgba(0,0,0,0.37);
+    z-index: 2;
+}
+.search-div > .search-bar-div > .search-output > .movie-card-search{
+    position: relative;
+    width: calc(100% -2rem) ;
+    height: fit-content;
+    backdrop-filter: blur(40px);
+    background-color: rgba(0,0,0,0.3);
+
+    
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: row;
+
+}
+.search-div > .search-bar-div > .search-output > .movie-card-search:hover{
+    background-color: rgba(197, 197, 197, 0.1);
+}
+.search-div > .search-bar-div > .search-output > .movie-card-search:active{
+    background-color: rgba(223, 223, 223, 0.2);
+}
+.search-div > .search-bar-div > .search-output > .movie-card-search > .image-box{
+    width: 3rem;
+    height: 4.5rem;
+    position: relative;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.search-div > .search-submit-button{
+    z-index: 3;
+    border-radius: 1rem;
+    border: none;
+
+    background-color: rgb(119, 106, 174);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px 0 rgba(20,52,91,0.4);
+
+    padding: 0.2rem;
+    padding-inline: 1rem;
+    color: aliceblue;
+
+    position: absolute;
+    top: 50%;   
+    right: 0.25rem;
+    transform: translate(0,-50%);
+    
+    font-size: 1.2rem;
+}
+
+.user-div{
+    position: relative;
+    left: calc(50% - 7rem);
+    top: 0.5rem;
+    height: 2rem;
+    border-radius: 1rem ;
+}
+
+.user-div > .user-button{
+    height: 100%;
+    border-radius: 1rem;
+    border: none;
+    padding-inline: 1rem ;
+    background-color: rgba(69, 66, 79, 0.22);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0px 40px 0px rgba(0,0,0,0.1);
+    color:white;
+}
+
+
+
+
+.movie-card{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 14rem ;
+    backdrop-filter: blur(20px);
+    border-radius: 1rem;
+    box-shadow: 0 0px 40px 10px rgba(0,0,0,0.37);
+    margin: 0.5rem;
+    transition: 0.1s;
+}
+.movie-card:hover{
+    background-color: rgba(36, 36, 36, 0.2);
+}
+.movie-card:active{
+    background-color: rgba(85, 84, 95, 0.4);
+}
+
+.movie-card > .image-box{
+    width: 13rem;
+    height: 19rem;
+    top: 0.5rem;
+    left: 0.5rem;
+    position: relative;
+    border-radius: 0.6rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.movie-card > .info-box{
+    position: relative;
+    left: 1rem;
+    top: 0;
+}
+
+.movie-card > .info-box > .title{
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+    margin-inline: 0.5rem;
+}
+
+.movie-card > .info-box > .more-info{
+    color: rgb(173, 173, 173);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+    margin-inline: 0.5rem;
+    
+}
+
+.movie-grid{
+    top: 5rem;
+    left: 1rem;
+    position: relative; 
+    display: flex;
+    z-index: 1;
+    flex-wrap: wrap; 
+    width: calc(100% - 2rem);
+    justify-content: center;
+}
+
+/* Track */
+::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar handle */
+    border-radius: 3px; /* Rounded corners of the handle */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar handle on hover */
+}
+::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0); /* Background color of the scrollbar track */
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="moviestyle.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="top-bar">
+        
+        <div class="search-div">
+            <label for="search-bar-id" class="search-label">search :</label>
+            <input id="search-bar-id" class="search-bar" type="text" >
+            <button id="search-submit-button-id" class="search-submit-button">&#10148;</button>
+        </div>
+        <div class="user-div">
+            <button class="user-button"><%=user%></button>
+        </div>
+    </div>
+
+    <div class="navigation-sidebar">
+
+        <a href="#overview-id"><button>overview</button></a>
+        <a href="#cast-and-crew-id"><button>cast & crew</button></a>
+        <a href="#plot-id"><button>plot</button></a>
+
+    </div>
+
+    <div class="main" style="width: calc(100%); padding-right: 10rem; margin-right: auto; position: relative; top: 1.5rem; ">
+
+        <div class="backdrop-image" style="border-radius: 1.5rem;"></div>
+        <div style="position: absolute; z-index: -2; background-color: rgba(67, 67, 67, 0.4); width: 100%; height: 100%; border-radius: 1.5rem;"></div>
+
+        <div class="overview" id="overview-id">
+            <h2 style="color: rgb(255, 255, 255);" id="title-id"></h2>
+            <div style="display: flex; flex-direction: row;">
+                <div class="movie-poster"><img style="height: 100%;" id="movie-poster-id"></div>
+                <div class="info"></div>
+            </div>
+            
+            <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
+
+            <div class="cast-and-crew" id="cast-and-crew-d" style="color: white; font-size: 1.5rem; padding-left: 3rem;">
+                <p id="director-id"></p>
+                <p style="font-weight: 600;">cast: </p>
+                <ul style="list-style: none;" id="cast-list-id">
+                </ul>
+            </div>
+
+            <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
+
+            <div class="plot" id="plot-id" style="color: white; font-size: 1.5rem; padding-left: 3rem;">
+                <p style="font-weight: 600;">Plot:</p>
+                    <p id="plot-content-id"></p>
+            </div>
+
+            <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
+        </div>
+        <script>
+            const input ='<%= name %>';  
+            renderPage(input)
+        </script>
+    </div>
+</body>

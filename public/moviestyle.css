@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css?family=PT%20Sans:700|PT%20Sans:400');
+
+body {
+  font-family: 'PT Sans';
+  font-weight: 400;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'PT Sans';
+  font-weight: 700;
+}
+
+html {font-size: 100%;} /* 16px */
+
+h1 {font-size: 4.210rem; /* 67.36px */}
+
+h2 {font-size: 3.158rem; /* 50.56px */}
+
+h3 {font-size: 2.369rem; /* 37.92px */}
+
+h4 {font-size: 1.777rem; /* 28.48px */}
+
+h5 {font-size: 1.333rem; /* 21.28px */}
+
+small {font-size: 0.750rem; /* 12px */}
+
+body{
+    display: flex; 
+    flex-direction: row-reverse; 
+    background-color: rgb(21, 25, 27);
+}
+
+.search-div{
+    width: fit-content;
+    height : 2rem;
+    display: flex;
+    position: relative;
+    left: 50%;
+    top: 0.5rem;
+    transform: translate(-50%,0%);
+    
+    min-width: 50%;
+    background-color: rgb(95, 124, 41, 0);
+
+    color:rgb   (198, 209, 219);
+    border-radius: 1rem;
+    padding-left: 0.25rem;
+    
+}
+
+.search-div > .search-label{
+    color : white;
+    padding: 0.5rem;
+}
+.search-div > .search-bar{
+    border-radius: 1rem;
+    border: none;
+    
+    background-color: rgb(222, 222, 222);
+    flex: 1;
+    right: 0;
+    padding-inline-start: 2rem;
+    
+}
+.search-div > .search-submit-button{
+    border-radius: 1rem;
+    border: none;
+
+    background-color: rgb(119, 106, 174);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px 0 rgba(20,52,91,0.4);
+
+    padding: 0.2rem;
+    padding-inline: 1rem;
+    color: aliceblue;
+
+    position: absolute;
+    top: 50%;   
+    right: 0.25rem;
+    transform: translate(0,-50%);
+    
+    font-size: 1.2rem;
+}
+
+.user-div{
+    position: relative;
+    left: calc(50% - 7rem);
+    top: 0.5rem;
+    height: 2rem;
+    border-radius: 1rem ;
+}
+
+.user-div > .user-button{
+    height: 100%;
+    border-radius: 1rem;
+    border: none;
+    padding-inline: 1rem ;
+    background-color: rgba(69, 66, 79, 0.22);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0px 40px 0px rgba(0,0,0,0.1);
+    color:white;
+}
+
+.top-bar{
+    display: flex;
+    position: fixed;
+    width: 90%;
+    left:5%;
+    min-height: 3rem;
+    top: 0.5rem;
+    background-color:rgba(119, 106, 174, 0.1);
+    height:fit-content;
+    backdrop-filter: blur(50px);
+    border-radius: 2rem;
+    border-bottom: 0.5px rgba(30, 42, 56,0.5) solid;
+    box-shadow: 0 0px 40px 10px rgba(0,0,0,0.37);
+
+    z-index: 2;
+
+}
+
+.navigation-sidebar{
+    width: 10rem; 
+    color:white; 
+    background-color: rgba(152, 152, 152, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem; 
+    box-shadow: 0 0px 40px 10px rgba(0, 0, 0, 0.37);
+    position: fixed;
+    top: 6rem;
+}
+.navigation-sidebar > a > button{
+    color:white;
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 400;
+    font-family: sans-serif;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+}
+
+.overview{
+    padding-left: 4rem;
+    position: relative;
+    top: 2rem;
+}
+.info{
+    color: rgba(216, 215, 209, 0.9); 
+    padding-left: 5rem; 
+    font-weight: 400; 
+    font-size: 1.5rem;
+}
+
+.movie-poster{
+    width: 18rem;
+    height: 27rem;
+    position: relative;
+    border-radius: 0.6rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.backdrop-image{
+    position: absolute;
+    z-index: -1;
+    width: 1000px;
+    height: 100%;
+    transform: translate(0%, 0%);
+    background-repeat: no-repeat;
+    background-image: url('image.jpg');
+    mask-image: radial-gradient(circle at top left, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 60%);
+    background-size: 100% auto;
+    filter: blur(100px);
+    
+}
+
+
+
+

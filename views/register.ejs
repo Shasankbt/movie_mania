@@ -1,0 +1,14 @@
+<h2>Register</h2>
+
+<form action="/register" method="post">
+    <label for="name-id">Enter the user name :</label>
+    <input id="name-id" type="text" name="name" required>
+    <p><%= msg %></p>
+    <label for="password-id">Enter a passcode :</label>
+    <input id="password-id" type="text" name="password">
+    <p></p>
+    <button type="submit">Go</button>
+</form>
+
+<hr>
+<p><i>Already had account ?</i> <a href="/login"><button>Login</button></a></p>

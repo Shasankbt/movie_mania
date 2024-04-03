@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body style="background-color: rgb(21, 25, 27);">
+           
+    <div class="top-bar">
+        <div class="search-div">
+            <label for="search-input-id" class="search-label" style="opacity: 0.5; font-weight: 500;">Search :</label>
+            <div class="search-bar-div">
+                <input id="search-input-id" class="search-input" type="text" >
+                <div id="search-output-id" class="search-output"></div>
+            </div>
+            <button id="search-submit-button-id" class="search-submit-button">&#10148;</button>
+        </div>
+        <div class="user-div">
+            <button class="user-button"><%=user%></button>
+        </div>
+    </div>
+
+    <div class="movie-grid"></div>
+
+    <template movie-card-template>
+        <div class="movie-card" data-target="Dark Knight">
+            <div class="image-box"><img style="height: 100%;" poster></div>
+            <div class="info-box">
+                <p class="title" title></p>
+                <p class="more-info" more-info>2008 &#x2022; IMDB : 9.2</p>
+            </div>
+        </div>
+    </template>
+
+    <template movie-card-search-template>
+        <div class="movie-card-search">
+            <div class="image-box"><img src="image.jpg" style="height: 100%;" poster></div>
+            <p style="padding-left: 1rem; margin-top: 0.25rem; font-size: 1.1rem; font-weight: 600; opacity: 0.9; max-width: 25rem; overflow: hidden;" title></p>
+         </div>
+    </template>
+
+    <script src="displaytop100.js"></script>
+    <script src="searchAction.js"></script>
+    
+</body>
