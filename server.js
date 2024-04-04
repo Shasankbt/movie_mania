@@ -16,7 +16,8 @@ app.get('/' , (req,res) =>{
 
 app.get('/id=:id', (req,res) =>{
     const id = req.params.id;
-    res.render('moviepage.ejs',{name : id , user : currentUserName})
+    console.log(id)
+    res.render('moviepage.ejs',{movieName : id , user : currentUserName})
 })
 
 

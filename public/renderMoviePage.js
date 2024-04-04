@@ -4,14 +4,8 @@ function renderPage(movieName){
     const url = `https://www.omdbapi.com/?t=${movieName}&apikey=${apiKey}`;
 
     let movieFromLocal = true;
-    
 
-    // fetch('./top100.json')
-    //     .then(res => res.json())
-    //     .then(data =>{
-    //         data.forEach
-    //     })
-
+    // try getting from the local data
     fetch('top100.json')
         .then(res => res.json())
         .then(data => {
@@ -22,15 +16,16 @@ function renderPage(movieName){
                     console.log("from Local");
                 }
             })
-            return movieObject;
+            return movieObject; // if not found, returns false
         })
         .then(movieObject =>{
             if(movieObject === null){
                 movieFromLocal = false;
-                console.log("from internet");
-                return fetch(url)
+                console.log("from internet");   // from api
+
+                // ** use 'return fetch' to make the script wait for fetch to return
+                return fetch(url)           
                     .then(res => res.json())
-                    .then(webData => {return webData;})
             }
             else return movieObject            
         })

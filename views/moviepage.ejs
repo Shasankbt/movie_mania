@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="moviestyle.css">
     <link rel="stylesheet" href="/topBar.css">
     <script src="https://kit.fontawesome.com/663c835d81.js" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <script src="renderMoviePage.js"></script>
 </head>
 <body>
     <div class="top-bar">
@@ -83,8 +83,15 @@
             <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
         </div>
         <script>
-            const input ='<%= name %>';  
-            renderPage(input)
+            // ** converting encoded strings to normal
+            // ** for eg, "Schindler'39;s List" is send to this page as "Schindler&#39;s List" by server.js
+            function decodeEntities(encodedString) {
+                const textarea = document.createElement('textarea');
+                textarea.innerHTML = encodedString;
+                return textarea.value;
+            }
+            const input ='<%= movieName %>';  
+            renderPage(decodeEntities(input))
         </script>
     </div>
 </body>
