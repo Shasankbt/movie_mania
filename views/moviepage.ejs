@@ -1,20 +1,41 @@
 <!DOCTYPE html>
 <head>
     <link rel="stylesheet" href="moviestyle.css">
+    <link rel="stylesheet" href="/topBar.css">
     <script src="script.js"></script>
 </head>
 <body>
     <div class="top-bar">
-        
+
+        <div class="navigation-div">
+            <p class="logo">FilmCritic</p>
+        </div>
+
         <div class="search-div">
-            <label for="search-bar-id" class="search-label">search :</label>
-            <input id="search-bar-id" class="search-bar" type="text" >
+            <label for="search-input-id" class="search-label" style="opacity: 0.5; font-weight: 500; align-items: center;">Search</label>
+            <div class="search-bar-div">
+                <input id="search-input-id" class="search-input" type="text" >
+                <div id="search-output-id" class="search-output"></div>
+            </div>
             <button id="search-submit-button-id" class="search-submit-button">&#10148;</button>
         </div>
         <div class="user-div">
             <button class="user-button"><%=user%></button>
         </div>
+
+        
+        <script src="topBar.js" type="module"></script>
+        <!-- since the topBar includes other js files , it has to be treated as a module -->
+
     </div>
+
+    <template movie-card-search-template>
+        <div class="movie-card-search">
+            <div class="image-box"><img src="image.jpg" style="height: 100%;" poster></div>
+            <p style="padding-left: 1rem; margin-top: 0.25rem; font-size: 1.1rem; font-weight: 600; opacity: 0.9; max-width: 25rem; overflow: hidden;" title></p>
+         </div>
+    </template>
+    
 
     <div class="navigation-sidebar">
 

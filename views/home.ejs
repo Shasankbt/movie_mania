@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <head>
+    <link rel="stylesheet" href="/topBar.css">
     <link rel="stylesheet" href="/style.css">
+
+    <script src="https://kit.fontawesome.com/663c835d81.js" crossorigin="anonymous"></script>
 </head>
 <body style="background-color: rgb(21, 25, 27);">
+
+    <!--                Top Bar                 -->
            
     <div class="top-bar">
+
+        <div class="navigation-div">
+            <p class="logo">FilmCritic</p>
+            <button>Top 100</button>
+            <button>For You</button>
+        </div>
+
         <div class="search-div">
-            <label for="search-input-id" class="search-label" style="opacity: 0.5; font-weight: 500;">Search :</label>
+            <label for="search-input-id" class="search-label">Search</label>
             <div class="search-bar-div">
                 <input id="search-input-id" class="search-input" type="text" >
                 <div id="search-output-id" class="search-output"></div>
@@ -16,7 +28,28 @@
         <div class="user-div">
             <button class="user-button"><%=user%></button>
         </div>
+
+        <div class="user-details">
+            <p style="color: white; font-weight: bold; padding: 0%;"><span class="fa-solid fa-user"></span> <span style="opacity: 0.5;">&#x2022;</span> Guest</p>
+            <hr style="opacity: 0.5;">
+            <p style="color: white; font-weight: bold; padding: 0%;"><span class="fa-solid fa-right-from-bracket"></span> <span style="opacity: 0.5;">&#x2022;</span> Logout</p>
+        </div>
+
+
+        <script src="topBar.js" type="module"></script>
+        <!-- since the topBar includes other js files , it has to be treated as a module -->
+
     </div>
+
+
+    <template movie-card-search-template>
+        <div class="movie-card-search">
+            <div class="image-box"><img src="image.jpg" style="height: 100%;" poster></div>
+            <p style="padding-left: 1rem; margin-top: 0.25rem; font-size: 1.1rem; font-weight: 600; opacity: 0.9; max-width: 25rem; overflow: hidden;" title></p>
+         </div>
+    </template>
+
+    <!--                Movie Grid boxes            -->
 
     <div class="movie-grid"></div>
 
@@ -30,14 +63,7 @@
         </div>
     </template>
 
-    <template movie-card-search-template>
-        <div class="movie-card-search">
-            <div class="image-box"><img src="image.jpg" style="height: 100%;" poster></div>
-            <p style="padding-left: 1rem; margin-top: 0.25rem; font-size: 1.1rem; font-weight: 600; opacity: 0.9; max-width: 25rem; overflow: hidden;" title></p>
-         </div>
-    </template>
 
     <script src="displaytop100.js"></script>
-    <script src="searchAction.js"></script>
     
 </body>

@@ -1,0 +1,217 @@
+
+input[type="text"] {
+    outline: none;
+}
+
+.top-bar{
+    display: flex;
+    position: fixed;
+    width: 90%;
+    left:5%;
+    min-height: 3rem;
+    top: 0.5rem;
+    background-color:rgba(0, 0, 0, 0.4);
+    height:fit-content;
+    border-radius: 2rem;
+    border-bottom: 0.5px rgba(30, 42, 56,0.5) solid;
+    box-shadow: 0 0px 40px 10px rgba(0,0,0,0.37);
+
+    z-index: 2;
+}
+/* the below code is for the correct working in chrome , edge ( chromium based browsers ) */
+.top-bar::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(100px);
+    border-radius: 2rem;
+    z-index: -1;
+}
+
+
+.navigation-div{
+    margin-left: 2rem;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    min-height: 3rem;
+}
+.navigation-div > .logo{
+    background-image: linear-gradient(to right, rgb(220, 177, 149), rgb(119, 106, 174)) ;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 700;
+    margin-right: 1rem;
+}
+.navigation-div > button{
+    height: 2rem;
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    margin-left: 1rem;
+    padding: 0;
+
+    font-size: 1.1rem;
+    font-weight: 525;
+    color: rgba(255,255,255,0.7); 
+    transition: 0.05s;
+}
+.navigation-div > button:hover{
+    color: rgba(255,255,255,0.8);
+}
+.navigation-div > button:active{
+    color: rgba(255,255,255,1);
+}
+
+.search-div{
+    z-index: 3;
+    position: absolute;
+    left: 30%;
+    top: 0.5rem;
+    
+    height : 2rem;
+    width: 50%;
+
+    background-color: rgba(95, 124, 41, 0);
+    color:rgb(198, 209, 219);
+    border-radius: 1rem;
+    
+    padding-left: 0.25rem; 
+    display: flex;
+}
+
+.search-div > .search-label{
+    position: relative;
+    top : 50%;
+    transform: translate(-10%,-50%);
+    height: fit-content;
+    flex: 0 0 auto;
+
+    color : white;
+    opacity: 0.4;
+    font-weight: 500;
+    padding: 0;
+}
+.search-div > .search-bar-div{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    backdrop-filter: blur(40px);
+    background-color: rgba(52, 52, 52, 0.07);
+    box-shadow: 0 0px 40px 10px rgba(0,0,0,0.37);
+    border-radius: 1rem;
+
+    z-index: 2;
+}
+.search-div > .search-bar-div > .search-input{
+    width: auto;
+    min-height: 2rem;
+    border-radius: 1rem;
+    border: none;
+    
+    background-color: rgba(49, 49, 49, 0);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding-inline-start: 2rem;
+    
+    
+}
+.search-div > .search-bar-div > .search-output{
+    flex-direction: row;
+    flex: 1;
+    max-height: 40rem;
+    overflow-y: auto;
+    border-bottom-left-radius: 1rem ;
+    border-bottom-right-radius: 1rem ;
+    box-shadow: 0 0px 40px 10px rgba(0,0,0,0.37);
+    z-index: 2;
+}
+.search-div > .search-bar-div > .search-output > .movie-card-search{
+    position: relative;
+    width: calc(100% -2rem) ;
+    height: fit-content;
+    backdrop-filter: blur(40px);
+    background-color: rgba(0,0,0,0.3);
+
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: row;
+
+}
+.search-div > .search-bar-div > .search-output > .movie-card-search:hover{
+    background-color: rgba(197, 197, 197, 0.1);
+}
+.search-div > .search-bar-div > .search-output > .movie-card-search:active{
+    background-color: rgba(223, 223, 223, 0.2);
+}
+.search-div > .search-bar-div > .search-output > .movie-card-search > .image-box{
+    width: 3rem;
+    height: 4.5rem;
+    position: relative;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.search-div > .search-submit-button{
+    z-index: 3;
+    border-radius: 1rem;
+    border: none;
+
+    background-color: rgb(119, 106, 174);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px 0 rgba(20,52,91,0.4);
+
+    padding: 0.2rem;
+    padding-inline: 1rem;
+    color: aliceblue;
+
+    position: absolute;
+    top: 50%;   
+    right: 0.25rem;
+    transform: translate(0,-50%);
+    
+    font-size: 1.2rem;
+}
+
+.user-div{
+    position: absolute;
+    right: 0%;
+    top: 0.5rem;
+    height: 2rem;
+    border-radius: 1rem ;
+}
+
+.user-div > .user-button{
+    height: 100%;
+    border-radius: 1rem;
+    border: none;
+    padding-inline: 1rem ;
+    background-color: rgba(69, 66, 79, 0.22);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0px 40px 0px rgba(0,0,0,0.1);
+    color:white;
+}
+
+.user-details{
+    position: fixed;
+    top: 4rem;
+    right:5% ;
+    width: 7rem;
+    backdrop-filter: blur(50px);
+    padding-inline: 1rem;
+    border-radius: 1rem;
+    background-color: rgba(0,0,0,0.4);
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
+}
+.user-details > p{
+    font-weight: lighter;
+    font-size: 1rem;
+}
