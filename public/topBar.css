@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Noto%20Sans%20Grantha:700|Noto%20Sans%20Grantha:400');
 
 input[type="text"] {
     outline: none;
@@ -40,9 +41,11 @@ input[type="text"] {
     min-height: 3rem;
 }
 .navigation-div > .logo{
+    /* Gradient text*/
     background-image: linear-gradient(to right, rgb(220, 177, 149), rgb(119, 106, 174)) ;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+
     font-size: 1.5rem;
     margin: 0;
     font-weight: 700;
@@ -115,8 +118,8 @@ input[type="text"] {
     border-radius: 1rem;
     border: none;
     
-    background-color: rgba(49, 49, 49, 0);
-    backdrop-filter: blur(10px);
+    background-color: rgba(94, 94, 94, 0.1);
+    backdrop-filter: blur(100px);
     color: white;
     padding-inline-start: 2rem;
     
@@ -204,14 +207,41 @@ input[type="text"] {
     position: fixed;
     top: 4rem;
     right:5% ;
-    width: 7rem;
+    width: 9rem;
+    padding: 0.5rem;
     backdrop-filter: blur(50px);
-    padding-inline: 1rem;
     border-radius: 1rem;
-    background-color: rgba(0,0,0,0.4);
-    box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
+    background-color: rgba(10, 10, 10, 0.5);
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,1);
+}
+.user-details > button{
+    border: none;
+    border-radius: 0.5rem;
+    margin: 0px;
+    background-color: rgba(50,50,50,0.2);
+    color: white;
+    width: 100%;
+    font-family: "Noto Sans Grantha";
+    font-weight: 600;
+    opacity: 0.8;
+    font-size: 1rem;
+    box-shadow : 0px 0px 20px 0px rgba(0,0,0, 0.6);
 }
 .user-details > p{
-    font-weight: lighter;
-    font-size: 1rem;
+    text-align: center;
+    margin: 0px;
+    background-color: transparent;
+    color: white;
+    padding: 0.25rem;
+    width: 100%;
+    font-family: "Noto Sans Grantha";
+    font-weight: 400;
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+.user-details > button:hover{
+    background-color: rgba(255,255,255,0.1);
+}
+.user-details > button:active{
+    background-color: rgba(255,255,255,0.3);
 }
