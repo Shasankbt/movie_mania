@@ -3,9 +3,17 @@
     <link rel="stylesheet" href="css/moviestyle.css">
     <link rel="stylesheet" href="css/topBar.css">
     <script src="https://kit.fontawesome.com/663c835d81.js" crossorigin="anonymous"></script>
+
+    <!--    these scripts contain functions which render page when
+        username, movieReviewObject and movieName is passed
+        This is for simplicity and to make sure that page is loaded properly before js
+            these are executed below this ejs file
+    -->
     <script src="scripts/moviePageScripts/renderMoviePage.js"></script>
+    <script src="scripts/moviePageScripts/renderReviewSection.js"></script>
 </head>
 <body>
+
     <div class="top-bar">
 
         <div class="navigation-div">
@@ -54,9 +62,10 @@
 
     <div class="main-div">
 
-        <div class="backdrop-image" style="border-radius: 1.5rem;"></div>
-        <!-- <div style="position: absolute; z-index: -2; background-color: rgba(67, 67, 67, 0.4); width: 100%; height: 100%; border-radius: 1.5rem;"></div> -->
-
+        <!--    the blurred background of the poster-->
+        <div class="backdrop-image"></div>
+        
+        <!------------------------------- OVERVIEW ------------------------------->
         <div class="overview" id="overview-id">
             <h2 id="title-id"></h2>
             <div style="display: flex; flex-direction: row;">
@@ -67,6 +76,7 @@
 
         <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
 
+        <!----------------------------- CAST & CREW ------------------------------->
         <div class="cast-and-crew" id="cast-and-crew-d" style="padding-left: 3rem;">
             <h4 id="director-id"></h4>
             <h4 style="font-weight: 600;">cast: </h4>
@@ -75,7 +85,7 @@
 
         <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
 
-        <!--    Plot    -->
+        <!------------------------------- PLOT ------------------------------------>
         <div class="plot" id="plot-id" style="padding-left: 3rem;">
             <h4 style="font-weight: 600;">Plot:</h4>
             <p id="plot-content-id"></p>
@@ -83,12 +93,19 @@
 
         <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
 
-        <!--    Reviews     -->
+        <!------------------------------ REVIEWS ---------------------------------->
         <div class="reviews">
             <h4>Reviews:</h4>
+
+            <p>Your Review : </p>
+            <p id="user-review-stat"></p><!-- to display if the user has already reviewed or not-->
+            <button class="new-review-button">Write your review</button>
+
+            <!-- this is the review page which will be hidden by default -->
             <div>
-                <button class="new-review-button">Write your review</button>
+                
                 <form class="new-review-form" action="/review" method="post" style="display: none;">
+                    
                     <label for="review-input">Your Review : </label>
                     <textarea id="review-input" rows="3" name="review" required></textarea>
                     <select id="rating-input" name="rating" required>
@@ -100,17 +117,20 @@
                         <option value="1">1</option>
                     </select>
                     <button type="submit" value="<%= movieName %>" name="submitReview" >Go</button>
+                
                 </form>
             </div>
 
+            <p>what others think : </p>
+            <p id="otherusers-review-stat"></p>
+            <!-- to display the reviews from the reviews.json-->
             <template review-card-template>
-                <div style="backdrop-filter: blur(10px);background-color: rgba(0,0,0,0.2);margin-right: 10rem;height: fit-content;">
-                
-                    <div style="display: flex; flex-direction: row; justify-content: space-between; background-color: rgba(80,80,80,0.1);padding-inline: 3rem;"><p reviewer-name>Critical Drinker</p><p rating>4.5/5</p></div>
-                
-
-                <p style="padding-left: 3rem; padding: 1rem;" review></p>
-            </div>
+                <div class="review-card">
+                    <div class="user-and-rating">
+                        <p reviewer-name></p><p rating></p>
+                    </div>
+                    <p class="review-text" review></p>
+                </div>
             </template>
             
         </div>
@@ -131,7 +151,7 @@
             const movieReviewObject = "<%= movieReviewJson %>"
 
             renderPage(userName , decodeEntities(movieName))
-            showReviews(JSON.parse(decodeEntities(movieReviewObject)))
+            showReviews(userName , JSON.parse(decodeEntities(movieReviewObject)))
         </script>
     </div>
 </body>

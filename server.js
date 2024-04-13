@@ -93,14 +93,20 @@ app.post("/review", (req,res) => {
     const movieName = req.body.submitReview
     const review = req.body.review
     const rating = req.body.rating
-    console.log(review)
-    console.log(movieName)
+
     const movieReviews = JSON.parse(fs.readFileSync("movieReviews.json"))
+    
+    
+
     if(movieReviews[movieName] === undefined) movieReviews[movieName] = {}
     movieReviews[movieName][currentUserName] = {
         "review" : review,
         "rating" : rating,
     }
-    fs.writeFileSync("movieReviews.json" , JSON.stringify(movieReviews))
 
+    fs.writeFileSync("movieReviews.json" , JSON.stringify(movieReviews))
+    
+        console.log("rendering yo")
+        res.redirect("/id=" + movieName) 
+    
 })

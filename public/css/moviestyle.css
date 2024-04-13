@@ -86,15 +86,47 @@ body{
 .backdrop-image{
     z-index: -1;
     position: absolute;
-    width: 1000px;  height: 100%;
+    width: calc(100%);  height: 80%;
     transform: translate(0%, 0%);
+    border-radius: 1.5rem;
 
     background-size: 100% auto;
     background-image: url('image.jpg');
     background-repeat: no-repeat;
     mask-image: radial-gradient(circle at top left, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 60%);
     filter: blur(100px);  
+    opacity: 0.6;
 }
+
+
+.reviews > #user-review-stat{
+    font-size: 1rem;
+    font-style: italic;
+    opacity: 0.5;
+    display: inline-block;
+}
+.reviews > #otherusers-review-stat{
+    font-size: 1rem;
+    font-style: italic;
+    opacity: 0.5;
+    text-align: center;
+}
+
+.reviews > .review-card{
+    height: fit-content;
+    margin-right: 10rem;
+    background-color: rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+}
+.reviews > .review-card > .user-and-rating{
+    padding-inline: 3rem;
+    display: flex; flex-direction: row; justify-content: space-between;
+    background-color: rgba(80,80,80,0.1);
+}
+.reviews > .review-card > .review-text{
+    padding-left: 3rem; padding: 1rem;
+}
+
 
 
 
