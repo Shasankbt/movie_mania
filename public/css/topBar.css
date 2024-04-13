@@ -5,19 +5,18 @@ input[type="text"] {
 }
 
 .top-bar{
-    display: flex;
+    z-index: 2;
     position: fixed;
-    width: 90%;
-    left:5%;
-    min-height: 3rem;
-    top: 0.5rem;
+    width: 90%; min-height: 3rem; height:fit-content;
+    top: 0.5rem;    left:5%;
+
     background-color:rgba(0, 0, 0, 0.4);
-    height:fit-content;
+    
     border-radius: 2rem;
     border-bottom: 0.5px rgba(30, 42, 56,0.5) solid;
     box-shadow: 0 0px 40px 10px rgba(0,0,0,0.37);
 
-    z-index: 2;
+    display: flex;
 }
 /* the below code is for the correct working in chrome , edge ( chromium based browsers ) */
 .top-bar::before {
@@ -32,13 +31,13 @@ input[type="text"] {
     z-index: -1;
 }
 
-
+/*  ----------------------  navigation portion (left side)  ----------------------  */
 .navigation-div{
-    margin-left: 2rem;
     position: fixed;
-    display: flex;
-    align-items: center;
     min-height: 3rem;
+    margin-left: 2rem;
+    
+    display: flex;  align-items: center; 
 }
 .navigation-div > .logo{
     /* Gradient text*/
@@ -71,6 +70,7 @@ input[type="text"] {
     color: rgba(255,255,255,1);
 }
 
+/*  ---------------------------  Search Bar (middle)  ---------------------------  */
 .search-div{
     z-index: 3;
     position: absolute;
@@ -183,7 +183,7 @@ input[type="text"] {
     
     font-size: 1.2rem;
 }
-
+/*  -------------------------  user portion (right side)  -------------------------  */
 .user-div{
     position: absolute;
     right: 0%;

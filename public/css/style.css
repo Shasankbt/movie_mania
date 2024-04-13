@@ -23,16 +23,25 @@ h5 {font-size: 1.333rem; /* 21.28px */}
 
 small {font-size: 0.750rem; /* 12px */}
 
+.movie-grid{
+    z-index: 1;
+    position: relative;
+    top: 5rem;  left: 1rem;
+    width: calc(100% - 2rem);
+     
+    display: flex;  flex-wrap: wrap;    justify-content: center;
+}
 
 .movie-card{
-    display: flex;
-    flex-direction: column;
     position: relative;
     width: 14rem ;
+    
+    margin: 0.5rem;     border-radius: 1rem;
     backdrop-filter: blur(20px);
-    border-radius: 1rem;
     box-shadow: 0 0px 40px 10px rgba(0,0,0,0.37);
-    margin: 0.5rem;
+    
+    display: flex;      flex-direction: column;
+
     transition: 0.1s;
 }
 .movie-card:hover{
@@ -43,52 +52,36 @@ small {font-size: 0.750rem; /* 12px */}
 }
 
 .movie-card > .image-box{
-    width: 13rem;
-    height: 19rem;
-    top: 0.5rem;
-    left: 0.5rem;
     position: relative;
+    width: 13rem;   height: 19rem;
+    top: 0.5rem;    left: 0.5rem;
+    
     border-radius: 0.6rem;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+    display: flex;  flex-direction: column;
+    align-items: center;    overflow: hidden;  
 }
 
 .movie-card > .info-box{
     position: relative;
-    left: 1rem;
-    top: 0;
+    top: 0rem;  left: 1rem;
 }
 
 .movie-card > .info-box > .title{
+    margin-top: 1rem; margin-bottom: 0.25rem; margin-inline: 0.5rem;
+
     color: white;
-    font-weight: bold;
-    font-size: 1.5rem;
-    margin-top: 1rem;
-    margin-bottom: 0.25rem;
-    margin-inline: 0.5rem;
+    font-size: 1.5rem;  font-weight: bold;
 }
 
 .movie-card > .info-box > .more-info{
+    margin-top: 0.25rem; margin-bottom: 1rem; margin-inline: 0.5rem;
+
     color: rgb(173, 173, 173);
-    font-size: 0.9rem;
-    margin-top: 0.25rem;
-    margin-bottom: 1rem;
-    margin-inline: 0.5rem;
-    
+    font-size: 0.9rem;  
 }
 
-.movie-grid{
-    top: 5rem;
-    left: 1rem;
-    position: relative; 
-    display: flex;
-    z-index: 1;
-    flex-wrap: wrap; 
-    width: calc(100% - 2rem);
-    justify-content: center;
-}
+
 
 /* Track */
 ::-webkit-scrollbar {

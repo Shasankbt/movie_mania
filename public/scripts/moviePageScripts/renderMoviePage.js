@@ -1,4 +1,40 @@
-function renderPage(movieName){
+function showReviews(movieObject){
+    const reviewsDiv = document.querySelector(".reviews")
+    const reviewCardTemplate = document.querySelector("[review-card-template]")
+            for(reviewer in movieObject){
+                const card  =reviewCardTemplate.content.cloneNode(true).children[0]
+                
+                card.querySelector("[reviewer-name]").innerHTML = reviewer
+                card.querySelector("[rating]").innerHTML = movieObject[reviewer]["rating"] + "/5"
+                card.querySelector("[review]").innerHTML = movieObject[reviewer]["review"]
+
+                reviewsDiv.appendChild(card)
+            }
+}
+
+function writeNewReview(userName, movieName){
+    
+    const newReviewButton = document.querySelector(".new-review-button")
+    const newReviewForm = document.querySelector(".new-review-form")
+
+    newReviewButton.addEventListener("click", ()=>{
+        // if(userName === "Guest"){
+        //     window.alert("login to write a review")
+        //     return
+        // }
+        if(newReviewForm.style.display === "none"){
+            newReviewForm.style.display = "block"
+            newReviewButton.innerHTML = "cancel"
+        }
+        else{
+            newReviewForm.style.display = "none"
+            newReviewButton.innerHTML = "write a review"
+        }
+    })
+}
+
+
+function renderPage( userName, movieName){
 
     const apiKey = "cc454ece"
     const url = `https://www.omdbapi.com/?t=${movieName}&apikey=${apiKey}`;
@@ -62,7 +98,7 @@ function renderPage(movieName){
                 backdrop.style.backgroundImage = "url(" + data.Poster + ")";
             }
 
-            director.innerHTML = '<span style="font-weight: 600;">Director : </span>' + data.Director;
+            director.innerHTML = 'Director : ' + '<span style="font-weight: 500;">' + data.Director + '</span>';
             data.Actors.split(',').forEach(actor =>{
                 const element = document.createElement('li');
                 element.innerHTML = actor;
@@ -71,5 +107,8 @@ function renderPage(movieName){
 
             const plot = document.getElementById('plot-content-id');
             plot.innerHTML = data.Plot
+
+            
+            writeNewReview(userName,movieName)
         })
 }

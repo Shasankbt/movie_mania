@@ -16,8 +16,9 @@ app.get('/' , (req,res) =>{
 
 app.get('/id=:id', (req,res) =>{
     const id = req.params.id;
-    console.log(id)
-    res.render('moviepage.ejs',{movieName : id , user : currentUserName})
+    movieReviews = JSON.parse(fs.readFileSync("movieReviews.json"))
+    if( movieReviews[id] === undefined) movieReviews[id] = {}
+    res.render('moviepage.ejs',{movieName : id , user : currentUserName, movieReviewJson : JSON.stringify(movieReviews[id]) })
 })
 
 
@@ -32,7 +33,13 @@ function correctPasscode(userArray, name, password){
 }
 
 app.get('/register' , (req,res) =>{
+    currentUserName = "Guest"
     res.render("register.ejs", { msg : ""})
+})
+
+app.get("/login", (req,res) =>{
+    currentUserName = "Guest"
+    res.render('login.ejs', {nameErrorMsg : "" , passwordErrorMsg : ""})
 })
 
 app.post('/register', (req,res)=>{
@@ -53,10 +60,6 @@ app.post('/register', (req,res)=>{
         res.render('register.ejs', { msg : errorMessage })
     }
 })  
-
-app.get("/login", (req,res) =>{
-    res.render('login.ejs', {nameErrorMsg : "" , passwordErrorMsg : ""})
-})
 
 app.post("/login", (req,res) =>{
     const data = fs.readFileSync('user.json')
@@ -84,4 +87,20 @@ app.post("/login", (req,res) =>{
 app.post("/logout", (req,res) =>{
     currentUserName = "Guest"
     res.render('home.ejs', {user : currentUserName})
+})
+
+app.post("/review", (req,res) => {
+    const movieName = req.body.submitReview
+    const review = req.body.review
+    const rating = req.body.rating
+    console.log(review)
+    console.log(movieName)
+    const movieReviews = JSON.parse(fs.readFileSync("movieReviews.json"))
+    if(movieReviews[movieName] === undefined) movieReviews[movieName] = {}
+    movieReviews[movieName][currentUserName] = {
+        "review" : review,
+        "rating" : rating,
+    }
+    fs.writeFileSync("movieReviews.json" , JSON.stringify(movieReviews))
+
 })

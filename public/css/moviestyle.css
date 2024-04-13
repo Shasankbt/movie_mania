@@ -2,7 +2,8 @@
 
 body {
   font-family: 'PT Sans';
-  font-weight: 400;
+  font-size: 1.4rem;
+  color: white;
 }
 
 h1, h2, h3, h4, h5 {
@@ -52,8 +53,15 @@ body{
     margin-bottom: 0.3rem;
 }
 
+
+.main-div{
+    position: absolute;
+    top: 1.5rem;  left: 1rem;
+    width: calc(100% - 12rem);  
+    padding-right: 10rem;  
+}
 .overview{
-    padding-left: 4rem;
+    margin-left: 4rem;
     position: relative;
     top: 2rem;
 }
@@ -76,18 +84,21 @@ body{
 }
 
 .backdrop-image{
-    position: absolute;
     z-index: -1;
-    width: 1000px;
-    height: 100%;
+    position: absolute;
+    width: 1000px;  height: 100%;
     transform: translate(0%, 0%);
-    background-repeat: no-repeat;
-    background-image: url('image.jpg');
-    mask-image: radial-gradient(circle at top left, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 60%);
+
     background-size: 100% auto;
-    filter: blur(100px);
-    
+    background-image: url('image.jpg');
+    background-repeat: no-repeat;
+    mask-image: radial-gradient(circle at top left, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 60%);
+    filter: blur(100px);  
 }
+
+
+
+
 
 
 

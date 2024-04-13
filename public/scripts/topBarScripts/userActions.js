@@ -27,3 +27,7 @@ userButton.addEventListener("click" , ()=>{
     else                                        closeUserDetails()
 })
 
+loginAndLogoutButton.addEventListener("click", () => {
+    window.location.href = "/login"
+})
+
