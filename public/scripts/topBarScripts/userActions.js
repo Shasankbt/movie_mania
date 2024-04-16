@@ -28,6 +28,9 @@ userButton.addEventListener("click" , ()=>{
 })
 
 loginAndLogoutButton.addEventListener("click", () => {
-    window.location.href = "/login"
+    if(userButton.innerHTML == "Guest") window.location.href = "/login"
+    else                                window.location.href = "/logout"
+    
+    
 })
 

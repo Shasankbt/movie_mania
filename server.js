@@ -10,6 +10,7 @@ app.set('view-engine','ejs')
 
 app.use(express.static('public'))
 
+// ------------------------ main pages ----------------------------
 app.get('/' , (req,res) =>{
     res.render('home.ejs', {user : currentUserName})
 })
@@ -21,6 +22,23 @@ app.get('/id=:id', (req,res) =>{
     res.render('moviepage.ejs',{movieName : id , user : currentUserName, movieReviewJson : JSON.stringify(movieReviews[id]) })
 })
 
+app.get('/register' , (req,res) =>{
+    currentUserName = "Guest"
+    res.render("register.ejs", { msg : ""})
+})
+
+app.get("/login", (req,res) =>{
+    currentUserName = "Guest"
+    console.log(currentUserName)
+    res.render('login.ejs', {nameErrorMsg : "" , passwordErrorMsg : ""})
+})
+
+app.get("/logout", (req,res) =>{
+    currentUserName = "Guest"
+    res.redirect("/")
+})
+
+// -------------------------------- verifying user details and valid login ----------------------
 
 function userExists(userArray , name){
     const usernameExists = userArray.some(usrObj => usrObj.name === name)   
@@ -31,16 +49,6 @@ function correctPasscode(userArray, name, password){
     const passwordMatch = userArray.some(user => user.name === name && user.password === password);
     return passwordMatch;
 }
-
-app.get('/register' , (req,res) =>{
-    currentUserName = "Guest"
-    res.render("register.ejs", { msg : ""})
-})
-
-app.get("/login", (req,res) =>{
-    currentUserName = "Guest"
-    res.render('login.ejs', {nameErrorMsg : "" , passwordErrorMsg : ""})
-})
 
 app.post('/register', (req,res)=>{
     const data = fs.readFileSync('user.json')
@@ -64,10 +72,7 @@ app.post('/register', (req,res)=>{
 app.post("/login", (req,res) =>{
     const data = fs.readFileSync('user.json')
     let usersRegistered = JSON.parse(data)
-    console.log(usersRegistered)
-
-    console.log(req)
-    console.log(req.body.name)
+    
 
     if( ! userExists(usersRegistered, req.body.name)){
         res.render('login.ejs', {nameErrorMsg : "no username found" , passwordErrorMsg : ""})
@@ -80,14 +85,12 @@ app.post("/login", (req,res) =>{
     }
 
     currentUserName = req.body.name
+    console.log("user logged in : " , currentUserName)
     res.redirect('/');
 
 })
 
-app.post("/logout", (req,res) =>{
-    currentUserName = "Guest"
-    res.render('home.ejs', {user : currentUserName})
-})
+// ------------------------- managing user ratings and reviews----------------------
 
 app.post("/review", (req,res) => {
     const movieName = req.body.submitReview
@@ -106,7 +109,6 @@ app.post("/review", (req,res) => {
 
     fs.writeFileSync("movieReviews.json" , JSON.stringify(movieReviews))
     
-        console.log("rendering yo")
-        res.redirect("/id=" + movieName) 
+    res.redirect("/id=" + movieName) 
     
 })
