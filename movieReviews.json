@@ -1,11 +1,4 @@
 {
-    "Se7en": {
-        "hello": "it was a good movie",
-        "critical drinker": "david fincher played to his strengts here"
-    },
-    "Inception": {
-        "vamshi": "what a movie, i havent understood completly but was really good"
-    },
     "The Dark Knight": {
         "Guest": {
             "review": "i had a blast watching it ",
@@ -15,8 +8,5 @@
             "review": "a really good movie",
             "rating": "4"
         }
-    },
-    "The Prestige": {
-        "hello": "i did expect it to be good but not this good"
     }
 }

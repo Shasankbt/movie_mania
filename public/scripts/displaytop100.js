@@ -1,7 +1,7 @@
 const cardTemplate = document.querySelector("[movie-card-template]");
 const movieGrid = document.querySelector(".movie-grid")
 
-fetch("top100.json")
+fetch("movie.json")
     .then(res => res.json())
     .then(data => {
 
@@ -14,7 +14,8 @@ fetch("top100.json")
             const moreInfo = movieCard.querySelector("[more-info]");
             
             movieCard.setAttribute("data-target", "/id=" + movie.Title)
-            poster.src = "images/" + movie.imdbID + ".jpg";
+            //poster.src = "images/" + movie.imdbID + ".jpg";
+            poster.src = movie.Poster
             title.innerHTML = movie.Title;
             moreInfo.innerHTML = movie.Year + " &#x2022; " + "IMDB : " + movie.imdbRating;
 

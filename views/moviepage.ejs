@@ -11,6 +11,7 @@
     -->
     <script src="scripts/moviePageScripts/renderMoviePage.js"></script>
     <script src="scripts/moviePageScripts/renderReviewSection.js"></script>
+    <script src="scripts/displaySimilar.js"></script>
 </head>
 <body>
 
@@ -136,6 +137,22 @@
         </div>
 
         <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
+    
+        <div class="display-similar">
+            <p>similar movies</p>
+            <div class="similar-movies"></div>
+        </div>
+        
+        <template movie-card-template>
+            <div class="movie-card" data-target="">
+                <div class="image-box"><img style="height: 100%;" poster></div>
+                <div class="info-box">
+                    <p class="title" title></p>
+                    <p class="more-info" more-info></p>
+                </div>
+            </div>
+        </template>
+    
     </div>
         <script>
             // ** converting encoded strings to normal
@@ -152,6 +169,7 @@
 
             renderPage(userName , decodeEntities(movieName))
             showReviews(userName , JSON.parse(decodeEntities(movieReviewObject)))
+            displaySimilarMovies(decodeEntities(movieName))
         </script>
     </div>
 </body>

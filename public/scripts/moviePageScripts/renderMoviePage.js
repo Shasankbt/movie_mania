@@ -6,7 +6,7 @@ function renderPage( userName, movieName){
     let movieFromLocal = true;
 
     // try getting from the local data
-    fetch('top100.json')
+    fetch('movie.json')
         .then(res => res.json())
         .then(data => {
             let movieObject  = null;
@@ -55,22 +55,30 @@ function renderPage( userName, movieName){
             const backdrop = document.querySelector('.backdrop-image');
 
             if(movieFromLocal){
-            poster.src = "images/" + data.imdbID + ".jpg";
-            backdrop.style.backgroundImage = "url(images/" + data.imdbID + ".jpg)";
+            //poster.src = "images/" + data.imdbID + ".jpg";
+            //backdrop.style.backgroundImage = "url(images/" + data.imdbID + ".jpg)";
+            poster.src = data.Poster
+            backdrop.style.backgroundImage = "url(" + data.Poster + ")"
             }else{
                 poster.src = data.Poster;
                 backdrop.style.backgroundImage = "url(" + data.Poster + ")";
             }
 
             director.innerHTML = 'Director : ' + '<span style="font-weight: 500;">' + data.Director + '</span>';
-            data.Actors.split(',').forEach(actor =>{
+            // data.Actors.split(',').forEach(actor =>{
+            //     const element = document.createElement('li');
+            //     element.innerHTML = actor;
+            //     castList.appendChild(element);
+            // })
+
+            for(const key in data.Actors){
                 const element = document.createElement('li');
-                element.innerHTML = actor;
-                castList.appendChild(element);
-            })
+                element.innerHTML = key + "\t <span style='font-weight : 100 ; opacity : 0.6 ; font-style : italic'> as </span>" + data.Actors[key]
+                castList.appendChild(element)
+            }
 
             const plot = document.getElementById('plot-content-id');
-            plot.innerHTML = data.Plot
+            plot.innerHTML = data.plot
 
             
             writeNewReview(userName,movieName)
