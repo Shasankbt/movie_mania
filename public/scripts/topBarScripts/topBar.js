@@ -4,7 +4,7 @@ import * as uf from "./userActions.js"
 let movies = null
 const searchBarDiv = document.querySelector(".search-bar-div")
 
-fetch('top100.json')
+fetch('movieShort.json')
     .then(res => res.json())
     .then(data => {movies = data})
 

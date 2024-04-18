@@ -36,21 +36,23 @@ function getEditDist(str1, str2) {
     return matrix[str1.length][str2.length];
 }
 
-function appendMovieSearchCard(movie){
+function createMovieSearchCard(movie){
     // here the argument is an object parsed from json
     const card = movieCardSearchTemplate.content.cloneNode(true).children[0];
                 
     const poster = card.querySelector('[poster]')
     const title = card.querySelector('[title]')
 
-    poster.src = "images/" + movie.imdbID + ".jpg";
+    //poster.src = movie.Poster;
+    poster.src = "images/" + movie.imdbID + ".jpg"
+    console.log("images/" + movie.imdbID + ".jpg")
     title.innerHTML = movie.Title + "<br><span style='opacity : 0.5; font-weight : 500 ; font-size : 1rem;'>" + movie.Year + "</span>";
 
     card.addEventListener("click" , () => {
         window.location.href = "/id=" + movie.Title;
     })
 
-    searchOutput.appendChild(card)
+    return card
 }
 
 export function displayResults(input, movies){
@@ -70,7 +72,7 @@ export function displayResults(input, movies){
 
         for (let idx of sortedIndices) {
             console.log(editDists[idx][0], movies[idx]);
-            appendMovieSearchCard(movies[idx])
+            searchOutput.appendChild(createMovieSearchCard(movies[idx]))
         }
 
         if(searchOutput.children.length == 0){

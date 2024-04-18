@@ -1,17 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=PT%20Sans:700|PT%20Sans:400');
-
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.cdnfonts.com/css/akira-expanded');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800');
 body {
-  font-family: 'PT Sans';
+  font-family: 'open sans';
   font-size: 1.4rem;
   color: white;
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: 'PT Sans';
+  font-family: 'raleway';
   font-weight: 700;
 }
 
-html {font-size: 100%;} /* 16px */
 
 h1 {font-size: 4.210rem; /* 67.36px */}
 
@@ -28,59 +29,92 @@ small {font-size: 0.750rem; /* 12px */}
 body{
     display: flex; 
     flex-direction: row-reverse; 
-    background-color: rgb(21, 25, 27);
+    background-color: rgb(3, 3, 3);
 }
 
+.navigation-sidebar-backdrop{
+    background-color: rgba(11, 13, 14, 0.3);
+    backdrop-filter: blur(100px);
+    position: absolute;
+    top: 0rem ; right : 0rem; bottom: 10rem;
+    width: 10rem ;
+    border-top-right-radius: 1rem;
+}
 .navigation-sidebar{
     width: 10rem; 
     color:white; 
-    background-color: rgba(152, 152, 152, 0.1);
-    backdrop-filter: blur(10px);
+     
+    
     border-radius: 1rem; 
-    box-shadow: 0 0px 40px 10px rgba(0, 0, 0, 0.37);
+    /* box-shadow: 0 0px 40px 10px rgba(0, 0, 0, 0.37); */
+
     position: fixed;
     top: 6rem;
+    z-index: 2;
 }
-.navigation-sidebar > a > button{
+.navigation-sidebar >  button{
     color:white;
     background-color: transparent;
     border: none;
     width: 100%;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 400;
-    font-family: sans-serif;
-    margin-top: 0.3rem;
-    margin-bottom: 0.3rem;
+    font-family: 'raleway';
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+    text-align: left;
+    font-weight: 500;
+    margin-left: 0.5rem;
 }
 
 
 .main-div{
     position: absolute;
     top: 1.5rem;  left: 1rem;
-    width: calc(100% - 12rem);  
-    padding-right: 10rem;  
+    width: calc(100% - 13rem);
+    padding-right: 11rem;
+    z-index: 1;
+    background-color: rgb(21, 25, 27);
+    border-radius: 1.5rem;
+    box-shadow: 0px 0px 10px, 10px rgba(0,0,0,0.3);
 }
 .overview{
     margin-left: 4rem;
     position: relative;
-    top: 2rem;
+    margin-top : 5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+    height: fit-content ;
 }
 .info{
     color: rgba(216, 215, 209, 0.9); 
     padding-left: 5rem; 
     font-weight: 400; 
     font-size: 1.5rem;
-}
+} 
 
 .movie-poster{
-    width: 18rem;
+   min-width: 18rem;
     height: 27rem;
     position: relative;
+    margin-right: 3rem;
     border-radius: 0.6rem;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.quote{
+    font-style: italic;
+    color: white;
+    opacity: 0.8;
+    text-align: left;
+    font-weight: 500;
+    font-family: 'Akira Expanded';
+    opacity: 0.8;
+    letter-spacing: 0.15rem;
+    margin: 0px;
 }
 
 .backdrop-image{
@@ -98,7 +132,14 @@ body{
     opacity: 0.6;
 }
 
-
+.reviews{
+    padding-left: 3rem;
+    width: calc(100% - 3rem);
+}
+.review-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
 .reviews > #user-review-stat{
     font-size: 1rem;
     font-style: italic;
@@ -112,19 +153,33 @@ body{
     text-align: center;
 }
 
-.reviews > .review-card{
-    height: fit-content;
-    margin-right: 10rem;
+.review-card{
+    min-height: fit-content;
+    max-height: max-content;
+    display: flex; justify-content: space-between; flex-direction: column   ;
+    width: 95%;
+    margin: 2%;
+    border-radius: 2rem;
+    padding: 0.5rem;
     background-color: rgba(0,0,0,0.2);
     backdrop-filter: blur(10px);
 }
-.reviews > .review-card > .user-and-rating{
-    padding-inline: 3rem;
+.review-card > .user-and-rating{
+    padding : 0rem;
     display: flex; flex-direction: row; justify-content: space-between;
-    background-color: rgba(80,80,80,0.1);
 }
-.reviews > .review-card > .review-text{
-    padding-left: 3rem; padding: 1rem;
+.review-card > .user-and-rating > p{
+    opacity: 0.8;
+    border-radius : 1.5rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    padding-inline: 1.5rem;
+    background-color: rgba(68, 68, 68, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 4px 5px rgba(0,0,0,0.17);
+}
+.review-card > .review-text{
+    padding: 0rem; padding-left: 3rem; 
 }
 
 

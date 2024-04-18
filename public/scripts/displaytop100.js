@@ -14,8 +14,8 @@ fetch("movie.json")
             const moreInfo = movieCard.querySelector("[more-info]");
             
             movieCard.setAttribute("data-target", "/id=" + movie.Title)
-            //poster.src = "images/" + movie.imdbID + ".jpg";
-            poster.src = movie.Poster
+            poster.src = "images/" + movie.imdbID + ".jpg";
+            //poster.src = movie.Poster
             title.innerHTML = movie.Title;
             moreInfo.innerHTML = movie.Year + " &#x2022; " + "IMDB : " + movie.imdbRating;
 

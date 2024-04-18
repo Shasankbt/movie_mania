@@ -7,6 +7,26 @@
         "hello": {
             "review": "a really good movie",
             "rating": "4"
+        },
+        "Critical Drinker" : {
+            "review" : "an era defining movie. Everything about this movie is just perfect. Performnances are obviously best",
+            "rating" : "5"
+        },
+        "Alex" :{
+            "review" : "Ill remember the performnance by Heath Ledger as the Joker for the rest of my life",
+            "rating" : "5"
+        }
+    },
+    "Dune: Part Two": {
+        "Guest": {
+            "review": "this is the movie we all needed",
+            "rating": "5"
+        }
+    },
+    "The Shawshank Redemption": {
+        "Guest": {
+            "review": "topped the imdb for a reason",
+            "rating": "5"
         }
     }
 }
