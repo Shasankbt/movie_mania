@@ -1,7 +1,8 @@
 const searchInput = document.querySelector(".search-input")
 const searchOutput = document.querySelector("#search-output-id")
-const movieCardSearchTemplate = document.querySelector("[movie-card-search-template]")
-
+console.log(movieCardSearchTemplate)
+//const movieCardSearchTemplate = document.querySelector("[movie-card-search-template]")
+//const movieCardSearchTemplate = movieCardSearchTemplate
 let addn_wt = 2, subs_wt = 16, del_wt = 14;
 let editDistLimit = 50
 // let movies = null

@@ -1,4 +1,5 @@
-const cardTemplate = document.querySelector("[movie-card-template]");
+//const cardTemplate = document.querySelector("[movie-card-template]");
+const cardTemplate = movieCardTemplate
 const movieGrid = document.querySelector(".movie-grid")
 
 fetch("movie.json")

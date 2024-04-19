@@ -31,11 +31,21 @@ app.get("/login", (req,res) =>{
     currentUserName = "Guest"
     console.log(currentUserName)
     res.render('login.ejs', {nameErrorMsg : "" , passwordErrorMsg : ""})
+    //res.redirect("/recommendations")
 })
 
 app.get("/logout", (req,res) =>{
     currentUserName = "Guest"
     res.redirect("/")
+})
+
+app.get("/recommendations", (req, res) => {
+    
+    parsedUserData = JSON.parse(fs.readFileSync('user.json'))
+    if(parsedUserData[currentUserName] === undefined) reviewedMovieNames = {}
+    else reviewedMovieNames = parsedUserData[currentUserName]["moviesReviewed"]
+    console.log(reviewedMovieNames["moviesReviewed"])
+    res.render('recommendations.ejs', {user : currentUserName, reviewedMovieNames : JSON.stringify(reviewedMovieNames)})
 })
 
 // -------------------------------- verifying user details and valid login ----------------------
@@ -55,7 +65,8 @@ app.post('/register', (req,res)=>{
     let usersRegistered = JSON.parse(data)
     console.log(usersRegistered)
 
-    if(! userExists(usersRegistered , req.body.name)){
+    if( usersRegistered[req.body.name] === undefined){
+    //if(! userExists(usersRegistered , req.body.name)){
         const newUser = { "name" : req.body.name , "password" : req.body.password }
         usersRegistered.push(newUser)
         fs.writeFileSync('user.json' , JSON.stringify(usersRegistered))
@@ -73,21 +84,22 @@ app.post("/login", (req,res) =>{
     const data = fs.readFileSync('user.json')
     let usersRegistered = JSON.parse(data)
     
-
-    if( ! userExists(usersRegistered, req.body.name)){
+    if( usersRegistered[req.body.name] === undefined){
+    //if( ! userExists(usersRegistered, req.body.name)){
         res.render('login.ejs', {nameErrorMsg : "no username found" , passwordErrorMsg : ""})
         return;
     }
-
-    if( ! correctPasscode(usersRegistered, req.body.name , req.body.password)){
+    
+    if( usersRegistered[req.body.name]["password"] != req.body.password){
+    //if( ! correctPasscode(usersRegistered, req.body.name , req.body.password)){
         res.render('login.ejs', {nameErrorMsg : "" , passwordErrorMsg : "incorrect passcode"} )
         return;
     }
 
     currentUserName = req.body.name
     console.log("user logged in : " , currentUserName)
-    res.redirect('/');
-
+    //res.redirect('/');
+    res.redirect("/recommendations")
 })
 
 // ------------------------- managing user ratings and reviews----------------------

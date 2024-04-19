@@ -1,32 +1,16 @@
 // GetMovieObject is a function in a seperate file which is included in the html
 // making it common with this js and renderMoviePage.js
 
+// ______________________
+// include : template.js
+// from : ; moviepage.ejs
 
-function createCard(cardTemplate, movie){
-    const movieCard = cardTemplate.content.cloneNode(true).children[0]
 
-    const poster = movieCard.querySelector("[poster]");
-    const title = movieCard.querySelector("[title]");
-    const moreInfo = movieCard.querySelector("[more-info]");
-    
-    movieCard.setAttribute("data-target", "/id=" + movie.Title)
-    //poster.src = "images/" + movie.imdbID + ".jpg";
-    poster.src = movie.Poster
-    title.innerHTML = movie.Title;
-    moreInfo.innerHTML = movie.Year + " &#x2022; " + "IMDB : " + movie.imdbRating;
-
-    movieCard.addEventListener("click",() =>{
-        window.location.href = movieCard.getAttribute('data-target');
-    })
-
-    return movieCard
-}
 
 function getGenreDist(movie1, movie2){
     const commonGenres = movie1.Genre.filter(element => movie2.Genre.includes(element))
     return commonGenres.length
 }
-
 
 function displaySimilarMovies(currentMovieName){
     const recommendationCount = 10
@@ -34,7 +18,8 @@ function displaySimilarMovies(currentMovieName){
     getMovieObject(currentMovieName).then(currentMovie => {
     // * refer to the comments above
     
-    const cardTemplate = document.querySelector("[movie-card-template]");
+    const cardTemplate = movieCardTemplate; // from template.js
+    //const cardTemplate = document.querySelector("[movie-card-template]");
     const destination = document.querySelector(".similar-movies")
 
     fetch("movie.json")
@@ -46,7 +31,7 @@ function displaySimilarMovies(currentMovieName){
             data = data.slice(0, recommendationCount + 1) // +1 for compensating the current movie itself
             data.forEach(movie =>{
                 if(movie.Title !== currentMovie.Title){
-                    destination.appendChild(createCard(cardTemplate , movie)); 
+                    destination.appendChild(createMovieTemplateCard(cardTemplate , movie)); 
                 }
             })  
         })

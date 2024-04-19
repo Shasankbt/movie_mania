@@ -13,11 +13,14 @@
     <script src="scripts/topBarScripts/addTopBarHtml.js"></script>
     <script>setUser("<%=user %>")</script>
     <script src="scripts/topBarScripts/topBar.js" type="module"></script>
-
-    <!--    ----------------------------    Movie Grid boxes    ----------------------------    -->
-
-    <div class="movie-grid"></div>
-    <script src="scripts/template.js"></script>
-    <script src="scripts/displaytop100.js"></script>
+    <div class="movie-grid"></div>   
+        
+        <script src="scripts/moviePageScripts/getMovieObjects.js"></script>
+        <script src="scripts/template.js"></script>
+        <script src="scripts/recommender.js"></script>
+        <script>
+            render('<%= reviewedMovieNames %>')
+        </script>
+        <!-- since the topBar includes other js files , it has to be treated as a module -->
     
 </body>

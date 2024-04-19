@@ -1,1 +1,38 @@
-[{"name":"fhello","password":"asdfa"},{"name":"hello","password":"123"},{"name":"hellow","password":"ads"},{"name":"laksdfaksdfa","password":"afdfaf"},{"name":"khkj","password":"juj"},{"name":"the","password":""},{"name":"the_noob","password":"hibro123"}]
+{
+    "fhello": {
+        "password": "asdfa",
+        "moviesReviewed": {}
+    },
+    "hello": {
+        "password": "123",
+        "moviesReviewed": {
+            "The Dark Knight": 10,
+            "Dune: Part Two": 8,
+            "The Shawshank Redemption": 9
+        }
+    },
+    "hellow": {
+        "password": "ads",
+        "moviesReviewed": {}
+    },
+    "laksdfaksdfa": {
+        "password": "afdfaf",
+        "moviesReviewed": {}
+    },
+    "khkj": {
+        "password": "juj",
+        "moviesReviewed": {}
+    },
+    "the": {
+        "password": "",
+        "moviesReviewed": {}
+    },
+    "the_noob": {
+        "password": "hibro123",
+        "moviesReviewed": {}
+    },
+    "sujan": {
+        "password": "12340000",
+        "moviesReviewed": {}
+    }
+}

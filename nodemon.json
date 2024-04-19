@@ -1,4 +1,4 @@
 {
-    "ignore": ["logs/", "movieReviews.json", "static/**/*"]
+    "ignore": ["movieReviews.json", "user.json"]
 }
   
