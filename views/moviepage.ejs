@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <head>
+    <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/moviestyle.css">
     <link rel="stylesheet" href="css/topBar.css">
 
@@ -11,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,200" />
 
     <!--------------------------------------SCRIPTS----------------------------------------------->
     <script src="scripts/moviePageScripts/navSidebar.js"></script>
@@ -122,7 +123,17 @@
             </div>
 
 
-            <p>what others think : </p>
+            <p style="display: inline;">what others think : </p>
+            <div style="padding: 0rem;" class="filter-section">
+                <button class="toggle-filter"><i class="fa-solid fa-filter"></i></button>
+                <button class="filter-button">1</button>
+                <button class="filter-button">2</button>
+                <button class="filter-button">3</button>
+                <button class="filter-button">4</button>
+                <button class="filter-button">5</button>
+            </div>
+             
+
             <p id="otherusers-review-stat"></p>
 
             <div class="review-grid"></div>
@@ -136,33 +147,32 @@
                     <!-- <div class="user-and-rating" style="align-items: x  ;">
                         <p reviewer-name></p>
                     </div> -->
-                    <p reviewer-name style="margin-top: 0rem; margin-bottom: 0.5rem; margin-inline: 3rem; text-align: right; font-style: italic; opacity: 0.7;"></p>
+                    <p reviewer-name style="margin-top: 0rem; margin-bottom: 0.5rem; margin-inline: 3rem; text-align: right; font-style: italic; opacity: 0.7; display: inline;"></p>
                 </div>
             </template>
             
         </div>
 
         <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
+
+        <div class="external-reviews">
+            <h4>Featured review : </h4>
+            <div class="featured-review"></div>
+            <h4>Reviews from MetaCritic : </h4>
+        </div>
+
+        <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
+
     
         <!-- ----------------------------------SIMILAR MOVIES ----------------------------------->
-        <div class="display-similar" id="similar-movies-id">
-            <p>similar movies</p>
-            <div class="similar-movies"></div>
-        </div>
+        <p>similar movies</p>
+    <div class="similar-movies" id="similar-movies-id"></div>
         
-        <!-- <template movie-card-template>
-            <div class="movie-card" data-target="">
-                <div class="image-box"><img style="height: 100%;" poster></div>
-                <div class="info-box">
-                    <p class="title" title></p>
-                    <p class="more-info" more-info></p>
-                </div>
-            </div>
-        </template> -->
-
-        <script src="scripts/template.js"></script>
+        <script src="scripts/template.js" ></script>
     
     </div>
+
+    
     
     <!-- the functions used below are from files imported at the top of this file -->
     <script>
@@ -178,10 +188,17 @@
 
         const movieName ='<%= movieName %>'; 
         const userName = '<%= user %>';
-        const movieReviewObject = "<%= movieReviewJson %>"
+        
+        const userReviewObject = "<%= userReviewJson %>"
+        const externalReviews = "<%= externalReviews %>"
+        
 
         renderPage(userName , decodeEntities(movieName))    // from renderMoviePage.js
-        showReviews(userName , JSON.parse(decodeEntities(movieReviewObject)))//from renderReviewSection.js
+        showReviews(userName , JSON.parse(decodeEntities(userReviewObject)))//from renderReviewSection.js
+        
+        console.log()
+        
+        addExternalReviews(JSON.parse(decodeEntities(externalReviews)))
         displayNewReviewForm(userName,movieName)                  // from renderReviewSection.js
         displaySimilarMovies(decodeEntities(movieName))     // from displaySimilar.js
     </script>

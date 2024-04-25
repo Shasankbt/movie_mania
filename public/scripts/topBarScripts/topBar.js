@@ -33,4 +33,16 @@ document.body.addEventListener("click", (event) =>{
         sf.removeResults()
 })
 
+const children = document.querySelector(".navigation-div").children
 
+for (let i = 1; i < children.length; i++) {
+    const button = children[i];
+    console.log(button.getAttribute("data-href"));
+    button.addEventListener("click" ,() =>{
+        window.location.href = button.getAttribute("data-href")
+    })
+}
+
+// document.querySelector(".navigation-div").children.forEach(button => {
+//     console.log(button.getAttribute("data-href"))
+// })

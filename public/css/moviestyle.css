@@ -1,55 +1,17 @@
-@import url('https://fonts.googleapis.com/css?family=PT%20Sans:700|PT%20Sans:400');
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.cdnfonts.com/css/akira-expanded');
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800');
-body {
-  font-family: 'open sans';
-  font-size: 1.4rem;
-  color: white;
-}
-
-h1, h2, h3, h4, h5 {
-  font-family: 'raleway';
-  font-weight: 700;
-}
-
-
-h1 {font-size: 4.210rem; /* 67.36px */}
-
-h2 {font-size: 3.158rem; /* 50.56px */}
-
-h3 {font-size: 2.369rem; /* 37.92px */}
-
-h4 {font-size: 1.777rem; /* 28.48px */}
-
-h5 {font-size: 1.333rem; /* 21.28px */}
-
-small {font-size: 0.750rem; /* 12px */}
-
-body{
-    display: flex; 
-    flex-direction: row-reverse; 
-    background-color: rgb(3, 3, 3);
-}
 
 .navigation-sidebar-backdrop{
-    background-color: rgba(11, 13, 14, 0.3);
+    background-color: rgba(6, 7, 7, 0.3);
     backdrop-filter: blur(100px);
     position: absolute;
-    top: 0rem ; right : 0rem; bottom: 10rem;
+    top: 0rem ; right : 0rem; bottom: 0rem;
     width: 10rem ;
     border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
 }
 .navigation-sidebar{
     width: 10rem; 
-    color:white; 
-     
-    
-    border-radius: 1rem; 
-    /* box-shadow: 0 0px 40px 10px rgba(0, 0, 0, 0.37); */
-
     position: fixed;
-    top: 6rem;
+    top: 6rem; right: 0rem;
     z-index: 1;
 }
 .navigation-sidebar >  button{
@@ -61,7 +23,7 @@ body{
     font-weight: 400;
     font-family: 'raleway';
     margin-top: 0.6rem;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.6rem;  
     text-align: left;
     font-weight: 500;
     margin-left: 0.5rem;
@@ -69,19 +31,22 @@ body{
 
 
 .main-div{
-    position: absolute;
-    top: 1.5rem;  left: 1rem;
+    /* position: absolute;
+    top: 1.5rem;  left: 1rem; */
+    position: relative;
+    margin-top: 1.5rem; margin-left: 1rem; margin-right: 1rem;
     width: calc(100% - 13rem);
-    padding-right: 11rem;
+    padding-right: 11rem; padding-top: 5rem;
     z-index: 0;
     background-color: rgb(21, 25, 27);
     border-radius: 1.5rem;
     box-shadow: 0px 0px 10px, 10px rgba(0,0,0,0.3);
+    /* display: flex; 
+    flex-direction: row-reverse;  */
 }
 .overview{
     margin-left: 4rem;
     position: relative;
-    margin-top : 5rem;
     margin-bottom: 1rem;
     display: flex;
     flex-direction: row;
@@ -95,7 +60,7 @@ body{
 } 
 
 .movie-poster{
-   min-width: 18rem;
+    min-width: 18rem;
     height: 27rem;
     position: relative;
     margin-right: 3rem;
@@ -119,7 +84,7 @@ body{
 
 .backdrop-image{
     z-index: -1;
-    position: absolute;
+    position: absolute; top: 0rem;
     width: calc(100%);  height: 80%;
     transform: translate(0%, 0%);
     border-radius: 1.5rem;
@@ -140,6 +105,10 @@ body{
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
+.external-review-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
 .reviews > #user-review-stat{
     font-size: 1rem;
     font-style: italic;
@@ -152,6 +121,47 @@ body{
     opacity: 0.5;
     text-align: center;
 }
+
+/* .filter-button{
+    color: white;
+    background-color: rgba(100, 99, 99, 0.1);
+    box-shadow: 0 0 4px 5px rgba(0,0,0,0.17) ;
+    border-radius: 1rem;
+    border: none;
+    height: 2rem; width: 3rem;
+    margin: 0.25rem;
+    
+
+}
+.filter-toggle{
+    color: white;
+    background-color: rgba(100, 99, 99, 0.1);
+    box-shadow: 0 0 4px 5px rgba(0,0,0,0.17) ;
+    border-radius: 1rem;
+    border: none;
+    height: 2rem; width: 3rem;
+} */
+
+.filter-section > button {
+    color: white;
+    background-color: rgba(100, 99, 99, 0.1);
+    box-shadow: 0 0 4px 5px rgba(0,0,0,0.17) ;
+    border-radius: 1rem;
+    border: none;
+    height: 2rem; min-width: 3rem;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.1s;
+}
+
+.filter-section > .filter-button.enabled{
+    background-color: rgb(220, 177, 149)
+}
+
+.filter-section > .toggle-filter.enabled{
+    background-color: rgb(144, 107, 191)
+}
+
 
 .review-card{
     min-height: fit-content;
@@ -171,7 +181,9 @@ body{
 .review-card > .user-and-rating > p{
     opacity: 0.8;
     border-radius : 1.5rem;
-    margin: 0.5rem;
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    margin-bottom: 0rem;
     padding: 0.5rem;
     padding-inline: 1.5rem;
     background-color: rgba(68, 68, 68, 0.1);
@@ -180,6 +192,7 @@ body{
 }
 .review-card > .review-text{
     padding: 0rem; padding-left: 3rem; 
+    font-size: 1.25rem;
 }
 
 
@@ -234,6 +247,7 @@ body{
 
 
 .similar-movies{
+    position: relative;
     display: flex;  flex-direction: row;
     
     overflow: auto;

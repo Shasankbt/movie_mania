@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", ()=>{
     console.log(document.querySelectorAll(".nav-button"))
         document.querySelectorAll(".nav-button").forEach(button =>{
-            console.log(button)
             button.addEventListener("click" ,() => {
                 const location = button.getAttribute("data-location")
                 const relativeScrollLength = document.querySelector(location).getBoundingClientRect().top;
@@ -11,7 +10,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
                     behavior : "smooth"
                 })
             })
-            console.log("added")
         })
 
         document.addEventListener("scroll", () => {
@@ -20,7 +18,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 const location = button.getAttribute("data-location")
                 const relativeScrollLength = document.querySelector(location).getBoundingClientRect().top;
                 if(relativeScrollLength >= 0 && !found){
-                    console.log(button.innerHTML)
                     button.style.color = "rgb(220, 177, 149)"
                     found = true;
                 }

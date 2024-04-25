@@ -17,9 +17,19 @@ app.get('/' , (req,res) =>{
 
 app.get('/id=:id', (req,res) =>{
     const id = req.params.id;
-    movieReviews = JSON.parse(fs.readFileSync("movieReviews.json"))
-    if( movieReviews[id] === undefined) movieReviews[id] = {}
-    res.render('moviepage.ejs',{movieName : id , user : currentUserName, movieReviewJson : JSON.stringify(movieReviews[id]) })
+
+    userReviews = JSON.parse(fs.readFileSync("userReviews.json"))
+    if( userReviews[id] === undefined) userReviews[id] = {}
+
+    externalReviews = JSON.parse(fs.readFileSync("extReviews.json"))
+    if( externalReviews[id] === undefined) externalReviews[id] = {}
+    console.log(JSON.stringify(externalReviews[id]))
+    res.render('moviepage.ejs',{
+        movieName : id,
+        user : currentUserName,
+        userReviewJson : JSON.stringify(userReviews[id]),
+        externalReviews : encodeURIComponent(JSON.stringify(externalReviews[id]))
+     })
 })
 
 app.get('/register' , (req,res) =>{
@@ -85,13 +95,11 @@ app.post("/login", (req,res) =>{
     let usersRegistered = JSON.parse(data)
     
     if( usersRegistered[req.body.name] === undefined){
-    //if( ! userExists(usersRegistered, req.body.name)){
         res.render('login.ejs', {nameErrorMsg : "no username found" , passwordErrorMsg : ""})
         return;
     }
     
     if( usersRegistered[req.body.name]["password"] != req.body.password){
-    //if( ! correctPasscode(usersRegistered, req.body.name , req.body.password)){
         res.render('login.ejs', {nameErrorMsg : "" , passwordErrorMsg : "incorrect passcode"} )
         return;
     }
@@ -109,18 +117,20 @@ app.post("/review", (req,res) => {
     const review = req.body.review
     const rating = req.body.rating
 
-    const movieReviews = JSON.parse(fs.readFileSync("movieReviews.json"))
-    
+    const userReviews = JSON.parse(fs.readFileSync("userReviews.json"))
+    const userData = JSON.parse(fs.readFileSync("user.json"))
     
 
-    if(movieReviews[movieName] === undefined) movieReviews[movieName] = {}
-    movieReviews[movieName][currentUserName] = {
+    if(userReviews[movieName] === undefined) userReviews[movieName] = {}
+    userReviews[movieName][currentUserName] = {
         "review" : review,
         "rating" : rating,
     }
+    if(userData[currentUserName]["moviesReviewed"] === undefined) userData[currentUserName]["moviesReviewed"] = {}
+    userData[currentUserName]["moviesReviewed"][movieName] = rating
 
-    fs.writeFileSync("movieReviews.json" , JSON.stringify(movieReviews))
-    
+    fs.writeFileSync("userReviews.json" , JSON.stringify(userReviews))
+    fs.writeFileSync("user.json", JSON.stringify(userData))
     res.redirect("/id=" + movieName) 
     
 })

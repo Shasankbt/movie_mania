@@ -15,8 +15,8 @@
 topBarString = `
     <div class="navigation-div">
         <p class="logo">FilmCritic</p>
-        <button>Top 100</button>
-        <button>For You</button>
+        <button data-href="/">Top 100</button>
+        <button data-href="/recommendations">For You</button>
     </div>
 
     <div class="search-div">

@@ -21,9 +21,10 @@ function getMovieWeight(weight_dict, movieObj){
             
         }
     })
-    //console.log(tot_weight)
     return tot_weight
 }
+
+const fullRating = 5
 
 function getWeightDict(list, allMovies){
 
@@ -34,17 +35,19 @@ function getWeightDict(list, allMovies){
     filtered_movies = allMovies.filter(movie => list_parsed[movie.Title] !== undefined)
 
     filtered_movies.forEach(movie =>{
-        rating = list_parsed[movie.Title]
+        rating = parseInt(list_parsed[movie.Title])
         movie["Genre"].forEach(genre =>{
-            if(weight_dict[genre] === undefined) weight_dict[genre] =   [rating-5]
-            else weight_dict[genre].push(rating-5)
+            if(weight_dict[genre] === undefined) weight_dict[genre] =   [rating- (fullRating/2)]
+            else weight_dict[genre].push(rating-(fullRating/2))
         })
     })
-    
+    console.log(list_parsed)
+    console.log(weight_dict)
     return weight_dict
 }
 
 function render(list){
+    const recommendationsCount = 15
     const cardTemplate = movieCardTemplate;
     const movieGrid = document.querySelector(".movie-grid")
 
@@ -54,7 +57,10 @@ function render(list){
 
             weight_dict =  getWeightDict(list,allMovies)
             allMovies.sort((a,b) => getMovieWeight(weight_dict, b) - getMovieWeight(weight_dict, a));
-            console.log(allMovies)
+            allMovies.forEach(movie =>{
+                console.log(getMovieWeight(weight_dict, movie))
+            })
+            allMovies = allMovies.filter(movie => getMovieWeight(weight_dict,movie) > 0).slice(0,recommendationsCount)
             allMovies.forEach(movie => movieGrid.appendChild(createMovieTemplateCard(cardTemplate, movie)))  
         })
 

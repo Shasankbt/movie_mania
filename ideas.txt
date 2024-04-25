@@ -1,0 +1,6 @@
+oscars page 
+watchlist page
+a section for watchlist
+seperating the similar movies out of the box
+throwback page, for movies released years ago around teh same time 
+

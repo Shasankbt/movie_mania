@@ -57,3 +57,87 @@ function displayNewReviewForm(userName, movieName){
         }
     })
 }
+
+
+function addExternalReviews(externalReviews){
+    const featuredReviewPlaceholder = document.querySelector(".featured-review")
+    const featuredReview = externalReviews["featured"]
+    const reviewCardTemplate = document.querySelector("[review-card-template]")
+
+    const card  =reviewCardTemplate.content.cloneNode(true).children[0]
+    card.querySelector("[reviewer-name]").innerHTML = "~ " + featuredReview["reviewer"]
+    card.querySelector("[rating]").innerHTML = featuredReview["tagline"]
+    card.querySelector("[review]").innerHTML = featuredReview["review"]
+
+    featuredReviewPlaceholder.appendChild(card)
+
+
+    const externalReviewGrid = document.querySelector(".external-review-grid")
+    
+    externalReviews["positive"].concat(externalReviews["mixed"]).concat(externalReviews["negative"]).forEach(review =>{
+        const card  =reviewCardTemplate.content.cloneNode(true).children[0]
+        card.querySelector("[reviewer-name]").innerHTML = "~ " + review["reviewer"]
+        card.querySelector("[rating]").innerHTML = review["score"]
+        card.querySelector("[review]").innerHTML = review["review"]
+
+        externalReviewGrid.appendChild(card)
+ 
+    })
+
+
+}
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const toggleButton = document.querySelector(".toggle-filter")
+
+    function manageFilter(){
+        found = false
+        allReviews = document.querySelector(".review-grid").children
+
+        
+        for(review of allReviews){review.style.display = "none"}
+        
+
+        document.querySelectorAll(".filter-button").forEach(button => {
+            if(button.classList.contains("enabled")){
+
+                toggleButton.classList.add("enabled") ; found = true
+                for(review of allReviews)
+                    if(button.innerHTML === review.querySelector("[rating]").innerHTML.charAt(0))
+                        review.style.display = "block"
+                    
+                
+            }
+        })
+
+        if(! found){
+            toggleButton.classList.remove("enabled")
+            for(review of allReviews){review.style.display = "block"}
+        }
+    }
+
+    document.querySelectorAll(".filter-button").forEach(button =>{
+        button.addEventListener("click" , ()=>{
+            button.classList.toggle("enabled")
+            manageFilter()
+        })    
+    })
+
+    
+    toggleButton.addEventListener("click", (event)=>{
+        toggleButton.classList.toggle("enabled")
+        if(toggleButton.classList.contains("enabled"))
+            document.querySelectorAll(".filter-button").forEach(button => button.classList.add("enabled"))
+        else
+            document.querySelectorAll(".filter-button").forEach(button => button.classList.remove("enabled"))
+
+        manageFilter()
+    })
+
+
+    
+
+})
+
