@@ -6,7 +6,6 @@
 // from : ; moviepage.ejs
 
 
-
 function getGenreDist(movie1, movie2){
     const commonGenres = movie1.Genre.filter(element => movie2.Genre.includes(element))
     return commonGenres.length

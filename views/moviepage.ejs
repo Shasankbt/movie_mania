@@ -6,9 +6,6 @@
 
     <!-----------------------------------------FONTS--------------------------------------------    -->
     <script src="https://kit.fontawesome.com/663c835d81.js" crossorigin="anonymous"></script>
-    <style>
-        
-    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -78,18 +75,18 @@
         <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem; position: relative;">
 
         <!----------------------------- CAST & CREW ------------------------------->
-        <div class="cast-and-crew" id="cast-and-crew-id" style="padding-left: 3rem; position: relative;">
+        <div class="cast-and-crew" id="cast-and-crew-id">
             <h4 id="director-id"></h4>
             <h4 style="font-weight: 600;">cast: </h4>
-            <ul style="list-style: none;" id="cast-list-id"></ul>
+            <ul style="list-style: none; display: grid; grid-template-columns: 1fr 1fr 1fr;" id="cast-list-id"></ul>
         </div>
 
         <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
 
         <!------------------------------- PLOT ------------------------------------>
-        <div class="plot" id="plot-id" style="padding-left: 3rem;">
-            <h4 style="font-weight: 600;">Plot:</h4>
-            <p id="plot-content-id"></p>
+        <div class="plot" id="plot-id">
+            <h4 style="font-weight: 600; margin-bottom: 0rem;">Plot:</h4>
+            <p id="plot-content-id" style="margin-left: 3rem;"></p>
         </div>
 
         <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
@@ -97,68 +94,96 @@
         <!------------------------------ REVIEWS ---------------------------------->
         <div class="reviews" id="reviews-id">
             <h4>Reviews:</h4>
+            <div class="contents">
+                <p>Your Review : </p>
+                <p id="user-review-stat"></p><!-- to display if the user has already reviewed or not-->
+                <button class="new-review-button">W rite your review</button>
 
-            <p style="display: inline;">Your Review : </p>
-            <p id="user-review-stat"></p><!-- to display if the user has already reviewed or not-->
-            <button class="new-review-button">Write your review</button>
+                <!-- this is the review page which will be hidden by default -->
+                <div style="width: 100%; position: relative;">  
+                    <form class="new-review-form" action="/review" method="post" style="display: none;">
 
-            <!-- this is the review page which will be hidden by default -->
-            <div>
-                
-                <form class="new-review-form" action="/review" method="post" style="display: none;">
+                        <textarea id="review-input" name="review" required></textarea>
+                        <script>
+                            document.getElementById("review-input").addEventListener("input", (event)=>{
+                                console.log(event.target.scrollHeight)
+                                event.target.style.height = "10px";
+                                event.target.style.height = event.target.scrollHeight + 'px';
+                                
+                            })
+                        </script>
+                        <div class="rating-input">
+                            <span style="opacity: 0.6;"><span class="material-symbols-outlined">
+                                star
+                                </span></span> 
+                            <select id="rating-input" name="rating" required>
+                                <option value="" disabled selected></option>
+                                <option value="5" style="background:rgba(40,40,40)">5</option>
+                                <option value="4" style="background:rgba(40,40,40)">4</option>
+                                <option value="3" style="background:rgba(40,40,40)">3</option>
+                                <option value="2" style="background:rgba(40,40,40)">2</option>
+                                <option value="1" style="background:rgba(40,40,40)">1</option>
+                            </select>
+                              
+                        </div>
+                        <button type="submit" value="<%= movieName %>" name="submitReview" >Go</button>
                     
-                    <label for="review-input">Your Review : </label>
-                    <textarea id="review-input" rows="3" name="review" required></textarea>
-                    <select id="rating-input" name="rating" required>
-                        <option value="" disabled selected>Give Rating</option>
-                        <option value="5">5</option>
-                        <option value="4">4</option>
-                        <option value="3">3</option>
-                        <option value="2">2</option>
-                        <option value="1">1</option>
-                    </select>
-                    <button type="submit" value="<%= movieName %>" name="submitReview" >Go</button>
-                
-                </form>
-            </div>
-
-
-            <p style="display: inline;">what others think : </p>
-            <div style="padding: 0rem;" class="filter-section">
-                <button class="toggle-filter"><i class="fa-solid fa-filter"></i></button>
-                <button class="filter-button">1</button>
-                <button class="filter-button">2</button>
-                <button class="filter-button">3</button>
-                <button class="filter-button">4</button>
-                <button class="filter-button">5</button>
-            </div>
-             
-
-            <p id="otherusers-review-stat"></p>
-
-            <div class="review-grid"></div>
-            <!-- to display the reviews from the reviews.json-->
-            <template review-card-template>
-                <div class="review-card">
-                    <div class="user-and-rating" style="align-items: x  ;">
-                        <p rating></p>
-                    </div>
-                    <p class="review-text" style="margin: 0.5rem;" review></p>
-                    <!-- <div class="user-and-rating" style="align-items: x  ;">
-                        <p reviewer-name></p>
-                    </div> -->
-                    <p reviewer-name style="margin-top: 0rem; margin-bottom: 0.5rem; margin-inline: 3rem; text-align: right; font-style: italic; opacity: 0.7; display: inline;"></p>
+                    </form>
                 </div>
-            </template>
+
+
+                <p>what others think : </p>
+                <div class="review-container-with-filter">
+
+                    <div class="filter-section">
+                        <button class="toggle-filter" style="border-left: none; border-top-left-radius: 1rem; border-bottom-left-radius: 1rem;">
+                            <i class="fa-solid fa-filter">        
+                        </i></button>
+                        <button class="filter-button" data-filter-value="1">1</button>
+                        <button class="filter-button" data-filter-value="2">2</button>
+                        <button class="filter-button" data-filter-value="3">3</button>
+                        <button class="filter-button" data-filter-value="4">4</button>
+                        <button class="filter-button" data-filter-value="5" style="border-right: none; border-top-right-radius: 1rem; border-bottom-right-radius: 1rem;">5</button>
+                    </div>
+                    
+                    <p id="otherusers-review-stat" style="display: none;"></p>
+                    <div class="review-grid"></div>
+                </div>
+
+                <!-- to display the reviews from the reviews.json-->
+                <template review-card-template>
+                    <div class="review-card">
+                        <div class="user-and-rating" style="align-items: x  ;">
+                            <p rating></p>
+                        </div>
+                        <p class="review-text" style="margin: 0.5rem;" review></p>
+                        <p reviewer-name style="margin-top: 0rem; margin-bottom: 0.5rem; margin-inline: 3rem; text-align: right; font-style: italic; opacity: 0.7; display: inline;"></p>
+                    </div>
+                </template>
+            </div>
+            
             
         </div>
 
         <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
 
-        <div class="external-reviews">
-            <h4>Featured review : </h4>
+        <!-- -------------------------------------- EXTERNAL REVIEWS ---------------------------->
+        <div class="external-reviews">  
+
+            <h4 style="margin-bottom: 1px;">Featured review : </h4>
             <div class="featured-review"></div>
-            <h4>Reviews from MetaCritic : </h4>
+
+            <h4 style="margin-bottom: 10px;">Reviews from MetaCritic : </h4>
+            <div class="review-container-with-filter">
+                <div style="padding: 0rem;" class="filter-section">
+                    <button class="toggle-filter" style="border-left: none; border-top-left-radius: 1rem; border-bottom-left-radius: 1rem;"><i class="fa-solid fa-filter"></i></button>
+                    <button class="filter-button" data-filter-value="positive">positive</button>
+                    <button class="filter-button" data-filter-value="mixed">mixed</button>
+                    <button class="filter-button" data-filter-value="negative" style="border-right: none; border-top-right-radius: 1rem; border-bottom-right-radius: 1rem;">negative</button>
+                </div>
+                <div class="external-review-grid"></div>
+            </div>
+
         </div>
 
         <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
@@ -198,7 +223,7 @@
         
         console.log()
         
-        addExternalReviews(JSON.parse(decodeEntities(externalReviews)))
+        addExternalReviews(JSON.parse(decodeURIComponent(externalReviews)))
         displayNewReviewForm(userName,movieName)                  // from renderReviewSection.js
         displaySimilarMovies(decodeEntities(movieName))     // from displaySimilar.js
     </script>

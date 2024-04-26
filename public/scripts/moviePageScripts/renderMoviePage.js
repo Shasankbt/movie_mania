@@ -34,12 +34,15 @@ function renderPage( userName, movieName){
 
             for(const key in data.Actors){
                 const element = document.createElement('li');
-                element.innerHTML = key + "\t <span style='font-weight : 100 ; opacity : 0.6 ; font-style : italic'> as </span>" + data.Actors[key]
+                element.innerHTML = key + "<br><span style='font-weight : 500 ; opacity : 0.6 ; font-style : italic'> as " + data.Actors[key] + "</span>"
+                element.addEventListener("click" , () => {
+                    window.open("https://en.wikipedia.org/wiki/" + element.innerHTML.split("<")[0],  "_blank");
+                })
                 castList.appendChild(element)
             }
 
             const plot = document.getElementById('plot-content-id');
-            plot.innerHTML = data.plot
+            plot.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;" + data.plot.split("—")[0] + "<span style='font-weight : 500 ; opacity : 0.3 ; font-style : italic'> &nbsp;&nbsp;&nbsp;&nbsp;~" + data.plot.split("—")[1] + "</span>"
 
         })
 }

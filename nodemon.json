@@ -1,4 +1,4 @@
 {
-    "ignore": ["movieReviews.json", "user.json"]
+    "ignore": ["user.json", "userReviews.json"]
 }
   

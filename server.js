@@ -23,7 +23,6 @@ app.get('/id=:id', (req,res) =>{
 
     externalReviews = JSON.parse(fs.readFileSync("extReviews.json"))
     if( externalReviews[id] === undefined) externalReviews[id] = {}
-    console.log(JSON.stringify(externalReviews[id]))
     res.render('moviepage.ejs',{
         movieName : id,
         user : currentUserName,

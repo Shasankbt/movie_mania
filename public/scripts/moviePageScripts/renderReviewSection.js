@@ -1,38 +1,43 @@
-function showReviews(userName , reviewObject){
-    const reviewsDiv = document.querySelector(".reviews")
-    const reviewsGrid = document.querySelector(".review-grid")
+function createReviewCard(reviewer , rating , review){
     const reviewCardTemplate = document.querySelector("[review-card-template]")
+    const card  =reviewCardTemplate.content.cloneNode(true).children[0]
+    card.querySelector("[reviewer-name]").innerHTML = reviewer
+    card.querySelector("[rating]").innerHTML = rating
+    card.querySelector("[review]").innerHTML = review
+    return card
+}
+
+
+
+function showReviews(userName , reviewObject){
+    const reviewsDiv = document.querySelector(".reviews").querySelector(".contents")
+    const reviewsGrid = document.querySelector(".review-grid")
     const newReviewButton = document.querySelector(".new-review-button")
     const userReviewStat = document.getElementById("user-review-stat")
     
     if(userName in reviewObject){
         console.log("already reviewed")
         userReviewStat.innerHTML = "You have already Reviewed to this movie, rewrite here"
-        const card  =reviewCardTemplate.content.cloneNode(true).children[0]
-        
-        card.querySelector("[reviewer-name]").innerHTML = userName
-        card.querySelector("[rating]").innerHTML = reviewObject[userName]["rating"] + "/5"
-        card.querySelector("[review]").innerHTML = reviewObject[userName]["review"]
 
-        reviewsDiv.insertBefore(card, userReviewStat)
+        reviewsDiv.insertBefore(createReviewCard(
+            userName , reviewObject[userName]["rating"] + "/5" , reviewObject[userName]["review"]
+        ), userReviewStat)
     }
     else{
-        userReviewStat.innerHTML = "You havent reviewed this movie yet, write yours here"
+        newReviewButton.innerHTML = "give Your thoughts on the movie"
+        // userReviewStat.style.display= "inline-block"
+        // userReviewStat.innerHTML = "You havent reviewed this movie yet, write yours here"
     }
 
     for(reviewer in reviewObject){
-        if(reviewer != userName){
-            const card  =reviewCardTemplate.content.cloneNode(true).children[0]
-        
-            card.querySelector("[reviewer-name]").innerHTML = "~ " + reviewer
-            card.querySelector("[rating]").innerHTML = reviewObject[reviewer]["rating"] + "/5"
-            card.querySelector("[review]").innerHTML = reviewObject[reviewer]["review"]
-
-            reviewsGrid.appendChild(card)
-        }
+        if(reviewer != userName)
+            reviewsGrid.appendChild(createReviewCard(
+                "~ " + reviewer , reviewObject[reviewer]["rating"] + "/5" , reviewObject[reviewer]["review"]
+            ))
     }
     if(Object.keys(reviewObject).length === +(userName in reviewObject)){
         console.log("no reviews yet")
+        document.getElementById("otherusers-review-stat").style.display = "block"
         document.getElementById("otherusers-review-stat").innerHTML = "seems no one else has reviewd ; )"
     }
 }
@@ -90,51 +95,118 @@ function addExternalReviews(externalReviews){
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    const toggleButton = document.querySelector(".toggle-filter")
+    const toggleButtonff = document.querySelector(".toggle-filter")
 
-    function manageFilter(){
-        found = false
-        allReviews = document.querySelector(".review-grid").children
-
-        
-        for(review of allReviews){review.style.display = "none"}
-        
-
-        document.querySelectorAll(".filter-button").forEach(button => {
-            if(button.classList.contains("enabled")){
-
-                toggleButton.classList.add("enabled") ; found = true
-                for(review of allReviews)
-                    if(button.innerHTML === review.querySelector("[rating]").innerHTML.charAt(0))
-                        review.style.display = "block"
-                    
-                
-            }
-        })
-
-        if(! found){
-            toggleButton.classList.remove("enabled")
-            for(review of allReviews){review.style.display = "block"}
-        }
+    function conditionFunc1(filterValue, review){
+        return (filterValue === review.querySelector("[rating]").innerHTML.charAt(0))
     }
 
-    document.querySelectorAll(".filter-button").forEach(button =>{
-        button.addEventListener("click" , ()=>{
-            button.classList.toggle("enabled")
+    function conditionFunc2(filterValue, review){
+        score = review.querySelector("[rating]").innerHTML
+        if(filterValue === "positive") return (score > 60)
+        else if(filterValue === "mixed") return (score > 30 && score <= 60)
+        else return (score <= 30 )
+    }
+
+    function addFilterFunction(filterSection , allReviews, condition){
+        const toggleButton = filterSection.querySelector(".toggle-filter")
+        function manageFilter(){
+            found = false
+            // allReviews = document.querySelector(".review-grid").children
+            
+
+            
+            for(const review of allReviews){review.style.display = "none"}
+            
+            console.log(toggleButton.querySelectorAll(".filter-button"))
+
+            filterSection.querySelectorAll(".filter-button").forEach(button => {
+                if(button.classList.contains("enabled")){
+                    const filterValue = button.getAttribute("data-filter-value") // button.getAttribute("data-filter-value")
+                    toggleButton.classList.add("enabled") ; found = true
+                    for(review of allReviews)
+                        // if(button.innerHTML === review.querySelector("[rating]").innerHTML.charAt(0))
+                        if(condition(filterValue,review))
+                            review.style.display = "block"
+                        
+                    
+                }
+            })
+            
+            console.log(found)
+            if(! found){
+                toggleButton.classList.remove("enabled")
+                for(review of allReviews){review.style.display = "block"}
+            }
+        }
+    
+        filterSection.querySelectorAll(".filter-button").forEach(button =>{
+            button.addEventListener("click" , ()=>{
+                button.classList.toggle("enabled")
+                manageFilter()
+            })    
+        })
+    
+        
+        toggleButton.addEventListener("click", (event)=>{
+            toggleButton.classList.toggle("enabled")
+            if(toggleButton.classList.contains("enabled")){
+                console.log("enabled")
+                filterSection.querySelectorAll(".filter-button").forEach(button => button.classList.add("enabled"))
+            }
+            else
+                filterSection.querySelectorAll(".filter-button").forEach(button => button.classList.remove("enabled"))
+    
             manageFilter()
-        })    
-    })
+        })
+    }
+
+    addFilterFunction(document.querySelectorAll(".filter-section")[0] ,document.querySelector(".review-grid").children, conditionFunc1)
+    addFilterFunction(document.querySelectorAll(".filter-section")[1] ,document.querySelector(".external-review-grid").children, conditionFunc2)
+
+    // function manageFilter(){
+    //     found = false
+    //     allReviews = document.querySelector(".review-grid").children
+
+        
+    //     for(review of allReviews){review.style.display = "none"}
+        
+
+    //     document.querySelectorAll(".filter-button").forEach(button => {
+    //         if(button.classList.contains("enabled")){
+
+    //             toggleButton.classList.add("enabled") ; found = true
+    //             for(review of allReviews)
+    //                 if(button.innerHTML === review.querySelector("[rating]").innerHTML.charAt(0))
+    //                     review.style.display = "block"
+                    
+                
+    //         }
+    //     })
+
+    //     if(! found){
+    //         toggleButton.classList.remove("enabled")
+    //         for(review of allReviews){review.style.display = "block"}
+    //     }
+    // }
+
+    // document.querySelectorAll(".filter-button").forEach(button =>{
+    //     button.addEventListener("click" , ()=>{
+    //         button.classList.toggle("enabled")
+    //         manageFilter()
+    //     })    
+    // })
 
     
-    toggleButton.addEventListener("click", (event)=>{
-        toggleButton.classList.toggle("enabled")
-        if(toggleButton.classList.contains("enabled"))
-            document.querySelectorAll(".filter-button").forEach(button => button.classList.add("enabled"))
-        else
-            document.querySelectorAll(".filter-button").forEach(button => button.classList.remove("enabled"))
+    // toggleButton.addEventListener("click", (event)=>{
+    //     toggleButton.classList.toggle("enabled")
+    //     if(toggleButton.classList.contains("enabled"))
+    //         document.querySelectorAll(".filter-button").forEach(button => button.classList.add("enabled"))
+    //     else
+    //         document.querySelectorAll(".filter-button").forEach(button => button.classList.remove("enabled"))
 
-        manageFilter()
-    })
+    //     manageFilter()
+    // })
 
 
     

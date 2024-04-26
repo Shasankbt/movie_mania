@@ -1,4 +1,4 @@
-
+/*------------------------------ NAVIGATION SIDEBAR ---------------------*/
 .navigation-sidebar-backdrop{
     background-color: rgba(6, 7, 7, 0.3);
     backdrop-filter: blur(100px);
@@ -31,8 +31,6 @@
 
 
 .main-div{
-    /* position: absolute;
-    top: 1.5rem;  left: 1rem; */
     position: relative;
     margin-top: 1.5rem; margin-left: 1rem; margin-right: 1rem;
     width: calc(100% - 13rem);
@@ -41,9 +39,23 @@
     background-color: rgb(21, 25, 27);
     border-radius: 1.5rem;
     box-shadow: 0px 0px 10px, 10px rgba(0,0,0,0.3);
-    /* display: flex; 
-    flex-direction: row-reverse;  */
 }
+.backdrop-image{
+    z-index: -1;
+    position: absolute; top: 0rem;
+    width: calc(100%);  height: 80%;
+    transform: translate(0%, 0%);
+    border-radius: 1.5rem;
+
+    background-size: 100% auto;
+    background-image: url('image.jpg');
+    background-repeat: no-repeat;
+    mask-image: radial-gradient(circle at top left, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 60%);
+    filter: blur(100px);  
+    opacity: 0.6;
+}
+
+/*-------------------------------------- OVERVIEW ---------------------------------*/
 .overview{
     margin-left: 4rem;
     position: relative;
@@ -58,7 +70,6 @@
     font-weight: 400; 
     font-size: 1.5rem;
 } 
-
 .movie-poster{
     min-width: 18rem;
     height: 27rem;
@@ -82,96 +93,50 @@
     margin: 0px;
 }
 
-.backdrop-image{
-    z-index: -1;
-    position: absolute; top: 0rem;
-    width: calc(100%);  height: 80%;
-    transform: translate(0%, 0%);
-    border-radius: 1.5rem;
-
-    background-size: 100% auto;
-    background-image: url('image.jpg');
-    background-repeat: no-repeat;
-    mask-image: radial-gradient(circle at top left, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 60%);
-    filter: blur(100px);  
-    opacity: 0.6;
+/*----------------------------------- CAST & CREW -----------------------------*/
+.cast-and-crew{
+    padding-inline: 3rem; 
+    position: relative;
 }
 
-.reviews{
-    padding-left: 3rem;
-    width: calc(100% - 3rem);
-}
-.review-grid{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-.external-review-grid{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-.reviews > #user-review-stat{
-    font-size: 1rem;
-    font-style: italic;
-    opacity: 0.5;
-    display: inline-block;
-}
-.reviews > #otherusers-review-stat{
-    font-size: 1rem;
-    font-style: italic;
-    opacity: 0.5;
-    text-align: center;
-}
-
-/* .filter-button{
-    color: white;
-    background-color: rgba(100, 99, 99, 0.1);
-    box-shadow: 0 0 4px 5px rgba(0,0,0,0.17) ;
-    border-radius: 1rem;
-    border: none;
-    height: 2rem; width: 3rem;
-    margin: 0.25rem;
-    
-
-}
-.filter-toggle{
-    color: white;
-    background-color: rgba(100, 99, 99, 0.1);
-    box-shadow: 0 0 4px 5px rgba(0,0,0,0.17) ;
-    border-radius: 1rem;
-    border: none;
-    height: 2rem; width: 3rem;
-} */
-
-.filter-section > button {
-    color: white;
-    background-color: rgba(100, 99, 99, 0.1);
-    box-shadow: 0 0 4px 5px rgba(0,0,0,0.17) ;
-    border-radius: 1rem;
-    border: none;
-    height: 2rem; min-width: 3rem;
-    font-weight: 700;
-    font-size: 1rem;
+.cast-and-crew > ul > li{
+    margin-bottom: 1rem;
     transition: all 0.1s;
 }
-
-.filter-section > .filter-button.enabled{
-    background-color: rgb(220, 177, 149)
+.cast-and-crew > ul > li:hover{
+    color: rgb(220, 177, 149);
+    font-weight: 500;
+    margin-bottom: 1rem;
+    cursor: pointer;
 }
 
-.filter-section > .toggle-filter.enabled{
-    background-color: rgb(144, 107, 191)
+/*------------------------------------  PLOT ----------------------------------*/
+
+.plot{
+    padding-inline: 3rem;
+    position: relative;
 }
 
+/*----------------------------------- REVIEWS ----------------------------------*/
+
+.reviews{
+    padding-inline: 3rem;
+    position: relative;
+}
+.reviews > .contents {
+    margin-left: 2rem;
+}
+/* -- Template -- */
 
 .review-card{
     min-height: fit-content;
     max-height: max-content;
     display: flex; justify-content: space-between; flex-direction: column   ;
-    width: 95%;
-    margin: 2%;
+    width: auto;
+    margin: 1%;
     border-radius: 2rem;
     padding: 0.5rem;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0, 0.2);
     backdrop-filter: blur(10px);
 }
 .review-card > .user-and-rating{
@@ -195,7 +160,135 @@
     font-size: 1.25rem;
 }
 
+/* -- user's review display -- */
+.reviews > .contents > #user-review-stat{
+    font-size: 1rem;
+    font-style: italic;
+    opacity: 0.5;
+    display: inline;
+    margin-left: 1rem;
+}
+.reviews > .contents > .new-review-button{
+    background-color: rgba(96, 96, 96, 0.1);
+    backdrop-filter: blur(10px);
+    color: rgba(255,255,255, 0.8);  
+    border: none;
+    font-size: 1rem; 
+    height: 2.5rem;
+    border-radius: 1.25rem;
+    padding-inline: 1rem;
+    transition: all 0.15s;
+}
+.reviews > .contents > .new-review-button:hover{
+    background-color:  rgba(255 , 183, 119, 0.8);
+    color: white;
+    font-size: 1.01rem;
+    
+}
+/* -- user review INPUT -- */
+.new-review-form{
+    width: 100%;
+    background-color: rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 2rem;
+}
+.new-review-form > textarea{
+    width: calc(99% - 4rem);
+    background-color: rgba(60,60,60,0.1);
+    border-radius: 1rem;
+    margin-top: 4rem;
+    margin-bottom: 3.5rem;
+    margin-left: 2.5rem;
+    padding: 0.5rem ;
+    font-size: 1rem;
+    border: none;
+    color: white;
+}
+.new-review-form > .rating-input {
+    position: absolute;
+    top: 1rem; left : 1rem;
+    font-size: 1rem;
+    border-radius: 1.5rem;
+    background-color: rgba(68, 68, 68, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 4px 5px rgba(0,0,0,0.17);
+    padding: 0.5rem;
+    padding-inline: 1rem;
+}
+.new-review-form > .rating-input > select{
 
+    background-color: rgba(60,60,60,0.1);
+    font-size: 1rem;
+    color: white;
+    border: none;
+}
+.new-review-form > button {
+    position: absolute;
+    right: 1rem; bottom: 1rem;  
+    font-size: 1rem;
+    border: none; border-radius: 1rem;
+    padding:0.5rem;
+    padding-inline: 1rem;
+    color: white;
+    background-color: rgba(60,60,60,0.2);
+    transition: all 0.15s;
+}
+.new-review-form > button:hover {
+    background-color: rgb(144, 107, 191);
+}
+/* -- other user's reviews --*/
+
+.reviews > .contents > #otherusers-review-stat{
+    font-size: 1rem;
+    font-style: italic;
+    opacity: 0.5;
+    text-align: center;
+}
+.review-container-with-filter{
+    background-color: rgba(0,0,0,0.1);
+    padding: 1rem;
+    border-radius: 2rem;
+}
+.review-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.review-container-with-filter > .filter-section{
+    display: flex;
+    box-shadow: 0 0 2px 3px rgba(0,0,0,0.17) ;
+    border-radius: 1rem;
+    width: fit-content;
+    padding: 0rem;
+    margin-left: auto;
+    margin-right: 1rem;
+}
+.filter-section > button {
+    color: white;
+    background-color: rgba(100, 99, 99, 0.1);
+    border: none;
+    border-inline: rgba(0,0,0,0.4) 0.1px solid;
+    height: 2rem; min-width: 3rem;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.1s;
+    margin: 0rem;
+}
+.filter-section > button:hover { background-color: rgba(157, 157, 157, 0.1); }
+.filter-section > .filter-button.enabled{ background-color: rgb(220, 177, 149) }
+.filter-section > .toggle-filter.enabled{ background-color: rgb(144, 107, 191) }
+
+
+/*-------------------------------------- EXTERNAL REVIEWS ------------------------------*/
+.external-review-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.external-reviews{
+    padding-inline: 3rem;
+    position: relative;
+}
+
+/* ------------------------------------ DISPLAY SIMILAR MOVIES --------------------------*/
 .movie-card{
     position: relative;
     min-width: 14rem ;
@@ -249,9 +342,7 @@
 .similar-movies{
     position: relative;
     display: flex;  flex-direction: row;
-    
-    overflow: auto;
-    
+    overflow: auto; 
 }
 
 
