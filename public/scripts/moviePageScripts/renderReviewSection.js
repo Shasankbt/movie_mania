@@ -1,3 +1,24 @@
+function displayNewReviewForm(userName, movieName){
+    
+    const newReviewButton = document.querySelector(".new-review-button")
+    const newReviewForm = document.querySelector(".new-review-form")
+
+    newReviewButton.addEventListener("click", ()=>{
+        if(userName === "Guest"){
+            window.alert("login to write a review")
+            return
+        }
+        if(newReviewForm.style.display === "none"){
+            newReviewForm.style.display = "block"
+            newReviewButton.innerHTML = "cancel"
+        }
+        else{
+            newReviewForm.style.display = "none"
+            newReviewButton.innerHTML = "write a review"
+        }
+    })
+}
+
 function createReviewCard(reviewer , rating , review){
     const reviewCardTemplate = document.querySelector("[review-card-template]")
     const card  =reviewCardTemplate.content.cloneNode(true).children[0]
@@ -5,6 +26,24 @@ function createReviewCard(reviewer , rating , review){
     card.querySelector("[rating]").innerHTML = rating
     card.querySelector("[review]").innerHTML = review
     return card
+}
+
+function getMaxWordLength(sentence) {
+    // Split the sentence into words
+    let words = sentence.split(" ");
+
+    // Initialize a variable to store the maximum length
+    let maxLength = 0;
+
+    // Iterate through each word to find the maximum length
+    for (let word of words) {
+        if (word.length > maxLength) {
+            maxLength = word.length;
+        }
+    }
+
+    // Return the maximum length
+    return maxLength;
 }
 
 
@@ -42,28 +81,6 @@ function showReviews(userName , reviewObject){
     }
 }
 
-function displayNewReviewForm(userName, movieName){
-    
-    const newReviewButton = document.querySelector(".new-review-button")
-    const newReviewForm = document.querySelector(".new-review-form")
-
-    newReviewButton.addEventListener("click", ()=>{
-        if(userName === "Guest"){
-            window.alert("login to write a review")
-            return
-        }
-        if(newReviewForm.style.display === "none"){
-            newReviewForm.style.display = "block"
-            newReviewButton.innerHTML = "cancel"
-        }
-        else{
-            newReviewForm.style.display = "none"
-            newReviewButton.innerHTML = "write a review"
-        }
-    })
-}
-
-
 function addExternalReviews(externalReviews){
     console.log(externalReviews)
     const featuredReviewPlaceholder = document.querySelector(".featured-review")
@@ -78,7 +95,7 @@ function addExternalReviews(externalReviews){
     featuredReviewPlaceholder.appendChild(card)
 
 
-    const externalReviewGrid = document.querySelector(".external-review-grid")
+    const externalCriticReviewGrid = document.querySelector(".external-critic-review-grid")
     
     const criticReviews = externalReviews["critic-reviews"]
     criticReviews["positive"].concat(criticReviews["mixed"]).concat(criticReviews["negative"]).forEach(review =>{
@@ -86,15 +103,24 @@ function addExternalReviews(externalReviews){
         card.querySelector("[reviewer-name]").innerHTML = "~ " + review["reviewer"]
         card.querySelector("[rating]").innerHTML = review["score"]
         card.querySelector("[review]").innerHTML = review["review"]
+        if(getMaxWordLength(review["review"]) <= 25) externalCriticReviewGrid.appendChild(card)
+    })
 
-        externalReviewGrid.appendChild(card)
- 
+    const externalUserReviewGrid = document.querySelector(".external-user-review-grid")
+    
+    const userReviews = externalReviews["user-reviews"]
+    userReviews["positive"].concat(userReviews["mixed"]).concat(userReviews["negative"]).forEach(review =>{
+        const card  =reviewCardTemplate.content.cloneNode(true).children[0]
+        card.querySelector("[reviewer-name]").innerHTML = "~ " + review["reviewer"]
+        card.querySelector("[rating]").innerHTML = review["score"]
+        card.querySelector("[review]").innerHTML = review["review"]
+        if(getMaxWordLength(review["review"]) <= 25) externalUserReviewGrid.appendChild(card)
     })
 
 
 }
 
-
+// ---------------------------------------- FILTER OPTIONS -------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
     const toggleButtonff = document.querySelector(".toggle-filter")
@@ -110,6 +136,13 @@ document.addEventListener("DOMContentLoaded", () => {
         else return (score <= 30 )
     }
 
+    function conditionFunc3(filterValue, review){
+        score = review.querySelector("[rating]").innerHTML
+        if(filterValue === "positive") return (score > 6)
+        else if(filterValue === "mixed") return (score > 3 && score <= 6)
+        else return (score <= 3)
+    }
+
     function addFilterFunction(filterSection , allReviews, condition){
         const toggleButton = filterSection.querySelector(".toggle-filter")
         function manageFilter(){
@@ -119,8 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             
             for(const review of allReviews){review.style.display = "none"}
-            
-            console.log(toggleButton.querySelectorAll(".filter-button"))
 
             filterSection.querySelectorAll(".filter-button").forEach(button => {
                 if(button.classList.contains("enabled")){
@@ -134,8 +165,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                 }
             })
-            
-            console.log(found)
             if(! found){
                 toggleButton.classList.remove("enabled")
                 for(review of allReviews){review.style.display = "block"}
@@ -164,112 +193,72 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     addFilterFunction(document.querySelectorAll(".filter-section")[0] ,document.querySelector(".review-grid").children, conditionFunc1)
-    addFilterFunction(document.querySelectorAll(".filter-section")[1] ,document.querySelector(".external-review-grid").children, conditionFunc2)
+    addFilterFunction(document.querySelectorAll(".filter-section")[1] ,document.querySelector(".external-critic-review-grid").children, conditionFunc2)
+    addFilterFunction(document.querySelectorAll(".filter-section")[2] ,document.querySelector(".external-user-review-grid").children, conditionFunc3)
 
-    function hideReviewContent(reviewCard){
-        console.log(reviewCard.querySelector(".filter-mask"))
-        reviewCard.querySelector(".filter-mask").style.display = "block"
-        const viewMoreButton = reviewCard.querySelector(".view-more")
+// ------------------------------------- MANAGING COMPACT SECTION -------------------------------------------
+    
+    function hideReviewContent(section, maxHeight){
+        section.querySelector(".filter-mask").style.display = "block"
+        const viewMoreButton = section.querySelector(".view-more-button")
         viewMoreButton.style.display = "block"
         viewMoreButton.style.position = "absolute"
-        viewMoreButton.style.bottom = "30px" ; viewMoreButton.style.marginBottom = "0px"
-        viewMoreButton.style.right = "50px"
-        reviewCard.style.maxHeight = "500px";
-        reviewCard.style.overflowY = "hidden"; // Set overflow-y to auto
+        section.style.maxHeight = maxHeight;
+        section.style.overflowY = "hidden"; // Set overflow-y to auto
         viewMoreButton.innerHTML = "show more"
     }
 
     function showReviewContent(reviewCard){
         reviewCard.querySelector(".filter-mask").style.display = "none"
-        const viewMoreButton = reviewCard.querySelector(".view-more")
-        viewMoreButton.style.position = "relative"
-        viewMoreButton.style.bottom = "0px" ; viewMoreButton.style.marginBottom = "30px"
-        viewMoreButton.style.right = "50px"
+        reviewCard.querySelector(".view-more-button").innerHTML = "show less"
         reviewCard.style.maxHeight = "none";
         reviewCard.style.overflowY = "visible"; // Set overflow-y to auto
-        viewMoreButton.innerHTML = "show less"
     }
 
-
-    const reviewCards = document.querySelectorAll(".review-card");
-    reviewCards.forEach(reviewCard => {
-        const viewMoreButton = reviewCard.querySelector(".view-more")
-        const height = reviewCard.getBoundingClientRect().height;
-        if (height > 500) {
-            hideReviewContent(reviewCard)
+    function manageCompactSection(section, maxHeight){
+        const viewMoreButton = section.querySelector(".view-more-button")
+        const height = section.getBoundingClientRect().height;
+        if (height > maxHeight) {
+            hideReviewContent(section, maxHeight + "px")
         } else {
+            section.querySelector(".filter-mask").style.display = "none"
             viewMoreButton.style.display = "none"
-            // Reset styles if the height is not greater than 800 pixels
-            reviewCard.style.maxHeight = "none";
-            reviewCard.style.overflowY = "visible";
+            section.style.maxHeight = "none";
+            section.style.overflowY = "visible";
         }
+        
+    }
+
+    function compactSectionEvents(section, maxHeight){
+        const viewMoreButton = section.querySelector(".view-more-button")
+        const height = section.getBoundingClientRect().height;
         viewMoreButton.addEventListener("click", () => {
-            if(reviewCard.style.maxHeight === "500px") showReviewContent(reviewCard)
-            else hideReviewContent(reviewCard)
+            if(section.style.maxHeight === maxHeight + "px"){
+                section.style.paddingBottom = 80 + parseInt(section.style.paddingBottom || 0) + "px";
+                showReviewContent(section)
+            }
+            else{
+                hideReviewContent(section, maxHeight + "px")
+                section.style.paddingBottom = (parseInt(section.style.paddingBottom || 0) - 80) + "px";
+            }
         })
+        const filterSection = section.querySelector(".filter-section");
+        if (filterSection) {
+            filterSection.addEventListener("click", () => manageCompactSection(section, maxHeight));
+        }
+}
+
+    const compactSections = document.querySelectorAll(".compact-section");
+    compactSections.forEach(compactSection => {
+        manageCompactSection(compactSection, 500)
+        compactSectionEvents(compactSection, 500)
     }); 
     window.addEventListener("resize", () => {
-        reviewCards.forEach(reviewCard => {
-            const viewMoreButton = reviewCard.querySelector(".view-more")
-            const height = reviewCard.getBoundingClientRect().height;
-            if (height > 500) {
-                hideReviewContent(reviewCard)
-            } else {
-                viewMoreButton.style.display = "none"
-                reviewCard.querySelector(".filter-mask").style.display = "none"
-                // Reset styles if the height is not greater than 800 pixels
-                reviewCard.style.maxHeight = "none";
-                reviewCard.style.overflowY = "visible";
-            }
+        compactSections.forEach(compactSection => {
+            manageCompactSection(compactSection, 500)
+            compactSectionEvents(compactSection, 500)
         });
     });
-     
-    // function manageFilter(){
-    //     found = false
-    //     allReviews = document.querySelector(".review-grid").children
-
-        
-    //     for(review of allReviews){review.style.display = "none"}
-        
-
-    //     document.querySelectorAll(".filter-button").forEach(button => {
-    //         if(button.classList.contains("enabled")){
-
-    //             toggleButton.classList.add("enabled") ; found = true
-    //             for(review of allReviews)
-    //                 if(button.innerHTML === review.querySelector("[rating]").innerHTML.charAt(0))
-    //                     review.style.display = "block"
-                    
-                
-    //         }
-    //     })
-
-    //     if(! found){
-    //         toggleButton.classList.remove("enabled")
-    //         for(review of allReviews){review.style.display = "block"}
-    //     }
-    // }
-
-    // document.querySelectorAll(".filter-button").forEach(button =>{
-    //     button.addEventListener("click" , ()=>{
-    //         button.classList.toggle("enabled")
-    //         manageFilter()
-    //     })    
-    // })
-
-    
-    // toggleButton.addEventListener("click", (event)=>{
-    //     toggleButton.classList.toggle("enabled")
-    //     if(toggleButton.classList.contains("enabled"))
-    //         document.querySelectorAll(".filter-button").forEach(button => button.classList.add("enabled"))
-    //     else
-    //         document.querySelectorAll(".filter-button").forEach(button => button.classList.remove("enabled"))
-
-    //     manageFilter()
-    // })
-
-
-    
 
 })
 

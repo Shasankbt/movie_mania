@@ -47,6 +47,7 @@
         <button class="nav-button" data-location="#cast-and-crew-id">Cast & Crew</button>
         <button class="nav-button" data-location="#plot-id">Plot</button>
         <button class="nav-button" data-location="#reviews-id">Reviews</button>
+        <button class="nav-button" data-location="#external-reviews-id">External Reivews</button>
         <button class="nav-button" data-location="#similar-movies-id">Watch More</button>
 
     </div>
@@ -76,7 +77,7 @@
         <!----------------------------- CAST & CREW ------------------------------->
         <div class="cast-and-crew" id="cast-and-crew-id">
             <h4 id="director-id"></h4>
-            <h4 style="font-weight: 600;">cast: </h4>
+            <h4 style="font-weight: 600;">Cast :</h4>
             <ul style="list-style: none; display: grid; grid-template-columns: 1fr 1fr 1fr;" id="cast-list-id"></ul>
         </div>
 
@@ -96,7 +97,7 @@
             <div class="contents">
                 <p>Your Review : </p>
                 <p id="user-review-stat"></p><!-- to display if the user has already reviewed or not-->
-                <button class="new-review-button">W rite your review</button>
+                <button class="new-review-button">Write your review</button>
 
                 <!-- this is the review page which will be hidden by default -->
                 <div style="width: 100%; position: relative;">  
@@ -131,7 +132,7 @@
                 </div>
 
 
-                <p>what others think : </p>
+                <p>What others think : </p>
                 <div class="review-container-with-filter">
 
                     <div class="filter-section">
@@ -151,14 +152,15 @@
 
                 <!-- to display the reviews from the reviews.json-->
                 <template review-card-template>
-                    <div class="review-card">
+                    <div class="review-card compact-section">
                         <div class="filter-mask"></div>
+                        <button class="view-more-button"></button>
                             <div class="user-and-rating" style="align-items: x  ;">
                                 <p rating></p>
                             </div>
                             <p class="review-text" style="margin: 0.5rem;" review></p>
                             <p reviewer-name style="margin-top: 0rem; margin-bottom: 0.5rem; margin-inline: 3rem; text-align: right; font-style: italic; opacity: 0.7; display: inline;"></p>
-                        <button class="view-more"></button>
+                        
                     </div>
                 </template>
             </div>
@@ -169,22 +171,42 @@
         <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">
 
         <!-- -------------------------------------- EXTERNAL REVIEWS ---------------------------->
-        <div class="external-reviews">  
+        <div class="external-reviews" id="external-reviews-id">  
 
             <h4 style="margin-bottom: 1px;">Featured review : </h4>
             <div class="featured-review"></div>
 
             <h4 style="margin-bottom: 10px;">Reviews from MetaCritic : </h4>
-            <div class="review-container-with-filter">
-                <div style="padding: 0rem;" class="filter-section">
-                    <button class="toggle-filter" style="border-left: none; border-top-left-radius: 1rem; border-bottom-left-radius: 1rem;"><i class="fa-solid fa-filter"></i></button>
-                    <button class="filter-button" data-filter-value="positive">positive</button>
-                    <button class="filter-button" data-filter-value="mixed">mixed</button>
-                    <button class="filter-button" data-filter-value="negative" style="border-right: none; border-top-right-radius: 1rem; border-bottom-right-radius: 1rem;">negative</button>
-                </div>
-                <div class="external-review-grid"></div>
-            </div>
+            <div class="contents">
 
+                <h5 style="margin-bottom: 10px ;">Critic Reviews</h5>
+                <div class="review-container-with-filter compact-section">
+                    <div class="filter-mask"></div>
+                    <button class="view-more-button"></button>
+                    <div style="padding: 0rem;" class="filter-section">
+                        <button class="toggle-filter" style="border-left: none; border-top-left-radius: 1rem; border-bottom-left-radius: 1rem;"><i class="fa-solid fa-filter"></i></button>
+                        <button class="filter-button" data-filter-value="positive">positive</button>
+                        <button class="filter-button" data-filter-value="mixed">mixed</button>
+                        <button class="filter-button" data-filter-value="negative" style="border-right: none; border-top-right-radius: 1rem; border-bottom-right-radius: 1rem;">negative</button>
+                    </div>
+                    
+                    <div class="external-critic-review-grid"></div>
+                </div>
+
+                <h5 style="margin-bottom: 10px ;">User Reviews</h5>
+                <div class="review-container-with-filter compact-section">
+                    <div class="filter-mask"></div>
+                    <button class="view-more-button"></button>
+                    <div style="padding: 0rem;" class="filter-section">
+                        <button class="toggle-filter" style="border-left: none; border-top-left-radius: 1rem; border-bottom-left-radius: 1rem;"><i class="fa-solid fa-filter"></i></button>
+                        <button class="filter-button" data-filter-value="positive">positive</button>
+                        <button class="filter-button" data-filter-value="mixed">mixed</button>
+                        <button class="filter-button" data-filter-value="negative" style="border-right: none; border-top-right-radius: 1rem; border-bottom-right-radius: 1rem;">negative</button>
+                    </div>
+                    
+                    <div class="external-user-review-grid"></div>
+                </div>
+            </div>
         </div>
 
         <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem;">

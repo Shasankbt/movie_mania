@@ -3,7 +3,7 @@
     padding-inline: 3rem;
     position: relative;
 }
-.reviews > .contents {
+.contents {
     margin-left: 2rem;
 }
 /* -- Template -- */
@@ -20,7 +20,28 @@
     backdrop-filter: blur(10px);
     transition: all 0.2s;
 }
-.review-card > .filter-mask{
+.compact-section > .view-more-button{
+    z-index: 1;
+    width: 8rem;
+    margin-left: auto;
+    display: none;
+    position: absolute; right: 50px;  bottom: 30px;
+    color: rgba(255,255,255,0.8);
+    background-color: rgba(23, 23, 23, 1);
+    font-size: 1rem;
+    padding : 0.5rem;
+    padding-inline: 1rem;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0px 0px 4px 5px rgba(0, 0, 0, 0.3);
+    transition: all 0.15s;
+}
+.compact-section > .view-more-button:hover{
+    color: rgba(255,255,255,1);
+    background-color: rgb(220, 177, 149);
+}
+.compact-section > .filter-mask{
+    z-index: 1;
     background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 1) 95% );
     overflow: hidden;
     position: absolute;
@@ -49,26 +70,9 @@
 .review-card > .review-text{
     padding: 0rem; padding-left: 3rem; 
     font-size: 1.25rem;
+    text-overflow: ellipsis;
 }
-.review-card > .view-more{
-    width: 8rem;
-    margin-left: auto;
-    display: none;
-    position: absolute;
-    color: rgba(255,255,255,0.8);
-    background-color: rgba(23, 23, 23, 1);
-    font-size: 1rem;
-    padding : 0.5rem;
-    padding-inline: 1rem;
-    border-radius: 1rem;
-    border: none;
-    box-shadow: 0px 0px 4px 5px rgba(0, 0, 0, 0.3);
-    transition: all 0.15s;
-}
-.review-card > .view-more:hover{
-    color: rgba(255,255,255,1);
-    background-color: rgb(220, 177, 149);
-}
+
 
 /* -- user's review display -- */
 .reviews > .contents > #user-review-stat{
@@ -156,6 +160,8 @@
     text-align: center;
 }
 .review-container-with-filter{
+    position: relative;
+    display: flex; flex-direction: column;
     background-color: rgba(0,0,0,0.1);
     padding: 1rem;
     border-radius: 2rem;
@@ -174,6 +180,7 @@
     margin-right: 1rem;
 }
 .filter-section > button {
+    z-index: 1;
     color: white;
     background-color: rgba(100, 99, 99, 0.1);
     border: none;
@@ -190,9 +197,14 @@
 
 
 /*-------------------------------------- EXTERNAL REVIEWS ------------------------------*/
-.external-review-grid{
+.external-critic-review-grid{
     display: grid;
     grid-template-columns: 1fr 1fr;
+}
+.external-user-review-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
 }
 .external-reviews{
     padding-inline: 3rem;
