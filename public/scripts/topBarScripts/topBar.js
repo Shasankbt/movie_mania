@@ -1,6 +1,7 @@
 import * as sf from "./searchAction.js"
 import * as uf from "./userActions.js"
 
+
 let movies = null
 const searchBarDiv = document.querySelector(".search-bar-div")
 
@@ -9,40 +10,30 @@ fetch('movieShort.json')
     .then(data => {movies = data})
 
 document.addEventListener("DOMContentLoaded", () =>{
-    document.querySelector(".logo").addEventListener("click", () =>{
-        window.location.href = "/"
-    })
+    // navigating through webpages
+    const children = document.querySelector(".page-navigation-div").children
+    for (let i = 0; i < children.length; i++) {
+        const button = children[i];
+        console.log(button.getAttribute("data-href"));
+        button.addEventListener("click" ,() =>{
+            window.location.href = button.getAttribute("data-href")
+        })
+    }
     
     // shows results in the event of input
     searchBarDiv.addEventListener("input" , e=>{
         sf.displayResults(e.target.value, movies)
     })
-})
 
-
-
-document.body.addEventListener("click", (event) =>{
+    // user details and login/logout part 
+    document.body.addEventListener("click", (event) =>{
+        const userButton = document.querySelector(".user-button");
+        const userDetailsDiv = document.querySelector(".user-details")
+        if(event.target != userDetailsDiv && event.target != userButton && !userDetailsDiv.contains(event.target))
+            uf.closeUserDetails()
     
-    const userButton = document.querySelector(".user-button");
-    const userDetailsDiv = document.querySelector(".user-details")
-    if(event.target != userDetailsDiv && event.target != userButton && !userDetailsDiv.contains(event.target))
-        uf.closeUserDetails()
-
-    const searchBarDiv = document.querySelector(".search-bar-div")
-    if(event.target != searchBarDiv)
-        sf.removeResults()
-})
-
-const children = document.querySelector(".navigation-div").children
-
-for (let i = 1; i < children.length; i++) {
-    const button = children[i];
-    console.log(button.getAttribute("data-href"));
-    button.addEventListener("click" ,() =>{
-        window.location.href = button.getAttribute("data-href")
+        const searchBarDiv = document.querySelector(".search-bar-div")
+        if(event.target != searchBarDiv)
+            sf.removeResults()
     })
-}
-
-// document.querySelector(".navigation-div").children.forEach(button => {
-//     console.log(button.getAttribute("data-href"))
-// })
+})

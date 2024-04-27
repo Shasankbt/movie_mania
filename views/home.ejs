@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <head>
     <link rel="stylesheet" href="css/topBar.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/homepage.css">
+    <link rel="stylesheet" href="css/template.css">
     <link rel="stylesheet" href="css/fonts.css">
 
+    <script src="scripts/template.js"></script>
+    
     <script src="https://kit.fontawesome.com/663c835d81.js" crossorigin="anonymous"></script>
 </head>
 <body style="background-color: rgb(21, 25, 27);">
 
-    <!--                Top Bar                 -->
-           
+    <!--                Top Bar                 --> 
     <div class="top-bar"></div>
     <script src="scripts/topBarScripts/addTopBarHtml.js"></script>
     <script>setUser("<%=user %>")</script>
     <script src="scripts/topBarScripts/topBar.js" type="module"></script>
 
     <!--    ----------------------------    Movie Grid boxes    ----------------------------    -->
-
     <div class="movie-grid"></div>
-    <script src="scripts/template.js"></script>
+    
     <script src="scripts/displaytop100.js"></script>
     
 </body>

@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <head>
     <link rel="stylesheet" href="css/fonts.css">
-    <link rel="stylesheet" href="css/moviestyle.css">
+    <link rel="stylesheet" href="css/moviePageCSS/upperPage.css">
+    <link rel="stylesheet" href="css/moviePageCSS/reviews.css">
+    <link rel="stylesheet" href="css/template.css">
     <link rel="stylesheet" href="css/topBar.css">
 
     <!-----------------------------------------FONTS--------------------------------------------    -->
     <script src="https://kit.fontawesome.com/663c835d81.js" crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,200" />
-
+    
     <!--------------------------------------SCRIPTS----------------------------------------------->
     <script src="scripts/moviePageScripts/navSidebar.js"></script>
     <script src="scripts/template.js"></script>
@@ -153,11 +152,13 @@
                 <!-- to display the reviews from the reviews.json-->
                 <template review-card-template>
                     <div class="review-card">
+                        <div class="filter-mask"></div>
                         <div class="user-and-rating" style="align-items: x  ;">
                             <p rating></p>
                         </div>
                         <p class="review-text" style="margin: 0.5rem;" review></p>
                         <p reviewer-name style="margin-top: 0rem; margin-bottom: 0.5rem; margin-inline: 3rem; text-align: right; font-style: italic; opacity: 0.7; display: inline;"></p>
+                        <button class="view-more"></button>
                     </div>
                 </template>
             </div>

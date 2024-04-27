@@ -54,7 +54,7 @@ app.get("/recommendations", (req, res) => {
     if(parsedUserData[currentUserName] === undefined) reviewedMovieNames = {}
     else reviewedMovieNames = parsedUserData[currentUserName]["moviesReviewed"]
     console.log(reviewedMovieNames["moviesReviewed"])
-    res.render('recommendations.ejs', {user : currentUserName, reviewedMovieNames : JSON.stringify(reviewedMovieNames)})
+    res.render('recommendations.ejs', {user : currentUserName, reviewedMovieNames : encodeURIComponent(JSON.stringify(reviewedMovieNames))})
 })
 
 // -------------------------------- verifying user details and valid login ----------------------

@@ -13,14 +13,20 @@
 */
 
 topBarString = `
-    <div class="navigation-div">
-        <p class="logo">FilmCritic</p>
+    <script src="https://kit.fontawesome.com/663c835d81.js" crossorigin="anonymous"></script>
+
+    
+    <div class="page-navigation-div">
+        <p class="logo" data-href="/">FilmCritic</p>
         <button data-href="/">Top 100</button>
         <button data-href="/recommendations">For You</button>
     </div>
 
+
     <div class="search-div">
-        <label for="search-input-id" class="search-label">Search</label>
+        <label for="search-input-id" class="search-label">
+            <span class="material-symbols-outlined"><i class="fa-solid fa-magnifying-glass"></i></span>
+        </label>
         <div class="search-bar-div">
             <input id="search-input-id" class="search-input" type="text" >
             <div id="search-output-id" class="search-output"></div>

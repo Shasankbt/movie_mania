@@ -1,9 +1,3 @@
-function decodeEntities(encodedString) {
-    const textarea = document.createElement('textarea');
-    textarea.innerHTML = encodedString;
-    return textarea.value;
-}
-
 function sumArray(arr) {
     let sum = 0;
     for (let i = 0; i < arr.length; i++) {
@@ -28,7 +22,7 @@ const fullRating = 5
 
 function getWeightDict(list, allMovies){
 
-    list_parsed = JSON.parse(decodeEntities(list))
+    list_parsed = JSON.parse(list)
     if( list_parsed == {}) return {}
 
     weight_dict = {}

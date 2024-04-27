@@ -164,6 +164,70 @@ document.addEventListener("DOMContentLoaded", () => {
     addFilterFunction(document.querySelectorAll(".filter-section")[0] ,document.querySelector(".review-grid").children, conditionFunc1)
     addFilterFunction(document.querySelectorAll(".filter-section")[1] ,document.querySelector(".external-review-grid").children, conditionFunc2)
 
+    function hideReviewContent(reviewCard){
+        console.log(reviewCard.querySelector(".filter-mask"))
+        reviewCard.querySelector(".filter-mask").style.display = "block"
+        const viewMoreButton = reviewCard.querySelector(".view-more")
+        viewMoreButton.style.display = "block"
+        viewMoreButton.style.position = "absolute"
+        viewMoreButton.style.bottom = "30px" ; viewMoreButton.style.marginBottom = "0px"
+        viewMoreButton.style.right = "50px"
+        // const filter = document.createElement("div")
+        // filter.style.backgroundColor = "blue"
+        // filter.style.position = "absolute"
+        // filter.style.width = "100%"
+        // filter.style.height = "100%"
+        // filter.
+        reviewCard.style.maxHeight = "500px";
+        reviewCard.style.overflowY = "hidden"; // Set overflow-y to auto
+        viewMoreButton.innerHTML = "show more"
+    }
+
+    function showReviewContent(reviewCard){
+        reviewCard.querySelector(".filter-mask").style.display = "none"
+        const viewMoreButton = reviewCard.querySelector(".view-more")
+        viewMoreButton.style.position = "relative"
+        viewMoreButton.style.bottom = "0px" ; viewMoreButton.style.marginBottom = "30px"
+        viewMoreButton.style.right = "50px"
+        reviewCard.style.maxHeight = "none";
+        reviewCard.style.overflowY = "visible"; // Set overflow-y to auto
+        viewMoreButton.innerHTML = "show less"
+    }
+
+
+    const reviewCards = document.querySelectorAll(".review-card");
+    reviewCards.forEach(reviewCard => {
+        const viewMoreButton = reviewCard.querySelector(".view-more")
+        const height = reviewCard.getBoundingClientRect().height;
+        if (height > 500) {
+            hideReviewContent(reviewCard)
+        } else {
+            viewMoreButton.style.display = "none"
+            // Reset styles if the height is not greater than 800 pixels
+            reviewCard.style.maxHeight = "none";
+            reviewCard.style.overflowY = "visible";
+        }
+        viewMoreButton.addEventListener("click", () => {
+            if(reviewCard.style.maxHeight === "500px") showReviewContent(reviewCard)
+            else hideReviewContent(reviewCard)
+        })
+    }); 
+    window.addEventListener("resize", () => {
+        reviewCards.forEach(reviewCard => {
+            const viewMoreButton = reviewCard.querySelector(".view-more")
+            const height = reviewCard.getBoundingClientRect().height;
+            if (height > 500) {
+                hideReviewContent(reviewCard)
+            } else {
+                viewMoreButton.style.display = "none"
+                reviewCard.querySelector(".filter-mask").style.display = "none"
+                // Reset styles if the height is not greater than 800 pixels
+                reviewCard.style.maxHeight = "none";
+                reviewCard.style.overflowY = "visible";
+            }
+        });
+    });
+     
     // function manageFilter(){
     //     found = false
     //     allReviews = document.querySelector(".review-grid").children
