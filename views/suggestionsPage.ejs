@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="css/topBar.css">
+    <link rel="stylesheet" href="css/template.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/suggestionsPage.css">
+
+    <script src="https://kit.fontawesome.com/663c835d81.js" crossorigin="anonymous"></script>
+    <script src="scripts/template.js"></script>
+</head>
+<body style="background-color: rgb(21, 25, 27);">
+
+    <!--                Top Bar                 -->
+         
+    <div class="top-bar"></div>
+    <script src="scripts/topBarScripts/addTopBarHtml.js"></script>
+    <script>setUser("<%=user %>")</script>
+    <script src="scripts/topBarScripts/topBar.js" type="module"></script>
+    <div class="movie-grid"></div> 
+    
+    <div class="empty-page-info">
+        <p message style="margin: 0.5rem; opacity: 0.6;"></p>
+        <a href="/login" style="text-decoration: none;"><button class="login-redirect-button"><i class="fa-solid fa-right-to-bracket"></i> <span style="opacity: 0.5;">&#x2022;</span> Login </button></a>
+    </div>
+        
+        
+        <script src="scripts/suggestions.js"></script>
+        <script>
+            const msgBox = document.querySelector("[message]")
+            const loginRedirectButton = document.querySelector(".login-redirect-button")
+            if("<%=user %>" === "Guest"){
+                msgBox.innerHTML = `
+                    <i class="fa-solid fa-circle-info"></i> login and review atleast three movies to 
+                    generate suggestions`
+                document.querySelector(".empty-page-info").style.display = "block"
+                loginRedirectButton.style.display = "block"
+            }
+            else if( Object.keys(JSON.parse(decodeURIComponent('<%= reviewedMovieNames %>'))).length < 3){
+                msgBox.innerHTML = `
+                    <i class="fa-solid fa-circle-info"></i> review atleast three movies to 
+                    generate suggestions`
+                    document.querySelector(".empty-page-info").style.display = "block"
+                    loginRedirectButton.style.display = "none"
+            }
+            else getSuggestions(JSON.parse(decodeURIComponent('<%= reviewedMovieNames %>')))
+        </script>
+        <!-- since the topBar includes other js files , it has to be treated as a module -->
+    
+</body>

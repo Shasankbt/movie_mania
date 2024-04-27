@@ -78,7 +78,8 @@ export function displayResults(input, movies){
 
         if(searchOutput.children.length == 0){
             const para = document.createElement('p')
-            para.innerHTML = " no movie found "
+            para.innerHTML = "no Search Results found"
+            para.setAttribute("id", "no-search-match-id")
             searchOutput.appendChild(para)
         }
 

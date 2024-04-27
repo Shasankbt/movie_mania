@@ -1,0 +1,32 @@
+.empty-page-info{
+    display: none;
+    position: absolute;
+    top: calc(20% + 4rem);
+    left: 50%;
+    transform: translate(-50%,0%);
+    
+    
+}   
+.login-redirect-button{
+    display: none;
+    color: rgba(255,255,255,0.8);
+    background-color: rgba(0,0,0,0.7);
+    border: none; border-radius: 1.5rem;
+    height: 3rem;
+    padding : 1rem; 
+    font-size: 1rem;
+    transition: all 0.15s;
+}
+.login-redirect-button:hover{
+    color: rgba(255,255,255,1);
+    background-color:  rgb(144, 107, 191);
+}
+
+.movie-grid{
+    z-index: 1;
+    position: relative;
+    top: 5rem;  left: 1rem;
+    width: calc(100% - 2rem);
+     
+    display: flex;  flex-wrap: wrap;    justify-content: center;
+}

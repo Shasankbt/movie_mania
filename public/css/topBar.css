@@ -181,6 +181,12 @@ input[type="text"] {
     
     font-size: 1.2rem;
 }
+#no-search-match-id{
+    opacity: 0.5;
+    text-align: center;
+    margin: 0.5rem;
+    font-size: 1rem;
+}
 /*  -------------------------  user portion (right side)  -------------------------  */
 .user-div{
     z-index: 3;

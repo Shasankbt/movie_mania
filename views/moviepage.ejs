@@ -220,7 +220,7 @@
         
 
         renderPage(userName , decodeEntities(movieName))    // from renderMoviePage.js
-        showReviews(userName , JSON.parse(decodeEntities(userReviewObject)))//from renderReviewSection.js
+        showReviews(userName , JSON.parse(decodeURIComponent(userReviewObject)))//from renderReviewSection.js
         
         console.log()
         

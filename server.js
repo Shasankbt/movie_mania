@@ -26,7 +26,7 @@ app.get('/id=:id', (req,res) =>{
     res.render('moviepage.ejs',{
         movieName : id,
         user : currentUserName,
-        userReviewJson : JSON.stringify(userReviews[id]),
+        userReviewJson : encodeURIComponent(JSON.stringify(userReviews[id])),
         externalReviews : encodeURIComponent(JSON.stringify(externalReviews[id]))
      })
 })
@@ -48,13 +48,13 @@ app.get("/logout", (req,res) =>{
     res.redirect("/")
 })
 
-app.get("/recommendations", (req, res) => {
+app.get("/suggestions", (req, res) => {
     
     parsedUserData = JSON.parse(fs.readFileSync('user.json'))
     if(parsedUserData[currentUserName] === undefined) reviewedMovieNames = {}
     else reviewedMovieNames = parsedUserData[currentUserName]["moviesReviewed"]
     console.log(reviewedMovieNames["moviesReviewed"])
-    res.render('recommendations.ejs', {user : currentUserName, reviewedMovieNames : encodeURIComponent(JSON.stringify(reviewedMovieNames))})
+    res.render('suggestionsPage.ejs', {user : currentUserName, reviewedMovieNames : encodeURIComponent(JSON.stringify(reviewedMovieNames))})
 })
 
 // -------------------------------- verifying user details and valid login ----------------------
@@ -75,11 +75,11 @@ app.post('/register', (req,res)=>{
     console.log(usersRegistered)
 
     if( usersRegistered[req.body.name] === undefined){
-    //if(! userExists(usersRegistered , req.body.name)){
-        const newUser = { "name" : req.body.name , "password" : req.body.password }
-        usersRegistered.push(newUser)
+        usersRegistered[req.body.name] = {
+            "password" : req.body.password,
+            "moviesReviewed": {}
+        }
         fs.writeFileSync('user.json' , JSON.stringify(usersRegistered))
-
         currentUserName = req.body.name
         res.redirect('/')
     }
@@ -106,7 +106,7 @@ app.post("/login", (req,res) =>{
     currentUserName = req.body.name
     console.log("user logged in : " , currentUserName)
     //res.redirect('/');
-    res.redirect("/recommendations")
+    res.redirect("/suggestions")
 })
 
 // ------------------------- managing user ratings and reviews----------------------

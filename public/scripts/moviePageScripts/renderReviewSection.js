@@ -48,10 +48,10 @@ function displayNewReviewForm(userName, movieName){
     const newReviewForm = document.querySelector(".new-review-form")
 
     newReviewButton.addEventListener("click", ()=>{
-        // if(userName === "Guest"){
-        //     window.alert("login to write a review")
-        //     return
-        // }
+        if(userName === "Guest"){
+            window.alert("login to write a review")
+            return
+        }
         if(newReviewForm.style.display === "none"){
             newReviewForm.style.display = "block"
             newReviewButton.innerHTML = "cancel"
@@ -172,12 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
         viewMoreButton.style.position = "absolute"
         viewMoreButton.style.bottom = "30px" ; viewMoreButton.style.marginBottom = "0px"
         viewMoreButton.style.right = "50px"
-        // const filter = document.createElement("div")
-        // filter.style.backgroundColor = "blue"
-        // filter.style.position = "absolute"
-        // filter.style.width = "100%"
-        // filter.style.height = "100%"
-        // filter.
         reviewCard.style.maxHeight = "500px";
         reviewCard.style.overflowY = "hidden"; // Set overflow-y to auto
         viewMoreButton.innerHTML = "show more"
