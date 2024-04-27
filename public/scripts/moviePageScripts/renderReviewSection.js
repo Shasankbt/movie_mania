@@ -65,8 +65,9 @@ function displayNewReviewForm(userName, movieName){
 
 
 function addExternalReviews(externalReviews){
+    console.log(externalReviews)
     const featuredReviewPlaceholder = document.querySelector(".featured-review")
-    const featuredReview = externalReviews["featured"]
+    const featuredReview = externalReviews["featured-review"]
     const reviewCardTemplate = document.querySelector("[review-card-template]")
 
     const card  =reviewCardTemplate.content.cloneNode(true).children[0]
@@ -79,7 +80,8 @@ function addExternalReviews(externalReviews){
 
     const externalReviewGrid = document.querySelector(".external-review-grid")
     
-    externalReviews["positive"].concat(externalReviews["mixed"]).concat(externalReviews["negative"]).forEach(review =>{
+    const criticReviews = externalReviews["critic-reviews"]
+    criticReviews["positive"].concat(criticReviews["mixed"]).concat(criticReviews["negative"]).forEach(review =>{
         const card  =reviewCardTemplate.content.cloneNode(true).children[0]
         card.querySelector("[reviewer-name]").innerHTML = "~ " + review["reviewer"]
         card.querySelector("[rating]").innerHTML = review["score"]
