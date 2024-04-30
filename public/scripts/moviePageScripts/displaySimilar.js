@@ -5,6 +5,16 @@
 // include : template.js
 // from : ; moviepage.ejs
 
+function getMovieObjectByName(movieName){
+    return fetch('movie.json')
+        .then(res => res.json())
+        .then(data => {
+            let movieObject  = null;
+            data.forEach(movie =>{ if(movie.Title === movieName) movieObject = movie; })
+            return movieObject;
+        })
+}
+
 
 function getGenreDist(movie1, movie2){
     const commonGenres = movie1.Genre.filter(element => movie2.Genre.includes(element))
@@ -14,12 +24,12 @@ function getGenreDist(movie1, movie2){
 function displaySimilarMovies(currentMovieName){
     const recommendationCount = 10
 
-    getMovieObject(currentMovieName).then(currentMovie => {
+    getMovieObjectByName(currentMovieName).then(currentMovie => {
     // * refer to the comments above
     
     const cardTemplate = movieCardTemplate; // from template.js
     //const cardTemplate = document.querySelector("[movie-card-template]");
-    const destination = document.querySelector(".similar-movies")
+    const destination = document.querySelector(".related-movies-gird")
 
     fetch("movie.json")
         .then(res => res.json())

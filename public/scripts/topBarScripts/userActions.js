@@ -2,7 +2,6 @@ const userButton = document.querySelector(".user-button");  // user button on to
 const userDetailsDiv = document.querySelector(".user-details")  // one that pops when user button is pressed
 const loginAndLogoutButton = document.getElementById("logout-button-id")
 
-console.log('div' , userDetailsDiv)
 
 userDetailsDiv.style.transition = "0.1s"
 

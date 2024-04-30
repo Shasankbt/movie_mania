@@ -1,3 +1,8 @@
+let sum = 0
+let count = 0
+
+let userReviewed = false
+
 function displayNewReviewForm(userName, movieName){
     
     const newReviewButton = document.querySelector(".new-review-button")
@@ -14,7 +19,9 @@ function displayNewReviewForm(userName, movieName){
         }
         else{
             newReviewForm.style.display = "none"
-            newReviewButton.innerHTML = "write a review"
+            if(userReviewed) newReviewButton.innerHTML = "rewrite"   
+            else    newReviewButton.innerHTML = "write a review"
+            
         }
     })
 }
@@ -29,13 +36,9 @@ function createReviewCard(reviewer , rating , review){
 }
 
 function getMaxWordLength(sentence) {
-    // Split the sentence into words
     let words = sentence.split(" ");
-
-    // Initialize a variable to store the maximum length
     let maxLength = 0;
 
-    // Iterate through each word to find the maximum length
     for (let word of words) {
         if (word.length > maxLength) {
             maxLength = word.length;
@@ -55,34 +58,34 @@ function showReviews(userName , reviewObject){
     const userReviewStat = document.getElementById("user-review-stat")
     
     if(userName in reviewObject){
-        console.log("already reviewed")
-        userReviewStat.innerHTML = "You have already Reviewed to this movie, rewrite here"
-
+        userReviewStat.innerHTML = "You have already Reviewed to this movie"
+        newReviewButton.innerHTML = "Rewrite"
+        userReviewed = true
         reviewsDiv.insertBefore(createReviewCard(
             userName , reviewObject[userName]["rating"] + "/5" , reviewObject[userName]["review"]
         ), userReviewStat)
     }
     else{
-        newReviewButton.innerHTML = "give Your thoughts on the movie"
+        newReviewButton.innerHTML = "Give your thoughts on the movie"
         // userReviewStat.style.display= "inline-block"
         // userReviewStat.innerHTML = "You havent reviewed this movie yet, write yours here"
     }
 
+    
     for(reviewer in reviewObject){
+        sum += parseInt(reviewObject[reviewer]["rating"])
+        count += 1
         if(reviewer != userName)
             reviewsGrid.appendChild(createReviewCard(
                 "~ " + reviewer , reviewObject[reviewer]["rating"] + "/5" , reviewObject[reviewer]["review"]
             ))
     }
-    if(Object.keys(reviewObject).length === +(userName in reviewObject)){
-        console.log("no reviews yet")
+    if(Object.keys(reviewObject).length === +(userName in reviewObject))
         document.getElementById("otherusers-review-stat").style.display = "block"
-        document.getElementById("otherusers-review-stat").innerHTML = "seems no one else has reviewd ; )"
-    }
+
 }
 
 function addExternalReviews(externalReviews){
-    console.log(externalReviews)
     const featuredReviewPlaceholder = document.querySelector(".featured-review")
     const featuredReview = externalReviews["featured-review"]
     const reviewCardTemplate = document.querySelector("[review-card-template]")
@@ -98,6 +101,7 @@ function addExternalReviews(externalReviews){
     const externalCriticReviewGrid = document.querySelector(".external-critic-review-grid")
     
     const criticReviews = externalReviews["critic-reviews"]
+    document.getElementById("critic-metascore-placeholder").innerHTML = criticReviews["score"]
     criticReviews["positive"].concat(criticReviews["mixed"]).concat(criticReviews["negative"]).forEach(review =>{
         const card  =reviewCardTemplate.content.cloneNode(true).children[0]
         card.querySelector("[reviewer-name]").innerHTML = "~ " + review["reviewer"]
@@ -109,6 +113,7 @@ function addExternalReviews(externalReviews){
     const externalUserReviewGrid = document.querySelector(".external-user-review-grid")
     
     const userReviews = externalReviews["user-reviews"]
+    document.getElementById("user-metascore-placeholder").innerHTML = userReviews["score"]
     userReviews["positive"].concat(userReviews["mixed"]).concat(userReviews["negative"]).forEach(review =>{
         const card  =reviewCardTemplate.content.cloneNode(true).children[0]
         card.querySelector("[reviewer-name]").innerHTML = "~ " + review["reviewer"]
@@ -123,6 +128,10 @@ function addExternalReviews(externalReviews){
 // ---------------------------------------- FILTER OPTIONS -------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
+    // setting up the internal reviews 
+    if(document.getElementById("internal-rating"))
+    document.getElementById("internal-rating").innerHTML = (count == 0) ? "<span style = 'opacity : 0.6'> no reviews yet</span>" : sum/count+ "/5";
+
     const toggleButtonff = document.querySelector(".toggle-filter")
 
     function conditionFunc1(filterValue, review){
@@ -182,7 +191,6 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleButton.addEventListener("click", (event)=>{
             toggleButton.classList.toggle("enabled")
             if(toggleButton.classList.contains("enabled")){
-                console.log("enabled")
                 filterSection.querySelectorAll(".filter-button").forEach(button => button.classList.add("enabled"))
             }
             else

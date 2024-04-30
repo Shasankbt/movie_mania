@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () =>{
     const children = document.querySelector(".page-navigation-div").children
     for (let i = 0; i < children.length; i++) {
         const button = children[i];
-        console.log(button.getAttribute("data-href"));
         button.addEventListener("click" ,() =>{
             window.location.href = button.getAttribute("data-href")
         })

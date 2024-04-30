@@ -1,11 +1,13 @@
-//const cardTemplate = document.querySelector("[movie-card-template]");
+// including movieCardTemplate from template.js ( in home.ejs )
+// function : fetches the data from movie.json, appends to grid in home.ejs
+//            using the movieCardTemplate in decreasing imdb Rating
+
 const cardTemplate = movieCardTemplate
 const movieGrid = document.querySelector(".movie-grid")
 
 fetch("movie.json")
     .then(res => res.json())
     .then(data => {
-
         data.sort((a,b) => b.imdbRating - a.imdbRating);
         data.forEach(movie =>{
             const movieCard = cardTemplate.content.cloneNode(true).children[0]
@@ -15,8 +17,11 @@ fetch("movie.json")
             const moreInfo = movieCard.querySelector("[more-info]");
             
             movieCard.setAttribute("data-target", "/id=" + movie.Title)
-            poster.src = "images/" + movie.imdbID + ".jpg";
-            //poster.src = movie.Poster
+            try { poster.src = "images/" + movie.imdbID + ".jpg" }  // local image pull
+            catch (error) {
+                console.error('Error setting poster src:', error);
+                poster.src = movie.Poster;                          // online image pull
+            }
             title.innerHTML = movie.Title;
             moreInfo.innerHTML = movie.Year + " &#x2022; " + "IMDB : " + movie.imdbRating;
 
@@ -26,6 +31,5 @@ fetch("movie.json")
             })
 
             movieGrid.appendChild(movieCard); 
-
         })  
     })

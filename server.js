@@ -17,15 +17,14 @@ app.get('/' , (req,res) =>{
 
 app.get('/id=:id', (req,res) =>{
     const id = req.params.id;
-
     userReviews = JSON.parse(fs.readFileSync("userReviews.json"))
     if( userReviews[id] === undefined) userReviews[id] = {}
 
     externalReviews = JSON.parse(fs.readFileSync("metacriticReviews.json"))
     if( externalReviews[id] === undefined) externalReviews[id] = {}
     res.render('moviepage.ejs',{
-        movieName : id,
-        user : currentUserName,
+        movieName : encodeURIComponent(id),
+        user : encodeURIComponent(currentUserName),
         userReviewJson : encodeURIComponent(JSON.stringify(userReviews[id])),
         externalReviews : encodeURIComponent(JSON.stringify(externalReviews[id]))
      })
@@ -53,7 +52,6 @@ app.get("/suggestions", (req, res) => {
     parsedUserData = JSON.parse(fs.readFileSync('user.json'))
     if(parsedUserData[currentUserName] === undefined) reviewedMovieNames = {}
     else reviewedMovieNames = parsedUserData[currentUserName]["moviesReviewed"]
-    console.log(reviewedMovieNames["moviesReviewed"])
     res.render('suggestionsPage.ejs', {user : currentUserName, reviewedMovieNames : encodeURIComponent(JSON.stringify(reviewedMovieNames))})
 })
 
@@ -72,7 +70,6 @@ function correctPasscode(userArray, name, password){
 app.post('/register', (req,res)=>{
     const data = fs.readFileSync('user.json')
     let usersRegistered = JSON.parse(data)
-    console.log(usersRegistered)
 
     if( usersRegistered[req.body.name] === undefined){
         usersRegistered[req.body.name] = {
@@ -88,7 +85,6 @@ app.post('/register', (req,res)=>{
         res.render('register.ejs', { msg : errorMessage })
     }
 })  
-
 app.post("/login", (req,res) =>{
     const data = fs.readFileSync('user.json')
     let usersRegistered = JSON.parse(data)
@@ -97,16 +93,13 @@ app.post("/login", (req,res) =>{
         res.render('login.ejs', {nameErrorMsg : "no username found" , passwordErrorMsg : ""})
         return;
     }
-    
     if( usersRegistered[req.body.name]["password"] != req.body.password){
         res.render('login.ejs', {nameErrorMsg : "" , passwordErrorMsg : "incorrect passcode"} )
         return;
     }
-
     currentUserName = req.body.name
     console.log("user logged in : " , currentUserName)
-    //res.redirect('/');
-    res.redirect("/suggestions")
+    res.redirect('/');
 })
 
 // ------------------------- managing user ratings and reviews----------------------

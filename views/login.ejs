@@ -1,16 +1,97 @@
-<h2>Login</h2>
+<head>
+    <title>Login to FC</title>
+    <style>
+        h4{
+            margin-top: 0rem;
+        }
+        .main-container{
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            
+        }
+        .main-container > form {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            box-shadow: 0px 0px 10px 10px rgba(0,0,0,0.3);
+            padding: 2rem;
+            background-color: rgba(16, 16, 16, 0.6);
+            border-radius: 2rem;
+        }
+        form > label{
+            text-align: right;
+        }
+        form > input {
+            color: white;
+            background-color: rgba(40,40,40,0.2);
+            border: none;
+            border-radius: 1rem;
+            height: 2rem;
+            font-size: 1rem;
+            padding-inline: 1rem;
+        }
+        button{
+            color: white;
+            background-color: rgba(40,40,40,0.3);
+            border-radius: 1rem;
+            height: 2.5rem;
+            border: none;
+            font-size: 1.1rem;
+            transition: all 0.15s ;
+            width: 10rem;
+        }
+        form > button {
+            grid-column: span 2;
+            margin-left: 50%; transform: translate(-50%, 0%);
+        }
+        button:hover{
+            background-color: rgb(220, 177, 149);
+        }
+        form > button:hover{
+            background-color: rgb(119, 106, 174);
+        }
+        .error-msg{
+            color: rgb(192, 47, 47);
+            margin: 0;
+            text-align: center;
+            font-size: 1rem;
+            opacity: 0.8;
+            grid-column: span 2;
+        }
+        .logo{
+            background-image: linear-gradient(to right, rgb(220, 177, 149), rgb(119, 106, 174)) ;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-<form action="/login" method="post">
-    <label for="name-id">Enter the user name :</label>
-    <input id="name-id" type="text" name="name" required>
-    <p style="color: red;"><%= nameErrorMsg %></p>
+    </style>
+    <link rel="stylesheet" href="css/fonts.css">
+    <script src="https://kit.fontawesome.com/663c835d81.js" crossorigin="anonymous"></script>
+</head>
 
-    <label for="password-id">Enter a passcode :</label>
-    <input id="password-id" type="text" name="password">
-    <p style="color: red;"><%= passwordErrorMsg %></p>
+<body style="background-color:rgb(12, 12, 12);">
+    <div class="main-container">
+        <h4>Login to <span class="logo">FilmCritic</span></h4>
+        <a href="/" style="right: 0rem; top: 0rem; position: absolute;"><button style="width: 3rem;"><i class="fa-solid fa-house"></i></button></a>
+        <form action="/login" method="post">
+            <label for="name-id">User name:</label>
+            <input id="name-id" type="text" name="name" required autocomplete="off">
+            <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> <%= nameErrorMsg %></p>
 
-    <button type="submit">Go</button>
-</form>
+            <label for="password-id">Passcode:</label>
+            <input id="password-id" type="password" name="password">
+            <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> <%= passwordErrorMsg %></p>
 
-<hr>
-<p><i>didnt create an account ?</i> <a href="/register"><button>Register</button></a></p>
+            <button type="submit"><i class="fas fa-sign-in-alt"></i> <span style="opacity: 0.5;">&#x2022;</span> Login</button>
+        </form>
+
+        <p><span style="opacity: 0.6; font-size: 1rem;">didnt create an account ?</span> <a href="/register"><button style="width: 8rem;"><i class="fa-solid fa-user-plus"></i> <span style="opacity: 0.5;">&#x2022;</span> Register</button></a></p>
+    </div>
+    <script>
+        document.querySelectorAll(".error-msg").forEach(messageSection => {
+            if(messageSection.innerHTML === '<i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> ') messageSection.style.display = "none"
+            else messageSection.style.display = "block"
+        })
+    </script>
+</body>

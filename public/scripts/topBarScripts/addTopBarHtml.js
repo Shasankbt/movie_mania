@@ -28,7 +28,7 @@ topBarString = `
             <span class="material-symbols-outlined"><i class="fa-solid fa-magnifying-glass"></i></span>
         </label>
         <div class="search-bar-div">
-            <input id="search-input-id" class="search-input" type="text" >
+            <input id="search-input-id" class="search-input" type="text" autocomplete="off">
             <div id="search-output-id" class="search-output"></div>
         </div>
         <button id="search-submit-button-id" class="search-submit-button">&#10148;</button>

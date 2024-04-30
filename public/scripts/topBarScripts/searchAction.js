@@ -1,18 +1,16 @@
 const searchInput = document.querySelector(".search-input")
 const searchOutput = document.querySelector("#search-output-id")
-console.log(movieCardSearchTemplate)
-//const movieCardSearchTemplate = document.querySelector("[movie-card-search-template]")
-//const movieCardSearchTemplate = movieCardSearchTemplate
-let addn_wt = 2, subs_wt = 16, del_wt = 14;
+
+let addn_wt = 2.25, subs_wt = 16, del_wt = 14;
 let editDistLimit = 50
-// let movies = null
+
 function getEditDist(str1, str2) {
     str1 = str1.toLowerCase();
     str2 = str2.toLowerCase();
 
-    if (str1.includes(str2)) {
-        return Math.round(0.5 * (str2.length - str1.length));
-    }    
+    if (str2.includes(str1)) 
+        return Math.round(0.35 * (str2.length - str1.length));
+       
 
     let matrix = Array(str1.length + 1).fill().map(() => Array(str2.length + 1).fill(0));
 
@@ -46,7 +44,6 @@ function createMovieSearchCard(movie){
 
     //poster.src = movie.Poster;
     poster.src = "images/" + movie.imdbID + ".jpg"
-    console.log("images/" + movie.imdbID + ".jpg")
     title.innerHTML = movie.Title + "<br><span style='opacity : 0.5; font-weight : 500 ; font-size : 1rem;'>" + movie.Year + "</span>";
 
     card.addEventListener("click" , () => {
@@ -72,7 +69,6 @@ export function displayResults(input, movies){
         let sortedIndices = filteredIndices.sort((a, b) => a[0] - b[0]).map(tuple => tuple[1]);
 
         for (let idx of sortedIndices) {
-            console.log(editDists[idx][0], movies[idx]);
             searchOutput.appendChild(createMovieSearchCard(movies[idx]))
         }
 
