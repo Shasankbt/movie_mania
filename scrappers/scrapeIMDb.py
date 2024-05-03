@@ -11,7 +11,7 @@ def getBSfromURL(url):
     })
     return BeautifulSoup(response.content, "html.parser")
 
-def getJsonData(imdbID):
+def getIMDbData(imdbID):
     print(imdbID, end=" : ")
     try:
         
@@ -76,7 +76,10 @@ def getJsonData(imdbID):
         tempVar = mainpage.find("ul", class_ = "ipc-metadata-list ipc-metadata-list--dividers-all title-pc-list ipc-metadata-list--baseAlt", attrs={"role" : "presentation"}).find_all("div", class_="ipc-metadata-list-item__content-container")
         # the ul contains li which contains one div each, for director(s) and writer(s)
         movie["Director"] = [x.text for x in tempVar[0].find_all("li")]
-        movie["Writers"] = [x.text for x in tempVar[1].find_all("li")]
+        try:
+            movie["Writers"] = [x.text for x in tempVar[1].find_all("li")]
+        except:
+            movie["Writers"] = None
 
         print("scrapped sucessfully")
         return movie
@@ -87,18 +90,21 @@ def getJsonData(imdbID):
 
 if __name__ == "__main__":
     # movieObjectArray = []
+    # # # top 100 movies :
     # # top100moviesBox = getBSfromURL("https://www.imdb.com/search/title/?groups=top_100&count=100&sort=user_rating,desc")
+
+    # # top 250 movies :
     # top100moviesBox = getBSfromURL("https://www.imdb.com/chart/top/")
     # total_movies_len = len(top100moviesBox.find_all("a", class_="ipc-title-link-wrapper"))
 
     # for position, link in enumerate(top100moviesBox.find_all("a", class_="ipc-title-link-wrapper")[157:158], start=1):
     #     print(position, "/", total_movies_len, end=" ")
     #     imdbID = link.get("href").split("/")[-2]
-    #     movieObjectArray.append(getJsonData(imdbID))
+    #     movieObjectArray.append(getIMDbData(imdbID))
 
     # json_string = json.dumps(movieObjectArray)
 
     # with open("top250movies.json", "w") as json_file:
     #     json_file.write(json_string)
+    print(getIMDbData("tt22022452"))
     
-    print(getJsonData("tt23628262"))
