@@ -1,27 +1,39 @@
 const fs = require('fs')
 const express = require('express')
+const session = require('express-session')
 const app = express()
-
-let currentUserName = "Guest"
 
 app.listen(4000)
 app.use(express.urlencoded({ extended: true }))
 app.set('view-engine','ejs')
+app.use(session({
+    secret: 'your-secret-key', // Secret key for session encryption
+    resave: false,
+    saveUninitialized: true
+}));
 
 app.use(express.static('public'))
 
 // ------------------------ main pages ----------------------------
 app.get('/' , (req,res) =>{
+    const currentUserName = req.session.userName || 'Guest';
     res.render('home.ejs', {user : currentUserName})
 })
 
+app.get('/test' , (req,res) =>{
+    res.send("in the /test part")
+})
+
 app.get('/id=:id', (req,res) =>{
+    const currentUserName = req.session.userName || 'Guest';
     const id = req.params.id;
+
     userReviews = JSON.parse(fs.readFileSync("userReviews.json"))
     if( userReviews[id] === undefined) userReviews[id] = {}
 
     externalReviews = JSON.parse(fs.readFileSync("metacriticReviews.json"))
     if( externalReviews[id] === undefined) externalReviews[id] = {}
+
     res.render('moviepage.ejs',{
         movieName : encodeURIComponent(id),
         user : encodeURIComponent(currentUserName),
@@ -31,24 +43,23 @@ app.get('/id=:id', (req,res) =>{
 })
 
 app.get('/register' , (req,res) =>{
-    currentUserName = "Guest"
+    req.session.userName = "Guest"
     res.render("register.ejs", { msg : ""})
 })
 
 app.get("/login", (req,res) =>{
-    currentUserName = "Guest"
-    console.log(currentUserName)
+    req.session.userName = "Guest"
     res.render('login.ejs', {nameErrorMsg : "" , passwordErrorMsg : ""})
     //res.redirect("/recommendations")
 })
 
 app.get("/logout", (req,res) =>{
-    currentUserName = "Guest"
+    req.session.userName = "Guest"
     res.redirect("/")
 })
 
 app.get("/suggestions", (req, res) => {
-    
+    const currentUserName = req.session.userName || 'Guest';
     parsedUserData = JSON.parse(fs.readFileSync('user.json'))
     if(parsedUserData[currentUserName] === undefined) reviewedMovieNames = {}
     else reviewedMovieNames = parsedUserData[currentUserName]["moviesReviewed"]
@@ -56,17 +67,6 @@ app.get("/suggestions", (req, res) => {
 })
 
 // -------------------------------- verifying user details and valid login ----------------------
-
-function userExists(userArray , name){
-    const usernameExists = userArray.some(usrObj => usrObj.name === name)   
-    return usernameExists;
-}
-
-function correctPasscode(userArray, name, password){
-    const passwordMatch = userArray.some(user => user.name === name && user.password === password);
-    return passwordMatch;
-}
-
 app.post('/register', (req,res)=>{
     const data = fs.readFileSync('user.json')
     let usersRegistered = JSON.parse(data)
@@ -77,7 +77,7 @@ app.post('/register', (req,res)=>{
             "moviesReviewed": {}
         }
         fs.writeFileSync('user.json' , JSON.stringify(usersRegistered))
-        currentUserName = req.body.name
+        req.session.userName = req.body.name
         res.redirect('/')
     }
     else{
@@ -97,15 +97,16 @@ app.post("/login", (req,res) =>{
         res.render('login.ejs', {nameErrorMsg : "" , passwordErrorMsg : "incorrect passcode"} )
         return;
     }
-    currentUserName = req.body.name
-    console.log("user logged in : " , currentUserName)
+    req.session.userName = req.body.name
+    console.log("user logged in : " , req.session.userName)
     res.redirect('/');
 })
 
 // ------------------------- managing user ratings and reviews----------------------
 
 app.post("/review", (req,res) => {
-    const movieName = req.body.submitReview
+    const currentUserName = req.session.userName;
+    const movieName = decodeURIComponent(req.body.submitReview)
     const review = req.body.review
     const rating = req.body.rating
 
