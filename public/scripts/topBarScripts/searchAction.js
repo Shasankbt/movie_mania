@@ -43,7 +43,7 @@ function createMovieSearchCard(movie){
     const title = card.querySelector('[title]')
 
     //poster.src = movie.Poster;
-    poster.src = "images/" + movie.imdbID + ".jpg"
+    poster.src = "images_lowres/" + movie.imdbID + ".jpg"
     title.innerHTML = movie.Title + "<br><span style='opacity : 0.5; font-weight : 500 ; font-size : 1rem;'>" + movie.Year + "</span>";
 
     card.addEventListener("click" , () => {
@@ -62,14 +62,15 @@ export function displayResults(input, movies){
     }
 
     if(input != ""){
-        let editDists = movies.map((movie, idx) => [getEditDist(input, movie.Title), idx]);
+        let editDists = Object.values(movies).map((movie, idx) => [getEditDist(input, movie.Title), idx]);
 
         let filteredIndices = editDists.filter(tuple => tuple[0] < editDistLimit);
 
         let sortedIndices = filteredIndices.sort((a, b) => a[0] - b[0]).map(tuple => tuple[1]);
+        console.log(sortedIndices)
 
         for (let idx of sortedIndices) {
-            searchOutput.appendChild(createMovieSearchCard(movies[idx]))
+            searchOutput.appendChild(createMovieSearchCard(Object.values(movies)[idx]))
         }
 
         if(searchOutput.children.length == 0){

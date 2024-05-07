@@ -11,9 +11,25 @@ function getMovieObjectByName(movieName){
             return movieObject;
         })
 }
+function getMovieObjectByNameNew(movieName){
+    return fetch('all_movies.json')
+        .then(res => res.json())
+        .then(data => {
+            for (const [id, movieObject] of Object.entries(data)) {
+                
+                if (movieObject !== null && movieObject["Title"] === movieName) {
+                    console.log("found")
+                    return movieObject;
+                }
+            }
+            console.log("not found")
+            // If movie name is not found, return null or handle as needed
+            return null;
+        })
+}
 
 function renderPage(movieName){
-    getMovieObjectByName(movieName).then(data => {
+    getMovieObjectByNameNew(movieName).then(data => {
         
             document.getElementById('title-id').innerHTML = data.Title;
 
@@ -43,8 +59,8 @@ function renderPage(movieName){
             const backdrop = document.querySelector('.backdrop-image');
 
             try {
-                poster.src = "images/" + data.imdbID + ".jpg"
-                backdrop.style.backgroundImage = "url(" + "images/" + data.imdbID + ".jpg" + ")"
+                poster.src = "images_highres/" + data.imdbID + ".jpg"
+                backdrop.style.backgroundImage = "url(" + "images_highres/" + data.imdbID + ".jpg" + ")"
             }  // local image pull
             catch (error) {
                 console.error('Error setting poster src:', error);

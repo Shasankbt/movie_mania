@@ -1,28 +1,9 @@
-import time
-import requests
-from bs4 import BeautifulSoup
 import json 
 import traceback
 
-from scrapeIMDb import getIMDbData
-
-import re
-
-def extract_alphanumeric(input_str):
-    # Using regular expression to find alphanumeric characters
-    return re.sub(r'[^a-zA-Z0-9]', '', input_str)
-
-def titlesMatch(str1, str2):
-    return (extract_alphanumeric(str1.lower()) == extract_alphanumeric(str2.lower()))
-
-
-
-def getBSfromURL(url):
-    response = requests.get(url, headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        "Accept-Language": "en-US,en;q=0.5",
-    })
-    return BeautifulSoup(response.content, "html.parser")
+from imdbFunctions import getDataFromImdbID
+from imdbFunctions import getIDbyName
+from imdbFunctions import getBSfromURL
 
 
 def getOscarsData(year):
@@ -50,27 +31,21 @@ def getOscarsData(year):
                 
 
             
-            imdbID = ""
-
-            search_results = getBSfromURL("https://www.imdb.com/find/?q=" + winnerFilm).find_all("li", class_="ipc-metadata-list-summary-item ipc-metadata-list-summary-item--click find-result-item find-title-result")
-            for search_res in search_results:
-                result_title = search_res.find("a" ,  class_="ipc-metadata-list-summary-item__t").text
-                result_release_year = search_res.find("ul").text[:4]
-                if titlesMatch(result_title , winnerFilm) and int(result_release_year) <= year:
-                    imdbID = search_res.find("a" ,  class_="ipc-metadata-list-summary-item__t").get("href").split("/")[-2]
-                    break
-
+            imdbID = getIDbyName(winnerFilm, year)          
             
             print(f"award : {awardType} ; movie name : {winnerFilm} ; search result id : {imdbID}")
 
             if imdbID == "":
-                raise ValueError("unable to get the imdbID")
+                imdbID = getIDbyName(winnerFilm + " " + str(year), year, False)
+                print(f"id found in loose search; id : {imdbID}")
+                if imdbID == "":
+                    raise ValueError("EMPTY ID")
             if imdbID not in oscarsData:
                 oscarsData[imdbID] = []
 
             oscarsData[imdbID].append(awardType)
         except Exception as e:
-            print(f"unable to get due to --{e}-- in line ~{traceback.extract_tb(e.__traceback__)[0][1]}~")
+            print(f"unable to get due to --{e}-- in line -~{traceback.extract_tb(e.__traceback__)[0][1]}-")
         
         
 
@@ -96,7 +71,7 @@ for year in range(2005,2025):
     print("---- scrapping data ----")
     for key in data:
         if key not in movie_data:
-            movie_data[key] = getIMDbData(key)
+            movie_data[key] = getDataFromImdbID(key)
 
 
 with open("oscar_lib.json", "w") as file:
@@ -105,6 +80,3 @@ with open("oscar_lib.json", "w") as file:
 with open("oscar_movies.json", "w") as file:
     file.write(json.dumps(movie_data))
 
-
-# print(oscars_data)
-# print(movie_data)

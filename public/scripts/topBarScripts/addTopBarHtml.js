@@ -20,6 +20,7 @@ topBarString = `
         <p class="logo" data-href="/">FilmCritic</p>
         <button data-href="/">Top 100</button>
         <button data-href="/suggestions">For You</button>
+        <button data-href="/academy-awards">Oscars</button>
     </div>
 
 

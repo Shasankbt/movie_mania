@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="css/topBar.css">
+    <link rel="stylesheet" href="academyAwards.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <script src="academyAwards.js"></script>  
+    <script src="scripts/template.js"></script>
+   
+</head>
+<body>
+    <div class="top-bar"></div>
+    <script src="scripts/topBarScripts/addTopBarHtml.js"></script>
+    <script>setUser("<%=user %>")</script>
+    <script src="scripts/topBarScripts/topBar.js" type="module"></script>
+    <div class="card-grid">
+
+        <template year-awards-card-template>
+            <div class="year-awards-card">
+                <div class="year-awards-card-title"><p></p></div>
+                <div class="year-awards-card-background">
+                    <div class="award-movie-poster-placeholder"><img src=""></div>
+                    <div class="award-movie-poster-placeholder"><img src=""></div>
+                    <div class="award-movie-poster-placeholder"><img src=""></div>
+                    <div class="award-movie-poster-placeholder"><img src=""></div>
+                </div>
+            </div>
+        </template>
+    </div>
+        <template movie-awards-container-left-template>
+            <div class="movie-awards-container left-align">
+                <div class="movie-awards-backdrop"></div>
+                <div class="award-titles">
+                    <h3 movie-title></h3>
+                </div>
+                <img>
+            </div>
+        </template>
+        <template movie-awards-container-right-template>
+            <div class="movie-awards-container right-align">
+                <div class="movie-awards-backdrop"></div>
+                <div class="award-titles">
+                    <h3 movie-title></h3>
+                </div>
+                <img>
+
+            </div>
+        </template>
+
+        <div class="backdrop" style="display: none;"></div>
+        <div class="awards-popup" style="display: none;">
+        
+        
+    </div>
+</body>

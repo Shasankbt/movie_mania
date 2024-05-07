@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800');
+
+
+body{
+    background-color: rgb(21, 25, 27);
+}
+
+.card-grid{
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    width: calc(100% - 6rem);
+    position: absolute;
+    left: 50%; top : 4rem; transform: translate(-50%, 0%);
+    background-color: rgb(19, 19, 19);
+    padding: 2rem;
+    border-radius: 2rem;
+}
+
+.year-awards-card{
+    box-shadow: 0px 0px 4px 6px rgba(0,0,0,0.2);
+    border: 0px solid white;
+    margin: 2px;
+    border-radius: 1rem;
+    width: fit-content;
+    overflow: hidden;
+    position: relative;
+    transition:  border-width margin 2s;
+}
+.year-awards-card:hover{
+    border-color:rgb(220, 177, 149);
+    border-width: 2px;
+    margin: 0px;
+}
+
+
+.year-awards-card-title{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding-left: 1.5rem;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 2.5rem;
+    background: linear-gradient(to right, rgba(0,0,0,1) 10% , rgba(0,0,0,0) 100%);
+    letter-spacing: 1px;
+    transition: letter-spacing 0.2s;
+    font-weight: 600;
+}
+.year-awards-card-title:hover{
+    color: rgb(220, 177, 149);
+    letter-spacing: 2px;
+
+}
+.year-awards-card-title > p {
+    margin: 0;
+    font-family: 'open sans'
+}
+.year-awards-card-background{
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    
+}
+
+.award-movie-poster-placeholder{
+    display: flex;
+    width: 60px; height: 130px;
+    overflow: hidden;
+    align-items: center;
+    flex-direction: column;
+    
+}
+.award-movie-poster-placeholder > img{
+    height: 100%;
+}
+
+.backdrop{
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    position: fixed;
+    backdrop-filter: blur(0px);
+    overflow: hidden;
+}
+
+.awards-popup{
+    width: calc(100% - 15rem);
+    height: calc(100% - 4rem);
+    position: fixed;
+    z-index: 2;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    background-color: rgb(23, 23, 23);
+    overflow: auto;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+}
+.movie-awards-container{
+    border-radius: 1.5rem;
+    padding: 3rem;
+    padding-inline: 5rem;
+    margin: 2rem;
+    position: relative;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+}
+.right-align{
+    padding-inline-end: 7rem;
+}
+.award-titles{
+    height: fit-content;
+}
+.award-titles > h1{
+    color: white;
+    font-family: "open sans";
+}
+.movie-awards-backdrop{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0; top: 0;
+    z-index: -1;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    filter: blur(40px) contrast(1);  
+    opacity: 0.6;
+}
+.left-align > .movie-awards-backdrop{
+    mask-image: linear-gradient(to left, rgba(0,0,0,1) 10%, rgba(0, 0, 0, 0.3) 80%);
+}
+.right-align > .movie-awards-backdrop{
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.3) 10%, rgba(0,0,0,1) 80%);
+}
+.movie-awards-container > img{
+    position: relative;
+    height: 250px;
+    border-radius: 1rem;
+}
+.movie-awards-container > .award-titles > p{
+    color: white;
+    font-size: 1.25rem;
+    font-family: "raleway";
+}
+
+.left-align > .award-titles{
+    margin-right: auto;
+}
+.right-align{
+    text-align: right;
+    flex-direction: row-reverse;
+}
+.right-align > .award-titles{
+    margin-left: auto;
+}
+
+
+
+::-webkit-scrollbar {
+    width: 2px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0);
+  }

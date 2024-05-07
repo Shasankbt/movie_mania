@@ -66,6 +66,16 @@ app.get("/suggestions", (req, res) => {
     res.render('suggestionsPage.ejs', {user : currentUserName, reviewedMovieNames : encodeURIComponent(JSON.stringify(reviewedMovieNames))})
 })
 
+app.get("/academy-awards", (req, res) => {
+    const currentUserName = req.session.userName || 'Guest';
+    // const currentUserName = req.session.userName || 'Guest';
+    // parsedUserData = JSON.parse(fs.readFileSync('user.json'))
+    // if(parsedUserData[currentUserName] === undefined) reviewedMovieNames = {}
+    // else reviewedMovieNames = parsedUserData[currentUserName]["moviesReviewed"]
+    // res.render('suggestionsPage.ejs', {user : currentUserName, reviewedMovieNames : encodeURIComponent(JSON.stringify(reviewedMovieNames))})
+    res.render("academyAwards.ejs", {user : currentUserName})
+})
+
 // -------------------------------- verifying user details and valid login ----------------------
 app.post('/register', (req,res)=>{
     const data = fs.readFileSync('user.json')
