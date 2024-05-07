@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="css/suggestionsPage.css">
 
     <script src="https://kit.fontawesome.com/663c835d81.js" crossorigin="anonymous"></script>
-    <script src="scripts/template.js"></script>
 </head>
 <body style="background-color: rgb(21, 25, 27);">
 
@@ -25,8 +24,9 @@
     </div>
         
         
-        <script src="scripts/suggestions.js"></script>
-        <script>
+        
+        <script type="module">
+            import { getSuggestions } from "./scripts/suggestions.js";
             const msgBox = document.querySelector("[message]")
             const loginRedirectButton = document.querySelector(".login-redirect-button")
             if("<%=user %>" === "Guest"){

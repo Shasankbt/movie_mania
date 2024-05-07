@@ -3,7 +3,7 @@ let count = 0
 
 let userReviewed = false
 
-function displayNewReviewForm(userName, movieName){
+export function reviewInputSection(userName){
     
     const newReviewButton = document.querySelector(".new-review-button")
     const newReviewForm = document.querySelector(".new-review-form")
@@ -51,7 +51,7 @@ function getMaxWordLength(sentence) {
 
 
 
-function showReviews(userName , reviewObject){
+export function showReviews(userName , reviewObject){
     const reviewsDiv = document.querySelector(".reviews").querySelector(".contents")
     const reviewsGrid = document.querySelector(".review-grid")
     const newReviewButton = document.querySelector(".new-review-button")
@@ -67,12 +67,10 @@ function showReviews(userName , reviewObject){
     }
     else{
         newReviewButton.innerHTML = "Give your thoughts on the movie"
-        // userReviewStat.style.display= "inline-block"
-        // userReviewStat.innerHTML = "You havent reviewed this movie yet, write yours here"
     }
 
     
-    for(reviewer in reviewObject){
+    for(let reviewer in reviewObject){
         sum += parseInt(reviewObject[reviewer]["rating"])
         count += 1
         if(reviewer != userName)
@@ -85,7 +83,7 @@ function showReviews(userName , reviewObject){
 
 }
 
-function addExternalReviews(externalReviews){
+export function addExternalReviews(externalReviews){
     const featuredReviewPlaceholder = document.querySelector(".featured-review")
     const featuredReview = externalReviews["featured-review"]
     const reviewCardTemplate = document.querySelector("[review-card-template]")
@@ -128,10 +126,15 @@ function addExternalReviews(externalReviews){
 // ---------------------------------------- FILTER OPTIONS -------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
-    // setting up the internal reviews 
-    if(document.getElementById("internal-rating"))
-    document.getElementById("internal-rating").innerHTML = (count == 0) ? "<span style = 'opacity : 0.6'> no reviews yet</span>" : sum/count+ "/5";
+    // setting up the internal reviews, wait till the data fetches in renderMoviePage
+    setTimeout(()=>{
+        if(document.getElementById("internal-rating"))
+            document.getElementById("internal-rating").innerHTML = (count == 0) ? "<span style = 'opacity : 0.6'> no reviews yet</span>" : sum/count+ "/5";
+        else
+            console.warn("unable to set internal rating. might be a delay of fetching")
+    }, 500)
 
+    
     const toggleButtonff = document.querySelector(".toggle-filter")
 
     function conditionFunc1(filterValue, review){
@@ -139,14 +142,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function conditionFunc2(filterValue, review){
-        score = review.querySelector("[rating]").innerHTML
+        const score = review.querySelector("[rating]").innerHTML
         if(filterValue === "positive") return (score > 60)
         else if(filterValue === "mixed") return (score > 30 && score <= 60)
         else return (score <= 30 )
     }
 
     function conditionFunc3(filterValue, review){
-        score = review.querySelector("[rating]").innerHTML
+        const score = review.querySelector("[rating]").innerHTML
         if(filterValue === "positive") return (score > 6)
         else if(filterValue === "mixed") return (score > 3 && score <= 6)
         else return (score <= 3)
@@ -166,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if(button.classList.contains("enabled")){
                     const filterValue = button.getAttribute("data-filter-value") // button.getAttribute("data-filter-value")
                     toggleButton.classList.add("enabled") ; found = true
-                    for(review of allReviews)
+                    for(let review of allReviews)
                         // if(button.innerHTML === review.querySelector("[rating]").innerHTML.charAt(0))
                         if(condition(filterValue,review))
                             review.style.display = "block"
@@ -176,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             if(! found){
                 toggleButton.classList.remove("enabled")
-                for(review of allReviews){review.style.display = "block"}
+                for(let review of allReviews){review.style.display = "block"}
             }
         }
     
@@ -203,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
     addFilterFunction(document.querySelectorAll(".filter-section")[0] ,document.querySelector(".review-grid").children, conditionFunc1)
     addFilterFunction(document.querySelectorAll(".filter-section")[1] ,document.querySelector(".external-critic-review-grid").children, conditionFunc2)
     addFilterFunction(document.querySelectorAll(".filter-section")[2] ,document.querySelector(".external-user-review-grid").children, conditionFunc3)
-
+    console.log("added filter functionality to all review grids")
 // ------------------------------------- MANAGING COMPACT SECTION -------------------------------------------
     
     function hideReviewContent(section, maxHeight){
@@ -221,6 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
         reviewCard.querySelector(".view-more-button").innerHTML = "show less"
         reviewCard.style.maxHeight = "none";
         reviewCard.style.overflowY = "visible"; // Set overflow-y to auto
+        console.log("increased")
     }
 
     function manageCompactSection(section, maxHeight){
@@ -241,7 +245,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const viewMoreButton = section.querySelector(".view-more-button")
         const height = section.getBoundingClientRect().height;
         viewMoreButton.addEventListener("click", () => {
+            console.log(section.style.maxHeight)
             if(section.style.maxHeight === maxHeight + "px"){
+                console.log("hi")
                 section.style.paddingBottom = 80 + parseInt(section.style.paddingBottom || 0) + "px";
                 showReviewContent(section)
             }
@@ -262,10 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
         compactSectionEvents(compactSection, 500)
     }); 
     window.addEventListener("resize", () => {
-        compactSections.forEach(compactSection => {
-            manageCompactSection(compactSection, 500)
-            compactSectionEvents(compactSection, 500)
-        });
+        compactSections.forEach(compactSection => { manageCompactSection(compactSection, 500) });
     });
 
 })

@@ -1,3 +1,5 @@
+import * as routes from "/scripts/routesManager.js"
+
 function getPosterUrl(movieId, movies, img_dir) {
     const localPosterUrl = `/${img_dir}/${movieId}.jpg`;
   
@@ -72,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
 
             card.addEventListener("click" , ()=>{
-                window.location.href = "/id=" + movies[id]["Title"]
+                window.location.href = routes.getMoviePageAddress(id)
             })
     
             listContainer.appendChild(card)

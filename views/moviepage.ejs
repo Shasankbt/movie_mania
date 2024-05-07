@@ -15,16 +15,12 @@
     
     <!--------------------------------------SCRIPTS----------------------------------------------->
     <script src="scripts/moviePageScripts/navSidebar.js"></script>
-    <script src="scripts/template.js"></script>
     <!--    these scripts contain functions which render page when
         username, movieReviewObject and movieName is passed
         This is for simplicity and to make sure that page is loaded properly before js
             these are executed below this ejs file
     -->
-    
-    <script src="scripts/moviePageScripts/renderMoviePage.js"></script>
-    <script src="scripts/moviePageScripts/renderReviewSection.js" ></script>
-    <script src="scripts/moviePageScripts/displaySimilar.js"></script>
+  
     
 </head>
 <body>
@@ -64,9 +60,9 @@
                 <div class="movie-poster"><img style="height: 100%;" id="movie-poster-id"></div>
                 <div>
                     <h2 style="color: rgb(255, 255, 255); margin-bottom: 0px; margin-top: 0px;" id="title-id"></h2>
-                    <hr style="opacity: 0.15;">
+                    <hr style="opacity: 0.15; margin: 0;" >
                     <div class="info" ></div>
-                    <hr style="opacity: 0.15;">
+                    <hr style="opacity: 0.15; margin: 3px;">
                     <h4 class="quote"></h4>   
                 </div>
              
@@ -227,7 +223,6 @@
             <div class="related-movies-gird"></div>
         </div>
             
-        <script src="scripts/template.js" ></script>
     
     </div>
 
@@ -240,8 +235,10 @@
     
     
     <!-- the functions used below are from files imported at the top of this file -->
-    <script>
-        //import { renderPage } from "scripts/moviePageScripts/renderMoviePage.js";
+    <script type="module">
+        import { renderPage } from "/scripts/moviePageScripts/renderMoviePage.js";
+        import { showReviews , reviewInputSection , addExternalReviews } from "/scripts/moviePageScripts/renderReviewSection.js"
+        import { displaySimilarMovies } from "/scripts/moviePageScripts/displaySimilar.js"
 
         // ** converting encoded strings to normal
         // ** for eg, "Schindler'39;s List" is send to this page as "Schindler&#39;s List" by server.js
@@ -258,18 +255,18 @@
         const externalReviews = "<%= externalReviews %>"
 
         console.log(decodeURIComponent(movieName))
-        
+
+        //------------------------------------------------------------------------------
         renderPage(movieName)    // from renderMoviePage.js
         showReviews(userName , JSON.parse(decodeURIComponent(userReviewObject)))//from renderReviewSection.js        
-        
-        displayNewReviewForm(userName,movieName)                  // from renderReviewSection.js
-        displaySimilarMovies(movieName)     // from displaySimilar.js
+        reviewInputSection(userName,movieName)                  // from renderReviewSection.js
         try{
             addExternalReviews(JSON.parse(decodeURIComponent(externalReviews))) 
         }
         catch{
             document.getElementById("external-reviews-id").innerHTML = "<span style='opacity : 0.4'>No external Reviews for this movie</span>"
         }
+        displaySimilarMovies(movieName)     // from displaySimilar.js
     </script>
 
 

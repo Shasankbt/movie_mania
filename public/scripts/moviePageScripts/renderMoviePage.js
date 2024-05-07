@@ -11,25 +11,18 @@ function getMovieObjectByName(movieName){
             return movieObject;
         })
 }
-function getMovieObjectByNameNew(movieName){
+function getMovieObjectByID(movieID){
     return fetch('all_movies.json')
         .then(res => res.json())
         .then(data => {
-            for (const [id, movieObject] of Object.entries(data)) {
-                
-                if (movieObject !== null && movieObject["Title"] === movieName) {
-                    console.log("found")
-                    return movieObject;
-                }
-            }
-            console.log("not found")
-            // If movie name is not found, return null or handle as needed
-            return null;
+            if(data[movieID] === null)
+                console.log("not found")
+            return data[movieID]
         })
 }
 
-function renderPage(movieName){
-    getMovieObjectByNameNew(movieName).then(data => {
+export function renderPage(movieID){
+    getMovieObjectByID(movieID).then(data => {
         
             document.getElementById('title-id').innerHTML = data.Title;
 

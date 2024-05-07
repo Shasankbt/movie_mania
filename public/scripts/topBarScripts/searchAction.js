@@ -1,3 +1,5 @@
+import * as template from "/scripts/template.js"
+
 const searchInput = document.querySelector(".search-input")
 const searchOutput = document.querySelector("#search-output-id")
 
@@ -35,23 +37,23 @@ function getEditDist(str1, str2) {
     return matrix[str1.length][str2.length];
 }
 
-function createMovieSearchCard(movie){
-    // here the argument is an object parsed from json
-    const card = movieCardSearchTemplate.content.cloneNode(true).children[0];
+// function createMovieSearchCard(movie){
+//     // here the argument is an object parsed from json
+//     const card = movieCardSearchTemplate.content.cloneNode(true).children[0];
                 
-    const poster = card.querySelector('[poster]')
-    const title = card.querySelector('[title]')
+//     const poster = card.querySelector('[poster]')
+//     const title = card.querySelector('[title]')
 
-    //poster.src = movie.Poster;
-    poster.src = "images_lowres/" + movie.imdbID + ".jpg"
-    title.innerHTML = movie.Title + "<br><span style='opacity : 0.5; font-weight : 500 ; font-size : 1rem;'>" + movie.Year + "</span>";
+//     //poster.src = movie.Poster;
+//     poster.src = "images_lowres/" + movie.imdbID + ".jpg"
+//     title.innerHTML = movie.Title + "<br><span style='opacity : 0.5; font-weight : 500 ; font-size : 1rem;'>" + movie.Year + "</span>";
 
-    card.addEventListener("click" , () => {
-        window.location.href = "/id=" + movie.Title;
-    })
+//     card.addEventListener("click" , () => {
+//         window.location.href = "/id=" + movie.Title;
+//     })
 
-    return card
-}
+//     return card
+// }
 
 export function displayResults(input, movies){
 
@@ -63,14 +65,11 @@ export function displayResults(input, movies){
 
     if(input != ""){
         let editDists = Object.values(movies).map((movie, idx) => [getEditDist(input, movie.Title), idx]);
-
         let filteredIndices = editDists.filter(tuple => tuple[0] < editDistLimit);
-
         let sortedIndices = filteredIndices.sort((a, b) => a[0] - b[0]).map(tuple => tuple[1]);
-        console.log(sortedIndices)
 
         for (let idx of sortedIndices) {
-            searchOutput.appendChild(createMovieSearchCard(Object.values(movies)[idx]))
+            searchOutput.appendChild(template.createMovieSearchCard(Object.values(movies)[idx]))
         }
 
         if(searchOutput.children.length == 0){
