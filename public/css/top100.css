@@ -1,0 +1,31 @@
+.movie-grid{
+    z-index: 1;
+    position: relative;
+    top: 5rem;  left: 1rem;
+    width: calc(100% - 2rem);
+     
+    display: flex;  flex-wrap: wrap;    justify-content: center;
+}
+
+
+
+
+
+/* Track */
+::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar handle */
+    border-radius: 3px; /* Rounded corners of the handle */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar handle on hover */
+}
+::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0); /* Background color of the scrollbar track */
+}

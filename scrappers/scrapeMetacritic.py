@@ -51,11 +51,11 @@ def getCriticReviews(url, imdbID):
 
         try:
             critic_reviews["score"] = critic_soup.find("div", class_= "c-siteReviewScore u-flexbox-column u-flexbox-alignCenter u-flexbox-justifyCenter g-text-bold c-siteReviewScore_green g-color-gray90 c-siteReviewScore_large" ).text
-            list = critic_soup.find("div", class_= "c-pageProductReviews_row g-outer-spacing-bottom-xxlarge")
         except Exception as e:
             print("----unable to obtain critic score")
 
-        reviews_div = list.find_all("div", class_="c-siteReview g-bg-gray10 u-grid g-outer-spacing-bottom-large")
+        review_list = critic_soup.find("div", class_= "c-pageProductReviews_row g-outer-spacing-bottom-xxlarge")
+        reviews_div = review_list.find_all("div", class_="c-siteReview g-bg-gray10 u-grid g-outer-spacing-bottom-large")
         reviews_count, error_count = len(reviews_div), 0
         for review_box in reviews_div:
             try:
@@ -93,12 +93,12 @@ def getUserReviews(url, imdbID):
         soup = BeautifulSoup(source_code, "html.parser")
         try:
             user_reviews["score"] = soup.find("div",class_="c-siteReviewScore u-flexbox-column u-flexbox-alignCenter u-flexbox-justifyCenter g-text-bold c-siteReviewScore_green c-siteReviewScore_user g-color-gray90 c-siteReviewScore_large" ).text
-            list = soup.find("div", class_= "c-pageProductReviews_row g-outer-spacing-bottom-xxlarge")
         except Exception as e:
             print("----unable to obtain critic score")
-
-        reviews_div = list.find_all("div", class_="c-siteReview g-bg-gray10 u-grid g-outer-spacing-bottom-large")
-        reviews_count, error_count = len(reviews_count) , 0
+        
+        review_list = soup.find("div", class_= "c-pageProductReviews_row g-outer-spacing-bottom-xxlarge")
+        reviews_div = review_list.find_all("div", class_="c-siteReview g-bg-gray10 u-grid g-outer-spacing-bottom-large")
+        reviews_count, error_count = len(reviews_div) , 0
         for review_box in reviews_div:
             try:
                 review = {}
@@ -157,7 +157,8 @@ def getReviews(imdbID):
 
 
 def fullReview(review):
-    if review["featured-review"] == "":
+    #print(review)
+    if review["featured-review"] == { "tagline": "", "reviewer": "", "review": "" }:
         return False
     if review["critic-reviews"] == { "score" : "","positive" : [] , "mixed" : [], "negative" : [] }:
         return False
@@ -184,9 +185,10 @@ for idx,key in enumerate(movieData):
     if key in movieReviews :
         print("already in the file")
         time.sleep(0.01)
-        continue
-    if not fullReview(movieData[key]):
+    if not fullReview(movieReviews[key]):
         print("found but not complete. trying again")
+    else:
+        continue
     try:
         movieReviews[key] = getReviews(key)
         print("done sucessfully")

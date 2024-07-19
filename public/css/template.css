@@ -1,6 +1,7 @@
 .movie-card{
     position: relative;
-    width: 14rem ;
+    min-width: 14rem ;
+    width: 14rem;
     
     margin: 0.5rem;     border-radius: 1rem;
     backdrop-filter: blur(20px);

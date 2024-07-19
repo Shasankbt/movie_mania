@@ -1,0 +1,96 @@
+    <!DOCTYPE html>
+    <head>
+        <link rel="stylesheet" href="/css/moviegrid.css">
+        <script src="/modules/masonry-layout.js"></script>
+        <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.js"></script>   
+
+    </head>
+    <body>
+        <div class="movie-grid">
+            <div class="grid-item width-4"><div class="img-container"><img src="/movie_images/mov_1.jpg" alt=""></div></div>
+            <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_2.jpg" alt=""></div></div>
+            <div class="grid-item height-4 width-2"><div class="img-container"><img src="/movie_images/mov_3.jpg" alt=""></div></div>
+            <div class="grid-item"><div class="img-container"><img src="/movie_images/mov_5.jpg" alt=""></div></div>
+            <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_6.jpg" alt=""></div></div>
+            <div class="grid-item"><div class="img-container"><img src="/movie_images/mov_8.jpg" alt=""></div></div>
+            <div class="grid-item  width-2 height-3"><div class="img-container"><img src="/movie_images/mov_9.jpg" alt=""></div></div>
+            <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_10.jpg" alt=""></div></div>
+            <div class="grid-item width-4"><div class="img-container"><img src="/movie_images/mov_12.jpg" alt=""></div></div>
+            <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_14.jpg" alt=""></div></div>
+            <div class="grid-item width-3 height-4"><div class="img-container"><img src="/movie_images/mov_15.jpg" alt=""></div></div>
+            <div class="grid-item width-4"><div class="img-container"><img src="/movie_images/mov_16.jpg" alt=""></div></div>
+            <div class="grid-item width-5 height-3"><div class="img-container"><img src="/movie_images/mov_13.jpg" alt=""></div></div>
+            <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_17.jpg" alt=""></div></div>
+            <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_18.jpg" alt=""></div></div>
+            <div class="grid-item width-3 height-3"><div class="img-container"><img src="/movie_images/mov_19.jpg" alt=""></div></div>
+            <div class="grid-item width-6 height-3"><div class="img-container"><img src="/movie_images/mov_33.png" alt=""></div></div>
+            <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_20.jpg" alt=""></div></div>
+            <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_22.png" alt=""></div></div>
+            <div class="grid-item width-4"><div class="img-container"><img src="/movie_images/mov_23.png" alt=""></div></div>
+            <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_24.png" alt=""></div></div>
+            <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_25.png" alt=""></div></div>
+            <div class="grid-item width-4"><div class="img-container"><img src="/movie_images/mov_26.png" alt=""></div></div>
+            <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_27.png" alt=""></div></div>
+            <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_28.png" alt=""></div></div>
+            <div class="grid-item width-4 height-3"><div class="img-container"><img src="/movie_images/mov_30.png" alt=""></div></div>
+            <div class="grid-item width-2 height-3"><div class="img-container"><img src="/movie_images/mov_38.png" alt=""></div></div>
+            <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_31.png" alt=""></div></div>
+            <div class="grid-item width-4 height-3"><div class="img-container"><img src="/movie_images/mov_34.png" alt=""></div></div>
+            <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_37.gif" alt=""></div></div>
+            <div class="grid-item"><div class="img-container"><img src="/movie_images/mov_29.png" alt=""></div></div>
+            <div class="grid-item width-5 height-3"><div class="img-container"><img src="/movie_images/mov_35.png" alt=""></div></div>
+            <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_32.png" alt=""></div></div>
+            <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_39.png" alt=""></div></div>
+            <div class="grid-item width-5 height-3"><div class="img-container"><img src="/movie_images/mov_40.png" alt=""></div></div>
+            <div class="grid-item width-2 height-3"><div class="img-container"><img src="/movie_images/mov_41.png" alt=""></div></div>
+            <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_42.png" alt=""></div></div>
+
+
+        </div>
+        
+        <style>
+            .grid-item{
+                img{
+                    display: none;
+                }
+            }
+        </style>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Select the grid element
+                var grid = document.querySelector('.movie-grid');
+
+                // Initialize Masonry layout
+                var masonry = new Masonry(grid, {
+                    itemSelector: ".grid-item",
+                    columnWidth: 60,
+                    originLeft: true    
+                });
+
+                // Relayout Masonry when all images are loaded
+                imagesLoaded(grid, function() {
+                    grid.querySelectorAll("img").forEach(image =>{
+                        image.style.display = "block"
+                    })
+                    masonry.layout();
+
+                });
+
+                // setTimeout(()=>{
+                //     document.querySelector(".grid-item").style.display = "none"
+                //     masonry.layout();
+                    
+
+                // }, 2000)
+                // setTimeout(()=>{
+                //     document.querySelector(".grid-item").style.display = "block"
+                //     masonry.layout();
+                    
+
+                // }, 4000)
+            });
+            
+        </script>
+        
+    </body>

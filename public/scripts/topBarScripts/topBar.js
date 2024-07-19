@@ -1,13 +1,24 @@
 import * as sf from "./searchAction.js"
 import * as uf from "./userActions.js"
+import { getFileLocation } from "/scripts/routesManager.js"
 
 
+let titles_map = null
 let movies = null
+let series = null
 const searchBarDiv = document.querySelector(".search-bar-div")
 
-fetch('all_movies_short.json')
+fetch(getFileLocation("titles"))
+    .then(res => res.json())
+    .then(data => {titles_map = new Map(Object.entries(data))})
+
+fetch(getFileLocation("movies-short"))
     .then(res => res.json())
     .then(data => {movies = data})
+
+fetch(getFileLocation("series-short"))
+    .then(res => res.json())
+    .then(data => {series = data})
 
 document.addEventListener("DOMContentLoaded", () =>{
     // navigating through webpages
@@ -21,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () =>{
     
     // shows results in the event of input
     searchBarDiv.addEventListener("input" , e=>{
-        sf.displayResults(e.target.value, movies)
+        sf.displayResults(e.target.value, titles_map, movies, series)
     })
 
     // user details and login/logout part 

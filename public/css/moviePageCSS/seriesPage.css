@@ -1,0 +1,151 @@
+:root{
+    --accent-color: rgb(144, 107, 191);
+    --accent-color-2: rgb(220, 177, 149);
+    --button-background : rgba(11, 11, 11, 0.4)
+}
+
+.seasons-and-episodes{
+    margin: 5rem;
+    padding: 1rem;
+    border-radius: 2rem;
+    box-shadow: 0px 0px 10px 10px rgba(0,0,0,0.3);
+    background-color: rgba(30,30,30,0.2);
+}
+
+/* ------------------------------------- the seasons div ---------------------------------*/
+.full-view > .season-headers-container{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(400px, 1fr));
+    gap: 1rem;
+}
+.side-view > .season-headers-container{
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.side-view .hidable {
+    display: none;
+}
+.side-view > .season-headers-container > .season-header{
+    margin: 0.25rem;
+}
+.season-header{
+    font-family: "open sans";
+    color: white;
+    font-size: 1.2rem;
+    border-radius: 1rem;
+    padding: 0.75rem;
+    background-color: rgba(60,60,60,0.3);
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+.season-header > p{
+    margin: 0;
+}
+.season-header > div > p{
+    margin: 0;
+    font-size: 1.2rem;
+}
+.season-header > button{
+    background-color: var(--button-background);
+    border-radius: 0.75rem;
+    border: none;
+    color: white;   
+    padding: 0.75rem;
+}
+.season-header > button:hover{
+    background-color: var(--accent-color);
+    cursor: pointer;
+}
+/* --------------------------------- episodes data in a season -------------------------*/
+
+.season-details > .top-section > button{  /* close the expanded section button */
+    color: white;
+    background-color: var(--button-background);
+    position: absolute; right: 1rem; top : 0.75rem;
+    padding: 0.5rem; padding-inline: 1rem;
+    border: none;
+    border-radius: 1rem;
+}
+.season-details > .top-section > button:hover{  /* close the expanded section button */
+    background-color: var(--accent-color-2);
+}
+
+.full-view > .season-details{
+    display: none;
+}
+.side-view > .season-details{
+    position: relative;
+    width: calc(100% - 200px); min-height: 400px; height: fit-content; max-height: 1000px;
+    margin: 0.5rem;
+    background-color: rgba(60,60,60,0.3);
+    border-radius: 1.5rem;
+    font-family: "open sans";
+    color: white;
+    overflow: auto;
+}
+.side-view > .season-headers-container > .active{
+    background-color: rgb(144, 107, 191);
+}
+.season-details > .top-section{
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    padding-inline-end: 5rem;
+    padding-inline-start: 2rem;
+    background-color: rgba(18, 18, 18, 0.3);
+    backdrop-filter: blur(10px);
+    opacity: 0.8;
+    font-weight: 600;
+}
+.season-details > .episode-details{
+    font-size: 1rem;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 0.25px solid; /* Adjust the thickness as needed */
+    border-image: linear-gradient(
+        to right,
+        transparent,
+        rgba(255,255,255,0.3) 15%, /* Adjust the starting point of white as needed */
+        rgba(255,255,255,0.3) 85%, /* Adjust the ending point of white as needed */
+        transparent
+    ) 1 stretch;
+    padding-inline-end: 4rem;
+    padding-inline-start: 2rem;
+    height: 3rem;
+}
+
+.season-details > .episode-details:hover{
+    background-color: rgba(16, 10, 21, 0.2);
+}
+
+.season-details > .episode-details > button {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    background-color: rgba(11, 11, 11, 0.4);
+    border-radius: 0.75rem;
+    border: none;
+    color: white;   
+    padding: 0.5rem;
+    display: none;
+}
+.season-details > .episode-details > button:hover{
+    background-color: var(--accent-color);
+}
+.season-details > .episode-details:hover > button{
+    display: block;
+}
+.extra-contents{
+    opacity: 0.6;
+}
+
+@media (max-width: 1200px) {
+    .extra-contents {
+        display: none; /* This will hide the .extra-contents */
+    }
+}

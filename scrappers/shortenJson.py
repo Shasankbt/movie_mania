@@ -1,21 +1,5 @@
 import json
 
-def shortenDataOld(input_file,output_file):
-    with open(input_file) as file:
-        allMovies = json.loads(file.read())
-
-    movieShort = [{
-            "Title" : movie["Title"],
-            "Year" : movie["Year"],
-            "imdbRating" : movie["imdbRating"],
-            "Poster" : movie["Poster"],
-            "imdbID" : movie["imdbID"]
-        } for movie in allMovies
-    ]
-    with open(output_file, "w") as file:
-        file.write(json.dumps(movieShort))
-
-
 def shortenDataNew(input_file,output_file):
     with open(input_file) as file:
         allMovies = json.loads(file.read())

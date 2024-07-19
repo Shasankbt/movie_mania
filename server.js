@@ -1,6 +1,10 @@
-const fs = require('fs')
-const express = require('express')
-const session = require('express-session')
+// const fs = require('fs');
+import fs from 'fs';
+import express from "express";
+import session from "express-session"
+
+// const express = require('express')
+// const session = require('express-session')
 const app = express()
 
 app.listen(4000)
@@ -12,31 +16,122 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 
+app.use('/snippets', express.static('snippets'));
+// ------------------------ data ---------------------------------
+const movieData = JSON.parse(fs.readFileSync('basic_data/movies.json', 'utf8'));
+const episodeData = JSON.parse(fs.readFileSync('basic_data/episodes.json', 'utf8'));
+const seriesData = JSON.parse(fs.readFileSync('basic_data/series.json', 'utf8'));
 // ------------------------ main pages ----------------------------
-app.get('/' , (req,res) =>{
+app.get('/', (req, res)=>{
+    const parseDate = (dateStr) => {
+        // Remove the country part and trim the string
+        const cleanedDateStr = dateStr.split(' (')[0];
+        return new Date(cleanedDateStr);
+    };
+
+    console.time('recent Releases');
+    const recentReleases = Object.values(movieData)
+        .filter(movie => movie !== null)
+        .sort((a, b) => parseDate(b.Released) - parseDate(a.Released))
+        .slice(0, 10);
+    console.timeEnd('recent Releases');
+
+    
     const currentUserName = req.session.userName || 'Guest';
-    res.render('home.ejs', {user : currentUserName})
+    res.render("homepage.ejs", {
+        user: currentUserName,
+        recentReleases : encodeURIComponent(JSON.stringify(recentReleases))
+    })
+})
+app.get('/top100movies' , (req,res) =>{
+    const top100 =  Object.values(movieData).filter(movie => movie !== null).sort( (movie1, movie2) => {return movie2.imdbRating - movie1.imdbRating})
+    const currentUserName = req.session.userName || 'Guest';
+    res.render('top100.ejs', {
+        user : currentUserName,
+        top100movies : encodeURIComponent(JSON.stringify(top100.slice(0,100)))
+    })
+})
+app.get('/top100tvseries' , (req,res) =>{
+    const top100 =  Object.values(seriesData).filter(movie => movie !== null).sort( (movie1, movie2) => {return movie2.imdbRating - movie1.imdbRating})
+    const currentUserName = req.session.userName || 'Guest';
+    res.render('top100.ejs', {
+        user : currentUserName,
+        top100movies : encodeURIComponent(JSON.stringify(top100.slice(0,100)))
+    })
 })
 
-app.get('/test' , (req,res) =>{
-    res.send("in the /test part")
-})
-
-app.get('/id=:id', (req,res) =>{
+app.get('/movie/:id', (req,res) =>{
     const currentUserName = req.session.userName || 'Guest';
     const id = req.params.id;
 
-    userReviews = JSON.parse(fs.readFileSync("userReviews.json"))
+    const userReviews = JSON.parse(fs.readFileSync("userReviews.json"))
     if( userReviews[id] === undefined) userReviews[id] = {}
 
-    externalReviews = JSON.parse(fs.readFileSync("metacriticReviews.json"))
+    const externalReviews = JSON.parse(fs.readFileSync("metacriticReviews.json"))
     if( externalReviews[id] === undefined) externalReviews[id] = {}
 
     res.render('moviepage.ejs',{
+        movieID : encodeURIComponent(id),
+        movieData : encodeURIComponent(JSON.stringify(movieData[id])),
+        user : encodeURIComponent(currentUserName),
+        userReviewJson : encodeURIComponent(JSON.stringify(userReviews[id])),
+        externalReviews : encodeURIComponent(JSON.stringify(externalReviews[id]))
+     })
+})
+
+app.get('/series/:id', (req,res) =>{
+    const currentUserName = req.session.userName || 'Guest';
+    const id = req.params.id;
+
+    const userReviews = JSON.parse(fs.readFileSync("userReviews.json"))
+    if( userReviews[id] === undefined) userReviews[id] = {}
+
+    const externalReviews = JSON.parse(fs.readFileSync("metacriticReviews.json"))
+    if( externalReviews[id] === undefined) externalReviews[id] = {}
+
+    let localEpisodeData = {}
+    Object.values(seriesData[id]["Episodes"]).forEach(season_object => {
+        Object.values(season_object).forEach(episode_id => {
+            localEpisodeData[episode_id] = episodeData[episode_id]
+        })
+    })
+
+    res.render('seriespage.ejs',{
         movieName : encodeURIComponent(id),
         user : encodeURIComponent(currentUserName),
+        seriesData : encodeURIComponent(JSON.stringify(seriesData)),
+        episodeData : encodeURIComponent(JSON.stringify(localEpisodeData)), 
+        userReviewJson : encodeURIComponent(JSON.stringify(userReviews[id])),
+        externalReviews : encodeURIComponent(JSON.stringify(externalReviews[id]))
+     })
+})
+
+app.get('/series/:parent_id/episode/:episode_id', (req,res) =>{
+    const currentUserName = req.session.userName || 'Guest';
+    const id = req.params.episode_id;
+    const parent_imdbID = req.params.parent_id
+
+    let userReviews = JSON.parse(fs.readFileSync("userReviews.json"))
+    if( userReviews[id] === undefined) userReviews[id] = {}
+
+    let externalReviews = JSON.parse(fs.readFileSync("metacriticReviews.json"))
+    if( externalReviews[id] === undefined) externalReviews[id] = {}
+
+
+    let localEpisodeData = {}
+    Object.values(seriesData[parent_imdbID]["Episodes"]).forEach(season_object => {
+        Object.values(season_object).forEach(episode_id => {
+            localEpisodeData[episode_id] = episodeData[episode_id]
+        })
+    })
+    localEpisodeData[id]["Poster"] = seriesData[parent_imdbID]["Poster"]
+    res.render('episodePage.ejs',{
+        movieName : encodeURIComponent(id),
+        user : encodeURIComponent(currentUserName),
+        episodeList : encodeURIComponent(JSON.stringify(seriesData[parent_imdbID])),
+        episodeData : encodeURIComponent(JSON.stringify(localEpisodeData)),
         userReviewJson : encodeURIComponent(JSON.stringify(userReviews[id])),
         externalReviews : encodeURIComponent(JSON.stringify(externalReviews[id]))
      })
@@ -67,13 +162,19 @@ app.get("/suggestions", (req, res) => {
 })
 
 app.get("/academy-awards", (req, res) => {
+    const oscarLib = JSON.parse(fs.readFileSync("basic_data/oscar_lib.json"))
+    let oscarMovieData = {}
     const currentUserName = req.session.userName || 'Guest';
-    // const currentUserName = req.session.userName || 'Guest';
-    // parsedUserData = JSON.parse(fs.readFileSync('user.json'))
-    // if(parsedUserData[currentUserName] === undefined) reviewedMovieNames = {}
-    // else reviewedMovieNames = parsedUserData[currentUserName]["moviesReviewed"]
-    // res.render('suggestionsPage.ejs', {user : currentUserName, reviewedMovieNames : encodeURIComponent(JSON.stringify(reviewedMovieNames))})
-    res.render("academyAwards.ejs", {user : currentUserName})
+    Object.values(oscarLib).forEach(oscarAward => {
+        Object.keys(oscarAward).forEach(imdbID =>{
+            oscarMovieData[imdbID] = movieData[imdbID]
+        })
+    })
+    res.render("academyAwards.ejs", {
+        user : currentUserName,
+        oscarLib : encodeURIComponent(JSON.stringify(oscarLib)),
+        oscarData : encodeURIComponent(JSON.stringify(oscarMovieData))
+    })
 })
 
 // -------------------------------- verifying user details and valid login ----------------------
@@ -134,6 +235,7 @@ app.post("/review", (req,res) => {
 
     fs.writeFileSync("userReviews.json" , JSON.stringify(userReviews))
     fs.writeFileSync("user.json", JSON.stringify(userData))
-    res.redirect("/id=" + movieName) 
+    //res.redirect(req.get('referer')) 
+    res
     
 })

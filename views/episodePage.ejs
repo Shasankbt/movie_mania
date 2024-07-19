@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<head>
+    <title>FilmCritic</title>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/moviePageCSS/upperPage.css">
+    <link rel="stylesheet" href="/css/moviePageCSS/reviews.css">
+    <link rel="stylesheet" href="/css/moviePageCSS/lowerPage.css">
+    <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/css/topBar.css">
+    <link rel="stylesheet" href="/css/moviePageCSS/seriesPage.css">
+    <style>
+        #parent-series-title{
+            font-weight: 600;
+            transition: all 0.15s;
+            word-spacing: 2px;
+        }
+        #parent-series-title:hover{
+            color:rgb(187, 172, 207);
+            word-spacing: 4px;
+            cursor: pointer;
+        }
+    </style>
+    <!-----------------------------------------FONTS--------------------------------------------    -->
+    <script src="https://kit.fontawesome.com/663c835d81.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+    <!--------------------------------------SCRIPTS----------------------------------------------->
+    <script src="/scripts/moviePageScripts/navSidebar.js"></script>
+    <!--    these scripts contain functions which render page when
+        username, movieReviewObject and movieName is passed
+        This is for simplicity and to make sure that page is loaded properly before js
+            these are executed below this ejs file
+    -->
+  
+    
+</head>
+<body>
+
+    <div class="top-bar"></div>
+    <script src="/scripts/topBarScripts/addTopBarHtml.js"></script>
+    <script>setUser("<%=user %>")</script>
+    <script src="/scripts/topBarScripts/topBar.js" type="module"></script>
+        <!-- since the topBar includes other js files , it has to be treated as a module -->
+
+    <template movie-card-search-template>
+        <div class="movie-card-search">
+            <div class="image-box"><img src="" poster></div>
+            <p style="padding-left: 1rem; margin-top: 0.25rem; font-size: 1.1rem; font-weight: 600; opacity: 0.9; max-width: 25rem; overflow: hidden;" title></p>
+         </div>
+    </template>
+    
+   
+    <div class="navigation-sidebar">
+
+        <button class="nav-button" data-location="#overview-id">Overview</button>
+        <button class="nav-button" data-location="#cast-and-crew-id">Cast & Crew</button>
+        <button class="nav-button" data-location="#plot-id">Plot</button>
+        <button class="nav-button" data-location="#reviews-id">Reviews</button>
+        <button class="nav-button" data-location="#external-reviews-id">External Reivews</button>
+        <button class="nav-button" data-location="#similar-movies-id">Watch More</button>
+
+    </div>
+
+    <div class="main-div">
+
+        <!--    the blurred background of the poster-->
+        <div class="backdrop-image"></div>
+        <div class="navigation-sidebar-backdrop"></div>
+        <!------------------------------- OVERVIEW ------------------------------->
+        <div class="overview" id="overview-id">
+                <div class="movie-poster"><img style="height: 100%;" id="movie-poster-id"></div>
+                <div>
+                    <h2 style="color: rgb(255, 255, 255); margin-bottom: 0px; margin-top: 0px;" id="title-id"></h2>
+                    <hr style="opacity: 0.15; margin: 0;" >
+                    <div class="info" >
+                        <p id="parent-series-link"></p>
+                    </div>
+                    <hr style="opacity: 0.15; margin: 3px;">
+                    <h4 class="quote"></h4>   
+                </div>
+             
+        </div>
+
+        
+
+        <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem; position: relative;">
+
+        <!----------------------------- EPISODES ------------------------------->
+        <div class="seasons" id="seasons">
+            <h4>Seasons :</h4>
+            <div style="display: flex;" class="seasons-and-episodes full-view">
+                
+                <div class="season-headers-container">
+                    <template season-header-template>
+                        <div class="season-header">
+                            <div>
+                                <p season></p><p><span style="opacity: 0.5;" class="hidable" episode-count></span></p> 
+                            </div>
+                            <p><span style="opacity: 0.8; font-weight: 600;" class="hidable" season-rating></span></p>
+                            <button><i class="fa-solid fa-up-right-and-down-left-from-center"></i></button>
+                        </div>
+                    </template>
+                </div>
+                <template episode-details-template>
+                    <div class="episode-details">
+                        <p episode-index-and-title><span style="opacity: 0.6;"></span></p>
+                        <p episode-release-and-rating><span style="opacity: 0.6;"></span>8.9/10</p>
+                        <button><i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+                    </div>
+                </template>
+                <div class="season-details">
+                    <div class="top-section">
+                        <p class="extra-contents">watchtime: 8h 46m</p>
+                        <p> Season-1  • 10 Episodes</p>
+                        <p>9.6/10</p>
+                        <button class="close-details"><i class="fa-solid fa-xmark"></i></button>
+                    </div>               
+                </div>
+            </div>
+        </div>
+
+
+        <hr style="opacity: 0.5; margin: 3rem; margin-inline: 1rem; position: relative;">
+        <!----------------------------- CAST & CREW ------------------------------->
+        <div class="cast-and-crew" id="cast-and-crew-id">
+            <h4>Director : <span id="director-id"></span></h4>
+            <h4>Cast :</h4>
+            <ul id="cast-list-id"></ul>
+        </div>
+
+        <hr>
+
+        <!------------------------------- PLOT ------------------------------------>
+        <div class="plot" id="plot-id">
+            <h4 style="font-weight: 600; margin-bottom: 0rem;">Plot:</h4>
+            <p id="plot-content-id" style="margin-left: 3rem;"></p>
+        </div>
+
+        <hr>
+
+        <!------------------------------ REVIEWS ---------------------------------->
+        <div class="reviews" id="reviews-id">
+            <h4>Reviews:</h4>
+            <div class="contents">
+                <p>Your Review : </p>
+                <p id="user-review-stat"></p><!-- to display if the user has already reviewed or not-->
+                <button class="new-review-button">Write your review</button>
+
+                <!-- this is the review page which will be hidden by default -->
+                <div style="width: 100%; position: relative;">  
+                    <form class="new-review-form" action="/review" method="post" style="display: none;">
+
+                        <textarea id="review-input" name="review" required></textarea>
+                        <script>
+                            document.getElementById("review-input").addEventListener("input", (event)=>{
+                                event.target.style.height = "10px";
+                                event.target.style.height = event.target.scrollHeight + 'px';
+                                
+                            })
+                        </script>
+                        <div class="rating-input">
+                            <span style="opacity: 0.6;"><span class="material-symbols-outlined">
+                                star
+                                </span></span> 
+                            <select id="rating-input" name="rating" required>
+                                <option value="" disabled selected></option>
+                                <option value="5" style="background:rgba(40,40,40)">5</option>
+                                <option value="4" style="background:rgba(40,40,40)">4</option>
+                                <option value="3" style="background:rgba(40,40,40)">3</option>
+                                <option value="2" style="background:rgba(40,40,40)">2</option>
+                                <option value="1" style="background:rgba(40,40,40)">1</option>
+                            </select>
+                              
+                        </div>
+                        <button type="submit" value="<%= movieName %>" name="submitReview" >Go</button>
+                    
+                    </form>
+                </div>
+
+
+                <p>What others think : </p>
+                <div class="review-container-with-filter">
+
+                    <div class="filter-section">
+                        <button class="toggle-filter" style="border-left: none; border-top-left-radius: 1rem; border-bottom-left-radius: 1rem;">
+                            <i class="fa-solid fa-filter">        
+                        </i></button>
+                        <button class="filter-button" data-filter-value="1">1</button>
+                        <button class="filter-button" data-filter-value="2">2</button>
+                        <button class="filter-button" data-filter-value="3">3</button>
+                        <button class="filter-button" data-filter-value="4">4</button>
+                        <button class="filter-button" data-filter-value="5" style="border-right: none; border-top-right-radius: 1rem; border-bottom-right-radius: 1rem;">5</button>
+                    </div>
+                    
+                    <p id="otherusers-review-stat" style="display: none;">seems no one else has reviewd</p>
+                    <div class="review-grid"></div>
+                </div>
+
+                <!-- to display the reviews from the reviews.json-->
+                <template review-card-template>
+                    <div class="review-card compact-section">
+                        <div class="filter-mask"></div>
+                        <button class="view-more-button"></button>
+                            <div class="user-and-rating">
+                                <p rating></p>
+                            </div>
+                            <p class="review-text" style="margin: 0.5rem;" review></p>
+                            <p reviewer-name></p>
+                        
+                    </div>
+                </template>
+            </div>
+            
+            
+        </div>
+
+        <hr>
+
+        <!-- -------------------------------------- EXTERNAL REVIEWS ---------------------------->
+        <div class="external-reviews" id="external-reviews-id">  
+
+            <h4 style="margin-bottom: 1px;">Featured review : </h4>
+            <div class="featured-review"></div>
+
+            <h4 style="margin-bottom: 10px;">Reviews from MetaCritic : </h4>
+            <div class="contents">
+                <div class="metacritic-scores">
+                    <h4>Critic score : <span id="critic-metascore-placeholder"></span></h4>
+                    <h4>user score : <span id="user-metascore-placeholder"></span></h4>
+                </div>
+                
+
+                <h5 style="margin-bottom: 10px ;">Critic Reviews</h5>
+                <div class="review-container-with-filter compact-section">
+                    <div class="filter-mask"></div>
+                    <button class="view-more-button"></button>
+                    <div style="padding: 0rem;" class="filter-section">
+                        <button class="toggle-filter" style="border-left: none; border-top-left-radius: 1rem; border-bottom-left-radius: 1rem;"><i class="fa-solid fa-filter"></i></button>
+                        <button class="filter-button" data-filter-value="positive">positive</button>
+                        <button class="filter-button" data-filter-value="mixed">mixed</button>
+                        <button class="filter-button" data-filter-value="negative" style="border-right: none; border-top-right-radius: 1rem; border-bottom-right-radius: 1rem;">negative</button>
+                    </div>
+                    
+                    <div class="external-critic-review-grid"></div>
+                </div>
+
+                <h5 style="margin-bottom: 10px ;">User Reviews</h5>
+                <div class="review-container-with-filter compact-section">
+                    <div class="filter-mask"></div>
+                    <button class="view-more-button"></button>
+                    <div style="padding: 0rem;" class="filter-section">
+                        <button class="toggle-filter" style="border-left: none; border-top-left-radius: 1rem; border-bottom-left-radius: 1rem;"><i class="fa-solid fa-filter"></i></button>
+                        <button class="filter-button" data-filter-value="positive">positive</button>
+                        <button class="filter-button" data-filter-value="mixed">mixed</button>
+                        <button class="filter-button" data-filter-value="negative" style="border-right: none; border-top-right-radius: 1rem; border-bottom-right-radius: 1rem;">negative</button>
+                    </div>
+                    
+                    <div class="external-user-review-grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+    
+        <!-- ----------------------------------SIMILAR MOVIES ----------------------------------->
+        
+
+        <div class="related-movies" id="similar-movies-id">
+            <h4>Related Movies</h4>
+            <div class="related-movies-gird"></div>
+        </div>
+            
+    
+    </div>
+
+    <div class="footer-div">
+        <p><i class="fas fa-info-circle"></i> Core information from IMDb website</p>
+        <pre>  External Reviews: "Featured review" from IMDb and "Critic & User Reviews" from Metacritic</pre>
+        <pre>  data collected and used for personal purpouses only</pre>
+    </div>
+
+    
+    
+    <!-- the functions used below are from files imported at the top of this file -->
+    <script type="module">
+        import { renderPage } from "/scripts/moviePageScripts/renderEpisodePage.js";
+        import { renderSeasons } from "/scripts/moviePageScripts/renderSeasons.js";
+        import { showReviews , reviewInputSection , addExternalReviews } from "/scripts/moviePageScripts/renderReviewSection.js"
+        import { displaySimilarMovies } from "/scripts/moviePageScripts/displaySimilar.js"
+
+        // ** converting encoded strings to normal
+        // ** for eg, "Schindler'39;s List" is send to this page as "Schindler&#39;s List" by server.js
+        function decodeEntities(encodedString) {
+            const textarea = document.createElement('textarea');
+            textarea.innerHTML = encodedString;
+            return textarea.value;
+        }
+
+        const movieID = decodeEntities(decodeURIComponent('<%= movieName %>'))
+        const userName = decodeEntities(decodeURIComponent('<%= user %>'))
+        const parentSeriesData = JSON.parse(decodeURIComponent("<%= episodeList %>"))
+        const localEpisodeData = JSON.parse(decodeURIComponent("<%= episodeData %>"))
+        const userReviewObject = "<%= userReviewJson %>"
+        const externalReviews = "<%= externalReviews %>"
+
+        console.log(decodeURIComponent(movieID))
+
+        //------------------------------------------------------------------------------
+        // fetch('/organisedData/episodes.json')
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         if (data[movieID] === null)
+        //             console.log("not found")
+        //             else{
+        //                 renderPage(data[movieID])    // from renderMoviePage.js
+        //                 renderSeasons(data[movieID]["Episodes"], movieID)
+        //             }
+        //         })
+        renderPage(localEpisodeData[movieID], parentSeriesData)
+        renderSeasons(parentSeriesData["Episodes"], localEpisodeData[movieID]["Episode-details"]["Parent-series"], localEpisodeData)
+        showReviews(userName , JSON.parse(decodeURIComponent(userReviewObject)))//from renderReviewSection.js        
+        reviewInputSection(userName,movieID)                  // from renderReviewSection.js
+        try{
+            addExternalReviews(JSON.parse(decodeURIComponent(externalReviews))) 
+        }
+        catch{
+            document.getElementById("external-reviews-id").innerHTML = "<span style='opacity : 0.4'>No external Reviews for this movie</span>"
+        }
+    </script>
+
+
+    </div>
+</body>

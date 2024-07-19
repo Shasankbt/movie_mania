@@ -1,31 +1,99 @@
-.movie-grid{
-    z-index: 1;
+.recent-releases-container{
+    min-width: 100px;
+    min-height: 100px;
+    margin: 5rem;
+    margin-top: 5rem;
+}
+.recent-releases-container > .recent-releases-box{
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+}
+
+
+.snippets-container{    
     position: relative;
-    top: 5rem;  left: 1rem;
-    width: calc(100% - 2rem);
-     
-    display: flex;  flex-wrap: wrap;    justify-content: center;
+    margin: 7rem;  
+    padding: 0rem;
+    min-height: fit-content;
+}
+.snippets-container > video{
+    position: absolute;
+    top: 50%;
+}
+.snippets-container > .snippet{
+    position: relative;
+    width: 100%;
+    border-radius: 1rem;
+}
+.snippets-container > progress {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 0%); /* Corrected transform syntax */
 }
 
-
-
-
-
-/* Track */
-::-webkit-scrollbar {
-    width: 6px; /* Width of the scrollbar */
+.snippet-controls-feedback {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #888; /* Color of the scrollbar handle */
-    border-radius: 3px; /* Rounded corners of the handle */
+.snippets-container > .snippet-details > .title-box{
+    position: absolute;
+    bottom: 4rem;
+    left: 2.5rem;
+    
+    opacity: 0.7;
+    
+    font-family: 'raleway';
+}
+.snippets-container > .snippet-details > .title-box > .title{
+    position: relative;
+    font-weight: 600;
+    display: inline-block;
+    font-size: 1.5rem;
+    margin: 0rem;
+}
+.snippets-container > .snippet-details > .title-box > .subtitle{
+    font-size: 0.95rem;
+    margin: 0rem;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Color of the scrollbar handle on hover */
+.snippets-container > .snippet-details > .snippet-progress {
+    position: absolute;
+    width: calc(100% - 7rem);
+    margin-left: 2.5rem;
+    bottom: 3rem;
+    min-height: 0.5rem;
+    border-radius: 0.25rem;
+    background-color: rgba(255,255,255,0.5);
 }
-::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0); /* Background color of the scrollbar track */
+.snippet-progress > .progress-indicator{
+    position: relative;
+    background-color: white;
+    min-height: 0.5rem;
+    border-radius: 0.25rem;
+    width: 0%;
+}
+#time-stamp {
+    position: absolute;
+    right: -3rem;
+    bottom: -0.35rem;
+    font-size: 1rem;
+    margin: 0rem;
+    opacity: 0.5;
+}
+
+.snippets-container > .snippet-details > .snippet-controls {
+    position: absolute;
+    bottom: 1rem;
+    left : 3rem;
+}
+
+.snippets-container > .snippet-details > .snippet-controls > button{
+    background-color: transparent;
+    color: white;
+    border: none;
 }

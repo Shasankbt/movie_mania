@@ -3,15 +3,24 @@ import * as template from "/scripts/template.js"
 const searchInput = document.querySelector(".search-input")
 const searchOutput = document.querySelector("#search-output-id")
 
-let addn_wt = 2.25, subs_wt = 16, del_wt = 14;
-let editDistLimit = 50
+let addn_wt = 2.25, subs_wt = 16, del_wt = 14 ,outer_addn_wt = 0.35;
+
+let editDistLimit = 75
+let maxResults = 40
+
+function extractAlphanumeric(inputStr) {
+    return inputStr.replace(/[^a-zA-Z0-9]/g, '');
+}
 
 function getEditDist(str1, str2) {
-    str1 = str1.toLowerCase();
-    str2 = str2.toLowerCase();
+    str1 = extractAlphanumeric(str1.toLowerCase());
+    str2 = extractAlphanumeric(str2.toLowerCase());
 
-    if (str2.includes(str1)) 
-        return Math.round(0.35 * (str2.length - str1.length));
+    if (str1.length >= 5 &&  str2.includes(str1)) {
+        console.log(str2)
+        return Math.round(0.15 * (str2.length - str1.length));
+    }
+
        
 
     let matrix = Array(str1.length + 1).fill().map(() => Array(str2.length + 1).fill(0));
@@ -37,40 +46,42 @@ function getEditDist(str1, str2) {
     return matrix[str1.length][str2.length];
 }
 
-// function createMovieSearchCard(movie){
-//     // here the argument is an object parsed from json
-//     const card = movieCardSearchTemplate.content.cloneNode(true).children[0];
-                
-//     const poster = card.querySelector('[poster]')
-//     const title = card.querySelector('[title]')
 
-//     //poster.src = movie.Poster;
-//     poster.src = "images_lowres/" + movie.imdbID + ".jpg"
-//     title.innerHTML = movie.Title + "<br><span style='opacity : 0.5; font-weight : 500 ; font-size : 1rem;'>" + movie.Year + "</span>";
 
-//     card.addEventListener("click" , () => {
-//         window.location.href = "/id=" + movie.Title;
-//     })
-
-//     return card
-// }
-
-export function displayResults(input, movies){
+export function displayResults(user_search_input, titles, movies, series){
 
     // to remove the previous cards for the fresh ones 
     for (let i = searchOutput.children.length - 1; i >= 0; i--) {
         const child = searchOutput.children[i];
             searchOutput.removeChild(child);        
     }
-
-    if(input != ""){
-        let editDists = Object.values(movies).map((movie, idx) => [getEditDist(input, movie.Title), idx]);
-        let filteredIndices = editDists.filter(tuple => tuple[0] < editDistLimit);
-        let sortedIndices = filteredIndices.sort((a, b) => a[0] - b[0]).map(tuple => tuple[1]);
-
-        for (let idx of sortedIndices) {
-            searchOutput.appendChild(template.createMovieSearchCard(Object.values(movies)[idx]))
+    let results_count = 0
+    if(user_search_input != ""){
+        let distArray = [];
+        console.log(titles)
+        for(let [title, imdbID] of titles){
+            const edit_dist = getEditDist(user_search_input, title)
+            if(edit_dist <= editDistLimit){
+                distArray.push([imdbID, edit_dist])
+                results_count += 1
+            }
         }
+        distArray.sort((a, b) => a[1] - b[1]);
+
+        // let editDists = Object.values(movies).map((movie, idx) => [getEditDist(input, movie.Title), idx]);
+        // let filteredIndices = editDists.filter(tuple => tuple[0] < editDistLimit);
+        // let sortedIndices = filteredIndices.sort((a, b) => a[0] - b[0]).map(tuple => tuple[1]);
+
+        distArray.slice(0, maxResults).forEach( item => {
+            console.log(getEditDist("all quite on the western front","All Quiet on the Western Front"))
+            let search_result = null
+            if(item[0] in movies)
+                search_result = movies[item[0]]
+            else if(item[0] in series)
+                search_result = series[item[0]]
+        
+            searchOutput.appendChild(template.createMovieSearchCard(search_result))
+        })
 
         if(searchOutput.children.length == 0){
             const para = document.createElement('p')
@@ -101,6 +112,4 @@ export function removeResults(){
     searchInput.style.borderBottomRightRadius = "1rem";
     searchInput.style.borderBottomLeftRadius = "1rem";
 }
-
-
 

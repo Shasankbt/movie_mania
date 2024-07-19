@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <head>
     <title>FilmCritic</title>
-    <link rel="stylesheet" href="css/fonts.css">
-    <link rel="stylesheet" href="css/moviePageCSS/upperPage.css">
-    <link rel="stylesheet" href="css/moviePageCSS/reviews.css">
-    <link rel="stylesheet" href="css/moviePageCSS/lowerPage.css">
-    <link rel="stylesheet" href="css/template.css">
-    <link rel="stylesheet" href="css/topBar.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/moviePageCSS/upperPage.css">
+    <link rel="stylesheet" href="/css/moviePageCSS/reviews.css">
+    <link rel="stylesheet" href="/css/moviePageCSS/lowerPage.css">
+    <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/css/topBar.css">
 
     <!-----------------------------------------FONTS--------------------------------------------    -->
     <script src="https://kit.fontawesome.com/663c835d81.js" crossorigin="anonymous"></script>
@@ -14,7 +14,7 @@
     
     
     <!--------------------------------------SCRIPTS----------------------------------------------->
-    <script src="scripts/moviePageScripts/navSidebar.js"></script>
+    <script src="/scripts/moviePageScripts/navSidebar.js"></script>
     <!--    these scripts contain functions which render page when
         username, movieReviewObject and movieName is passed
         This is for simplicity and to make sure that page is loaded properly before js
@@ -26,14 +26,14 @@
 <body>
 
     <div class="top-bar"></div>
-    <script src="scripts/topBarScripts/addTopBarHtml.js"></script>
+    <script src="/scripts/topBarScripts/addTopBarHtml.js"></script>
     <script>setUser("<%=user %>")</script>
-    <script src="scripts/topBarScripts/topBar.js" type="module"></script>
+    <script src="/scripts/topBarScripts/topBar.js" type="module"></script>
         <!-- since the topBar includes other js files , it has to be treated as a module -->
 
     <template movie-card-search-template>
         <div class="movie-card-search">
-            <div class="image-box"><img src="image.jpg" style="height: 100%;" poster></div>
+            <div class="image-box"><img src="" poster></div>
             <p style="padding-left: 1rem; margin-top: 0.25rem; font-size: 1.1rem; font-weight: 600; opacity: 0.9; max-width: 25rem; overflow: hidden;" title></p>
          </div>
     </template>
@@ -124,7 +124,7 @@
                             </select>
                               
                         </div>
-                        <button type="submit" value="<%= movieName %>" name="submitReview" >Go</button>
+                        <button type="submit" value="<%= movieID %>" name="submitReview" >Go</button>
                     
                     </form>
                 </div>
@@ -240,33 +240,36 @@
         import { showReviews , reviewInputSection , addExternalReviews } from "/scripts/moviePageScripts/renderReviewSection.js"
         import { displaySimilarMovies } from "/scripts/moviePageScripts/displaySimilar.js"
 
-        // ** converting encoded strings to normal
-        // ** for eg, "Schindler'39;s List" is send to this page as "Schindler&#39;s List" by server.js
-        function decodeEntities(encodedString) {
-            const textarea = document.createElement('textarea');
-            textarea.innerHTML = encodedString;
-            return textarea.value;
-        }
-
-        const movieName = decodeEntities(decodeURIComponent('<%= movieName %>'))
-        const userName = decodeEntities(decodeURIComponent('<%= user %>'))
         
+
+
+
+        const movieID = decodeURIComponent('<%= movieID %>')
+        const userName = decodeURIComponent('<%= user %>')
+        const movieData = JSON.parse(decodeURIComponent("<%= movieData %>"))
         const userReviewObject = "<%= userReviewJson %>"
         const externalReviews = "<%= externalReviews %>"
 
-        console.log(decodeURIComponent(movieName))
+        console.log(decodeURIComponent(movieID))
 
         //------------------------------------------------------------------------------
-        renderPage(movieName)    // from renderMoviePage.js
-        showReviews(userName , JSON.parse(decodeURIComponent(userReviewObject)))//from renderReviewSection.js        
-        reviewInputSection(userName,movieName)                  // from renderReviewSection.js
-        try{
-            addExternalReviews(JSON.parse(decodeURIComponent(externalReviews))) 
-        }
-        catch{
-            document.getElementById("external-reviews-id").innerHTML = "<span style='opacity : 0.4'>No external Reviews for this movie</span>"
-        }
-        displaySimilarMovies(movieName)     // from displaySimilar.js
+        renderPage(movieData)    // from renderMoviePage.js
+                    showReviews(userName , JSON.parse(decodeURIComponent(userReviewObject)))//from renderReviewSection.js        
+                    reviewInputSection(userName,movieID)                  // from renderReviewSection.js
+                    try{
+                        addExternalReviews(JSON.parse(decodeURIComponent(externalReviews))) 
+                    }
+                    catch{
+                        document.getElementById("external-reviews-id").innerHTML = "<span style='opacity : 0.4'>No external Reviews for this movie</span>"
+                    }
+
+        fetch("/organisedData/movies_short.json")
+            .then(res => res.json())
+            .then(movieData => {
+                displaySimilarMovies(movieData, movieData[movieID])     // from displaySimilar.js
+            })
+                        
+        
     </script>
 
 

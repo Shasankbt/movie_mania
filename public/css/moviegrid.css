@@ -1,0 +1,52 @@
+:root {
+    --base-size: 60px;
+    --margin-images: 3px;
+}
+
+.grid-item {
+    position: relative;
+    width: var(--base-size);
+    height: calc(2 * var(--base-size));
+    background-color: transparent;
+}
+body{background-color: black;}
+
+.img-container {
+    position: relative;
+    height: calc(100% - var(--margin-images) - var(--margin-images));
+    width: calc(100% - var(--margin-images) - var(--margin-images));
+    overflow: hidden;
+    margin: var(--margin-images);
+}
+
+.grid-item > .img-container > img {
+    position: absolute;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.width-2 {
+    width: calc(2 * var(--base-size));
+}
+.width-3 {
+    width: calc(3 * var(--base-size));
+}
+.width-4 {
+    width: calc(4 * var(--base-size));
+}
+.width-5 {
+    width: calc(5 * var(--base-size));
+}
+.width-6 {
+    width: calc(6 * var(--base-size));
+}
+
+.height-3 {
+    height: calc(3 * var(--base-size));
+}
+.height-4 {
+    height: calc(4 * var(--base-size));
+}
+

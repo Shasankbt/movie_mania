@@ -49,6 +49,13 @@
         <div class="backdrop" style="display: none;"></div>
         <div class="awards-popup" style="display: none;">
         
-        
+       <script type="module">
+            import { renderAcademyAwardsPage } from "/scripts/academyAwards.js"
+
+            const oscarLib = JSON.parse(decodeURIComponent("<%= oscarLib %>"))
+            const oscarMovieData = JSON.parse(decodeURIComponent("<%= oscarData %>"))
+
+            renderAcademyAwardsPage(oscarLib,oscarMovieData)
+       </script> 
     </div>
 </body>

@@ -1,22 +1,31 @@
 <head>
     <title>Login to FC</title>
+    <link rel="stylesheet" href="/css/moviegrid.css">
+    <script src="/modules/masonry-layout.js"></script>
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.js"></script>   
     <style>
         h4{
             margin-top: 0rem;
         }
-        .main-container{
+        .filter{
+            z-index: 1;
             position: absolute;
-            left: 50%; top: 50%;
-            transform: translate(-50%, -50%);
-            
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.95));
         }
+        .main-container{
+            z-index: 2;
+            position: absolute;
+            right: 5%; top: 50%;
+            transform: translate(0%, -50%);
+            
+        }   
         .main-container > form {
             display: grid;
             grid-template-columns: 1fr 2fr;
             gap: 20px;
-            box-shadow: 0px 0px 10px 10px rgba(0,0,0,0.3);
             padding: 2rem;
-            background-color: rgba(16, 16, 16, 0.6);
             border-radius: 2rem;
         }
         form > label{
@@ -24,7 +33,7 @@
         }
         form > input {
             color: white;
-            background-color: rgba(40,40,40,0.2);
+            background-color: rgba(0,0,0,0.9);
             border: none;
             border-radius: 1rem;
             height: 2rem;
@@ -71,27 +80,146 @@
 </head>
 
 <body style="background-color:rgb(12, 12, 12);">
-    <div class="main-container">
-        <h4>Login to <span class="logo">FilmCritic</span></h4>
-        <a href="/" style="right: 0rem; top: 0rem; position: absolute;"><button style="width: 3rem;"><i class="fa-solid fa-house"></i></button></a>
-        <form action="/login" method="post">
-            <label for="name-id">User name:</label>
-            <input id="name-id" type="text" name="name" required autocomplete="off">
-            <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> <%= nameErrorMsg %></p>
-
-            <label for="password-id">Passcode:</label>
-            <input id="password-id" type="password" name="password">
-            <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> <%= passwordErrorMsg %></p>
-
-            <button type="submit"><i class="fas fa-sign-in-alt"></i> <span style="opacity: 0.5;">&#x2022;</span> Login</button>
-        </form>
-
-        <p><span style="opacity: 0.6; font-size: 1rem;">didnt create an account ?</span> <a href="/register"><button style="width: 8rem;"><i class="fa-solid fa-user-plus"></i> <span style="opacity: 0.5;">&#x2022;</span> Register</button></a></p>
+    
+    <div class="filter">
+        <div class="main-container">
+            <h4>Login to <span class="logo">FilmCritic</span></h4>
+            <a href="/" style="right: 0rem; top: 0rem; position: absolute;"><button style="width: 3rem;"><i class="fa-solid fa-house"></i></button></a>
+            <form action="/login" method="post">
+                <label for="name-id">User name:</label>
+                <input id="name-id" type="text" name="name" required autocomplete="off">
+                <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> <%= nameErrorMsg %></p>
+    
+                <label for="password-id">Passcode:</label>
+                <input id="password-id" type="password" name="password">
+                <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> <%= passwordErrorMsg %></p>
+    
+                <button type="submit"><i class="fas fa-sign-in-alt"></i> <span style="opacity: 0.5;">&#x2022;</span> Login</button>
+            </form>
+    
+            <p><span style="opacity: 0.6; font-size: 1rem;">didnt create an account ?</span> <a href="/register"><button style="width: 8rem;"><i class="fa-solid fa-user-plus"></i> <span style="opacity: 0.5;">&#x2022;</span> Register</button></a></p>
+        </div>
     </div>
+    <div class="movie-grid">
+        <div class="grid-item width-4"><div class="img-container"><img src="/movie_images/mov_1.jpg" alt=""></div></div>
+        <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_2.jpg" alt=""></div></div>
+        <div class="grid-item height-4 width-2"><div class="img-container"><img src="/movie_images/mov_3.jpg" alt=""></div></div>
+        <div class="grid-item"><div class="img-container"><img src="/movie_images/mov_5.jpg" alt=""></div></div>
+        <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_6.jpg" alt=""></div></div>
+        <div class="grid-item"><div class="img-container"><img src="/movie_images/mov_8.jpg" alt=""></div></div>
+        <div class="grid-item  width-2 height-3"><div class="img-container"><img src="/movie_images/mov_9.jpg" alt=""></div></div>
+        <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_10.jpg" alt=""></div></div>
+        <div class="grid-item width-4"><div class="img-container"><img src="/movie_images/mov_12.jpg" alt=""></div></div>
+        <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_14.jpg" alt=""></div></div>
+        <div class="grid-item width-3 height-4"><div class="img-container"><img src="/movie_images/mov_15.jpg" alt=""></div></div>
+        <div class="grid-item width-4"><div class="img-container"><img src="/movie_images/mov_16.jpg" alt=""></div></div>
+        <div class="grid-item width-5 height-3"><div class="img-container"><img src="/movie_images/mov_13.jpg" alt=""></div></div>
+        <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_17.jpg" alt=""></div></div>
+        <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_18.jpg" alt=""></div></div>
+        <div class="grid-item width-3 height-3"><div class="img-container"><img src="/movie_images/mov_19.jpg" alt=""></div></div>
+        <div class="grid-item width-6 height-3"><div class="img-container"><img src="/movie_images/mov_33.png" alt=""></div></div>
+        <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_20.jpg" alt=""></div></div>
+        <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_22.png" alt=""></div></div>
+        <div class="grid-item width-4"><div class="img-container"><img src="/movie_images/mov_23.png" alt=""></div></div>
+        <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_24.png" alt=""></div></div>
+        <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_25.png" alt=""></div></div>
+        <div class="grid-item width-4"><div class="img-container"><img src="/movie_images/mov_26.png" alt=""></div></div>
+        <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_27.png" alt=""></div></div>
+        <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_28.png" alt=""></div></div>
+        <div class="grid-item width-4 height-3"><div class="img-container"><img src="/movie_images/mov_30.png" alt=""></div></div>
+        <div class="grid-item width-2 height-3"><div class="img-container"><img src="/movie_images/mov_38.png" alt=""></div></div>
+        <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_31.png" alt=""></div></div>
+        <div class="grid-item width-4 height-3"><div class="img-container"><img src="/movie_images/mov_34.png" alt=""></div></div>
+        <div class="grid-item width-2"><div class="img-container"><img src="/movie_images/mov_37.gif" alt=""></div></div>
+        <div class="grid-item"><div class="img-container"><img src="/movie_images/mov_29.png" alt=""></div></div>
+        <div class="grid-item width-5 height-3"><div class="img-container"><img src="/movie_images/mov_35.png" alt=""></div></div>
+        <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_32.png" alt=""></div></div>
+        <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_39.png" alt=""></div></div>
+        <div class="grid-item width-5 height-3"><div class="img-container"><img src="/movie_images/mov_40.png" alt=""></div></div>
+        <div class="grid-item width-2 height-3"><div class="img-container"><img src="/movie_images/mov_41.png" alt=""></div></div>
+        <div class="grid-item width-3"><div class="img-container"><img src="/movie_images/mov_42.png" alt=""></div></div>
+
+
+    </div>
+    
+    <style>
+        .grid-item{
+            img{
+                display: none;
+            }
+        }
+    </style>
     <script>
         document.querySelectorAll(".error-msg").forEach(messageSection => {
             if(messageSection.innerHTML === '<i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> ') messageSection.style.display = "none"
             else messageSection.style.display = "block"
         })
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Select the grid element
+            var grid = document.querySelector('.movie-grid');
+
+            // Initialize Masonry layout
+            var masonry = new Masonry(grid, {
+                itemSelector: ".grid-item",
+                columnWidth: 60,
+                originLeft: true    
+            });
+
+            // Relayout Masonry when all images are loaded
+            imagesLoaded(grid, function() {
+                grid.querySelectorAll("img").forEach(image =>{
+                    image.style.display = "block"
+                })
+                masonry.layout();
+
+            });
+
+                // removed_images = []
+                // let remove = true
+
+                // function loopImages(){
+                //     if(grid.children.length <= 35) remove = false
+                //     if(removed_images.len <= 0) remove = true
+                    
+                //     let image = undefined
+                //     if(remove){
+                //         image = grid.children[0]
+                //         grid.removeChild(image)
+                //         removed_images.push(image)
+                //     }
+                //     else{
+                //         if (removed_images.length > 0) { // Check if there are removed images
+                //             image = removed_images.shift(); // Retrieve and remove the first image from removed_images
+                //             grid.appendChild(image);
+                //         }
+                //     }
+
+                //     masonry.layout();
+                //     // setTimeout(()=>{
+                //     //     console.log(grid)
+                //     //     grid.appendChild(image)
+                //     //     masonry.layout();
+
+                //     // },100)
+                //     setTimeout(loopImages, 5000)
+                // }
+                // setTimeout(loopImages, 1000)
+
+            // setTimeout(()=>{
+            //     document.querySelector(".grid-item").style.display = "none"
+            //     masonry.layout();
+                
+
+            // }, 2000)
+            // setTimeout(()=>{
+            //     document.querySelector(".grid-item").style.display = "block"
+            //     masonry.layout();
+                
+
+            // }, 4000)
+        });
+        
     </script>
 </body>

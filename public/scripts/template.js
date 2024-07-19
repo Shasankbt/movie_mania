@@ -22,43 +22,53 @@ window.movieCardSearchTemplateString = `
 export let movieCardSearchTemplate = document.createElement("template");
 movieCardSearchTemplate.innerHTML = movieCardSearchTemplateString;
 
-function getPosterUrl(movieId, movie, img_dir) {
-    const localPosterUrl = `/${img_dir}/${movieId}.jpg`;
-  
-    return fetch(localPosterUrl)
-      .then(response => {
-        if (response.ok) {
-          return localPosterUrl; // Image found locally
-        } else {
-          throw new Error("Local image not found");
-        }
-      })
-      .catch(error => {
-        console.warn(`Unable to get poster locally for movie ${movieId}: ${error}`);
-        // Try fetching the poster online
-        const onlinePosterUrl = movie["imdbID"]?.Poster;
-        if (onlinePosterUrl) {
-          return onlinePosterUrl;
-        } else {
-          console.warn(`Poster URL not available for movie ${movieId}`);
-          return ""; // or any default image URL
-        }
-      });
-  }
+function getPosterUrl(movie_object, img_dir) {
+  const movieId =  movie_object["imdbID"]
+  const localPosterUrl = `/${img_dir}/${movieId}.jpg`;
+
+  return fetch(localPosterUrl)
+    .then(response => {
+      if (response.ok) {
+        return localPosterUrl; // Image found locally
+      } else {
+        throw new Error("Local image not found");
+      }
+    })
+    .catch(error => {
+      console.warn(`Unable to get poster locally for movie ${movieId}: ${error}`);
+      // Try fetching the poster online
+      const onlinePosterUrl =  movie_object?.Poster;
+      if (onlinePosterUrl) {
+        return onlinePosterUrl;
+      } else {
+        console.warn(`Poster URL not available for movie ${movieId}`);
+        return ""; // or any default image URL
+      }
+    });
+}
 
 
-export function createMovieTemplateCard(movie){
+export function createMovieTemplateCard(item){
     const movieCard = movieCardTemplate.content.cloneNode(true).children[0]
 
     const poster = movieCard.querySelector("[poster]");
     const title = movieCard.querySelector("[title]");
     const moreInfo = movieCard.querySelector("[more-info]");
-    
-    movieCard.setAttribute("data-target",routes.getMoviePageAddress(movie["imdbID"]))
-    getPosterUrl(movie["imdbID"], movie, "images_highres")
+
+    if("Type" in item && (item["Type"] == "TV Series"  || item["Type"] == "TV Mini Series")){
+        movieCard.setAttribute("data-target",routes.getSeriesPageAddress(item["imdbID"]))
+      }
+      
+      else{
+            movieCard.setAttribute("data-target",routes.getMoviePageAddress(item["imdbID"]))
+        }
+      
+
+
+    getPosterUrl(item,"images_highres")
         .then(finalPosterUrl => {poster.src = finalPosterUrl;});
-    title.innerHTML = movie.Title;
-    moreInfo.innerHTML = movie.Year + " &#x2022; " + "IMDB : " + movie.imdbRating;
+    title.innerHTML = item.Title;
+    moreInfo.innerHTML = item.Year + " &#x2022; " + "IMDB : " + item.imdbRating;
 
     movieCard.addEventListener("click",() =>{
         window.location.href = movieCard.getAttribute('data-target');
@@ -67,7 +77,7 @@ export function createMovieTemplateCard(movie){
     return movieCard
 }
 
-export function createMovieSearchCard(movie){
+export function createMovieSearchCard(item){
     // here the argument is an object parsed from json
     const card = movieCardSearchTemplate.content.cloneNode(true).children[0];
                 
@@ -75,12 +85,34 @@ export function createMovieSearchCard(movie){
     const title = card.querySelector('[title]')
 
     //poster.src = movie.Poster;
-    poster.src = "images_lowres/" + movie.imdbID + ".jpg"
-    title.innerHTML = movie.Title + "<br><span style='opacity : 0.5; font-weight : 500 ; font-size : 1rem;'>" + movie.Year + "</span>";
+    getPosterUrl(item, "images_lowres")
+      .then(finalImageUrl => {
+        poster.src = finalImageUrl
+      })
 
-    card.addEventListener("click" , () => {
-        window.location.href = routes.getMoviePageAddress(movie['imdbID']);
-    })
+    if("Type" in item && item["Type"] == "TV Series"){
+      title.innerHTML = item.Title + "<br><span style='opacity : 0.5; font-weight : 500 ; font-size : 1rem;'>" + item.Year + " &#x2022; TV-series" + "</span>";
+      card.addEventListener("click" , () => {
+          window.location.href = routes.getSeriesPageAddress(item['imdbID']);
+      })
+    }
+    else if("Type" in item && item["Type"] == "TV Mini Series"){
+        title.innerHTML = item.Title + "<br><span style='opacity : 0.5; font-weight : 500 ; font-size : 1rem;'>" + item.Year + " &#x2022; TV mini series" + "</span>";
+        card.addEventListener("click" , () => {
+            window.location.href = routes.getSeriesPageAddress(item['imdbID']);
+        })
+
+    }
+    else{
+      title.innerHTML = item.Title + "<br><span style='opacity : 0.5; font-weight : 500 ; font-size : 1rem;'>" + item.Year + "</span>";
+      card.addEventListener("click" , () => {
+          window.location.href = routes.getMoviePageAddress(item['imdbID']);
+      })
+    }
+
+
+
+    
 
     return card
 }

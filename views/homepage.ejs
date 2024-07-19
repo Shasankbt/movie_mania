@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<head>
+    <title>FilmCritic</title>
+    <link rel="stylesheet" href="/css/topBar.css">
+    <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/homepage.css">
+
+    <script src="https://kit.fontawesome.com/663c835d81.js" crossorigin="anonymous"></script>
+</head>
+
+<body style="background-color: rgb(21, 25, 27);">
+    <!--                Top Bar                 --> 
+    <div class="top-bar"></div>
+    <script src="/scripts/topBarScripts/addTopBarHtml.js"></script>
+    <script>setUser("<%=user %>")</script>
+    <script src="/scripts/topBarScripts/topBar.js" type="module"></script>
+
+    <div class="recent-releases-container">
+        <h4 style="margin-left: 3rem; opacity: 0.5;">Recently Released</h4>
+        <div class="recent-releases-box"></div>
+    </div>
+
+    <div class="snippets-container">
+        <video class="snippet"  muted="muted">
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+
+        </video>
+        <progress id="loading-progress" value="40" max="100"></progress>
+        <div class="snippet-controls-feedback"></div>
+        <div class="snippet-details">
+            <div class="title-box">
+                <p class='title'></p>
+                <p class="subtitle"></p>
+            </div>
+            <div class="snippet-progress">
+                <div class="progress-indicator"></div>
+                <p id="time-stamp">1:30</p>
+            </div>
+            
+            <div class="snippet-controls">
+                <button id="play-and-pause"></button>
+                <button id="next">next</button>
+                <button id="prev">prev</button>
+                <button id="mute-and-unmute"><i class="fa-solid fa-volume-xmark"></i></button>
+                <button id="fullscreen">Fullscreen</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/scripts/homepage/snippetsGenerator.js">
+    </script>
+
+
+    <script type="module">
+        import { displayRecentReleases } from "/scripts/homepage/homepage.js"
+        const recentReleases = JSON.parse(decodeURIComponent("<%= recentReleases %>")) 
+    </script>
+</body>
