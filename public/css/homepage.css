@@ -11,9 +11,13 @@
 }
 
 
+
+/* -------------------------------- snippets -----------------------------*/
 .snippets-container{    
     position: relative;
-    margin: 7rem;  
+    margin: 17rem; 
+    margin-top: 0rem; 
+    margin-bottom: 0rem;
     padding: 0rem;
     min-height: fit-content;
 }
