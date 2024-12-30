@@ -278,16 +278,17 @@ document.addEventListener("DOMContentLoaded", ()=>{
     
     // video fetcher function
     let currentFetchController;
-    function fetchVideo(url){
-        if (currentFetchController) {
-            currentFetchController.abort();
-        }
+    function fetchVideo(filename){
+
+        if (currentFetchController) { currentFetchController.abort(); }
         currentFetchController = new AbortController();
         const signal = currentFetchController.signal;
 
+        const url = `/snippets/${filename}`;
+
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
+            xhr.open('POST', url, true);
             xhr.responseType = 'blob';
             
             xhr.onprogress = (event) => {
@@ -319,7 +320,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
     async function loadVideo(snippet_address, current_snippet_idx, snippetObject){
         return new Promise((resolve, reject) => {
   
-
             //update title
             snippetTitleBox.querySelector(".title").innerHTML = snippet_address[current_snippet_idx].title
             snippetTitleBox.querySelector(".subtitle").innerHTML = snippet_address[current_snippet_idx].subtitle
@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 if(snippet_address[current_snippet_idx].videoBlob === undefined){
                     snippetObject.loading = true
                     snippetObject.showLoadingScreen()
-                    const data  = await fetchVideo(snippet_address[current_snippet_idx].address)
+                    const data  = await fetchVideo(snippet_address[current_snippet_idx].file)
                     if(data.success){
                         snippetObject.loading = false
                         snippet_address[current_snippet_idx].videoBlob = data.url
@@ -349,13 +349,20 @@ document.addEventListener("DOMContentLoaded", ()=>{
     }
     function fetchSnippetAddress(){
         return new Promise((resolve, reject) => {
-            fetch("/snippets.json")
+            fetch("/snippet_address", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON
+            })
                 .then(response => response.json())
                 .then(data => resolve(data))
         })
     }
     fetchSnippetAddress()
         .then(snippet_address => {
+            console.log(snippet_address)
             MAIN(snippet_address)
         })
 

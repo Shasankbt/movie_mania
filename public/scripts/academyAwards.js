@@ -2,28 +2,28 @@ import * as routes from "/scripts/routesManager.js"
 
 function getPosterUrl(movie_obj, img_dir) {
 
-    const localPosterUrl = `/${img_dir}/${movie_obj["imdbID"]}.jpg`;
+    const localPosterUrl = `/${img_dir}/${movie_obj["imdbID"]}`;
+
+    console.log("address for ", movie_obj["imdbID"], " : ", movie_obj["Poster"])
   
-    return fetch(localPosterUrl)
-      .then(response => {
-        if (response.ok) {
-          return localPosterUrl; // Image found locally
-        } else {
-          throw new Error("Local image not found");
-        }
-      })
-      .catch(error => {
-        console.warn(`Unable to get poster locally for movie ${movieId}: ${error}`);
-        // Try fetching the poster online
-        const onlinePosterUrl = movies[movieId]?.Poster;
-        if (onlinePosterUrl) {
-          return onlinePosterUrl;
-        } else {
-          console.warn(`Poster URL not available for movie ${movieId}`);
-          return ""; // or any default image URL
-        }
-      });
-  }
+    return fetch(localPosterUrl, {
+        method: "POST", 
+        body: JSON.stringify({
+            "imdbID": movie_obj["imdbID"],
+            "online_poster_url": movie_obj["Poster"]
+        }) 
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.blob().then(blob => {
+                    console.log(URL.createObjectURL(blob))
+                    return URL.createObjectURL(blob); // Create object URL for local image
+                });
+            } else {
+                throw new Error("Local image not found");
+            }
+    }) 
+}
 
 
     const awardsPopup = document.querySelector(".awards-popup")

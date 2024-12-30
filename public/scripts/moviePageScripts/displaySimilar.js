@@ -26,6 +26,4 @@ export function displaySimilarMovies(data, currentMovie){
             destination.appendChild(template.createMovieTemplateCard(movie)); 
         }
     })  
-
-    
 }

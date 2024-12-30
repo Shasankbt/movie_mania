@@ -8,17 +8,37 @@ let movies = null
 let series = null
 const searchBarDiv = document.querySelector(".search-bar-div")
 
-fetch(getFileLocation("titles"))
+fetch("/shortData/titles", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({})
+})
     .then(res => res.json())
     .then(data => {titles_map = new Map(Object.entries(data))})
 
-fetch(getFileLocation("movies-short"))
+fetch("/shortData/movies-short", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({})
+})
     .then(res => res.json())
     .then(data => {movies = data})
 
-fetch(getFileLocation("series-short"))
+fetch("/shortData/series-short", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({})
+})
     .then(res => res.json())
     .then(data => {series = data})
+
+console.log("titles_map: ", titles_map)
 
 document.addEventListener("DOMContentLoaded", () =>{
     // navigating through webpages
