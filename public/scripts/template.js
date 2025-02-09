@@ -22,28 +22,52 @@ window.movieCardSearchTemplateString = `
 export let movieCardSearchTemplate = document.createElement("template");
 movieCardSearchTemplate.innerHTML = movieCardSearchTemplateString;
 
-function getPosterUrl(movie_object, img_dir) {
-  const movieId =  movie_object["imdbID"]
-  const localPosterUrl = `/${img_dir}/${movieId}.jpg`;
+export function getPosterUrl(movie_object, img_dir) {
+    // this is a temp fix 
+    // const image_type = img_dir.split("_")[1]
+    // const movieId =  movie_object["imdbID"]
 
-  return fetch(localPosterUrl)
-    .then(response => {
-      if (response.ok) {
-        return localPosterUrl; // Image found locally
-      } else {
-        throw new Error("Local image not found");
-      }
-    })
-    .catch(error => {
-      console.warn(`Unable to get poster locally for movie ${movieId}: ${error}`);
-      // Try fetching the poster online
-      const onlinePosterUrl =  movie_object?.Poster;
-      if (onlinePosterUrl) {
-        return onlinePosterUrl;
-      } else {
-        console.warn(`Poster URL not available for movie ${movieId}`);
-        return ""; // or any default image URL
-      }
+    // return fetch(img_dir)
+    //   .then(response => {
+    //     if (response.ok) {
+    //       return localPosterUrl; // Image found locally
+    //     } else {
+    //       throw new Error("Local image not found");
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.warn(`Unable to get poster locally for movie ${movieId}: ${error}`);
+    //     // Try fetching the poster online
+    //     const onlinePosterUrl =  movie_object?.Poster;
+    //     if (onlinePosterUrl) {
+    //       return onlinePosterUrl;
+    //     } else {
+    //       console.warn(`Poster URL not available for movie ${movieId}`);
+    //       return ""; // or any default image URL
+    //     }
+    //   });
+
+    return new Promise((resolve) => {
+        const url = "/" + img_dir.replace("_", "-") + "/" + movie_object["imdbID"] + ".jpg";
+        fetch(url, { method: "HEAD" })
+        .then(response => {
+            if (response.ok) {
+                resolve(url);  // Return the local image URL
+            } else {
+                // fetch("/images/download", {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({
+                //         id: movie_object.imdbID,
+                //         onlineUrl : movie_object["Poster"]
+                //     })
+                // })
+                resolve(movie_object["Poster"]);  // Return the online poster URL
+            }
+        })
+        .catch(() => {
+            resolve("/images/default.jpg"); // Default fallback in case of fetch failure
+        });
     });
 }
 

@@ -14,6 +14,7 @@ const dbConfig = {
     snippetsDirectory : "DATA/snippets/",
 
     highresImagesDir : "DATA/images_highres/",
+    lowresImagesDir : "DATA/images_lowres/"
 }
 
 export default dbConfig;

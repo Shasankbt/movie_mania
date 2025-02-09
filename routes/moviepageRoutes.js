@@ -6,8 +6,8 @@ router.get('/movie/:id', (req,res) =>{
     const currentUserName = req.session.userName || 'Guest';
     const id = req.params.id;
 
-    if( req.userReviews[id] === undefined) userReviews[id] = {}    
-    if( req.externalReviews[id] === undefined) externalReviews[id] = {}
+    if( req.userReviews[id] === undefined) req.userReviews[id] = {}    
+    if( req.externalReviews[id] === undefined) req.externalReviews[id] = {}
 
     res.render('moviepage.ejs',{
         movieID : encodeURIComponent(id),
@@ -71,5 +71,6 @@ router.get('/series/:parent_id/episode/:episode_id', (req,res) =>{
         externalReviews : encodeURIComponent(JSON.stringify(externalReviews[id]))
      })
 })
+
 
 export default router;

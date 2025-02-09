@@ -213,14 +213,14 @@
         </div>
 
         <hr>
-
-    
+        
+        
         <!-- ----------------------------------SIMILAR MOVIES ----------------------------------->
         
 
         <div class="related-movies" id="similar-movies-id">
             <h4>Related Movies</h4>
-            <div class="related-movies-gird"></div>
+            <div class="related-movies-grid"></div>
         </div>
             
     
@@ -236,38 +236,35 @@
     
     <!-- the functions used below are from files imported at the top of this file -->
     <script type="module">
-        import { renderPage } from "/scripts/moviePageScripts/renderMoviePage.js";
-        import { showReviews , reviewInputSection , addExternalReviews } from "/scripts/moviePageScripts/renderReviewSection.js"
-        import { displaySimilarMovies } from "/scripts/moviePageScripts/displaySimilar.js"
+        import { loadMoviePage } from "/scripts/moviePageScripts/loadMoviePage.js"
 
         
-
-
-
         const movieID = decodeURIComponent('<%= movieID %>')
         const userName = decodeURIComponent('<%= user %>')
         const movieData = JSON.parse(decodeURIComponent("<%= movieData %>"))
-        const userReviewObject = "<%= userReviewJson %>"
-        const externalReviews = "<%= externalReviews %>"
+        const userData = {
+            userName : userName
+        }
 
         console.log(decodeURIComponent(movieID))
 
         //------------------------------------------------------------------------------
-        renderPage(movieData)    // from renderMoviePage.js
-                    showReviews(userName , JSON.parse(decodeURIComponent(userReviewObject)))//from renderReviewSection.js        
-                    reviewInputSection(userName,movieID)                  // from renderReviewSection.js
-                    try{
-                        addExternalReviews(JSON.parse(decodeURIComponent(externalReviews))) 
-                    }
-                    catch{
-                        document.getElementById("external-reviews-id").innerHTML = "<span style='opacity : 0.4'>No external Reviews for this movie</span>"
-                    }
+        loadMoviePage(movieData, userData)    // from loadMoviePage.js
+        
+        // showReviews(userName , JSON.parse(decodeURIComponent(userReviewObject)))//from renderReviewSection.js        
+        // reviewInputSection(userName,movieID)                  // from renderReviewSection.js
+        // try{
+        //     addExternalReviews(JSON.parse(decodeURIComponent(externalReviews))) 
+        // }
+        // catch{
+        //     document.getElementById("external-reviews-id").innerHTML = "<span style='opacity : 0.4'>No external Reviews for this movie</span>"
+        // }
 
-        fetch("/organisedData/movies_short.json")
-            .then(res => res.json())
-            .then(movieData => {
-                displaySimilarMovies(movieData, movieData[movieID])     // from displaySimilar.js
-            })
+        // fetch("/organisedData/movies_short.json")
+        //     .then(res => res.json())
+        //     .then(movieData => {
+        //         displaySimilarMovies(movieData, movieData[movieID])     // from displaySimilar.js
+        //     })
                         
         
     </script>

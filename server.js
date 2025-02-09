@@ -7,21 +7,6 @@ import path from 'path';
 
 // const express = require('express')
 // const session = require('express-session')
-const app = express()
-
-app.listen(4000)
-console.log("Server started at port 4000")
-app.use(express.urlencoded({ extended: true }))
-app.set('view-engine','ejs')
-app.use(session({
-    secret: 'your-secret-key', // Secret key for session encryption
-    resave: false,
-    saveUninitialized: true
-}));
-
-app.use(express.static('public'));
-
-app.use('/snippets', express.static('snippets'));
 // ------------------------ data ---------------------------------
 import dbConfig from './config/db.js';
 const titles = JSON.parse(fs.readFileSync(dbConfig.titlesFile, 'utf8'));
@@ -36,8 +21,25 @@ const userData = JSON.parse(fs.readFileSync(dbConfig.userDataFile, 'utf8'));
 const userReviews = JSON.parse(fs.readFileSync(dbConfig.userReviewFile, 'utf8'));
 const externalReviews = JSON.parse(fs.readFileSync(dbConfig.externalReviewFile, 'utf8'));
 
+const app = express()
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+app.listen(4000)
+console.log("Server started at port 4000")
+app.use(express.urlencoded({ extended: true }))
+app.set('view-engine','ejs')
+app.use(session({
+    secret: 'your-secret-key', // Secret key for session encryption
+    resave: false,
+    saveUninitialized: true
+}));
+
+app.use(express.static('public'));
+app.use(express.json());  //  This enables JSON body parsing
+app.use('/images-highres', express.static(path.join(__dirname, dbConfig.highresImagesDir)));
+app.use('/images-lowres', express.static(path.join(__dirname, dbConfig.lowresImagesDir)));
+app.use('/snippets', express.static('snippets'));
 
 app.use((req,res,next) => {
     req.dbConfig = dbConfig;
@@ -54,9 +56,10 @@ app.use((req,res,next) => {
     req.snippetsDirectory = dbConfig.snippetsDirectory;
     req.__dirname = __dirname;
     req.highresImagesDir = dbConfig.highresImagesDir;
+    req.lowresImagesDir = dbConfig.lowresImagesDir;
     next();
 })
-// ------------------------ main pages ----------------------------
+// ------------------------ main page routes ----------------------------
 import homepageRoutes from './routes/homepageRoutes.js';
 app.use('/', homepageRoutes);
 
@@ -68,6 +71,14 @@ app.use('/', moviepageRoutes);
 
 import imageRoutes from './routes/imageRoutes.js';
 app.use('/', imageRoutes);
+// ------------------------ main page api ----------------------------
+import moviePageApi from './api/moviepageApi.js';
+app.use('/', moviePageApi);
+
+import imagesApi from './api/imagesApi.js';
+app.use('/images/', imagesApi);
+
+
 
 app.get('/top100movies' , (req,res) =>{
     const top100 =  Object.values(movieData).filter(movie => movie !== null).sort( (movie1, movie2) => {return movie2.imdbRating - movie1.imdbRating})
