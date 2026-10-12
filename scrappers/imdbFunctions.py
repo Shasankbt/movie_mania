@@ -29,7 +29,7 @@ def getEpisodes(imdbID):
     for season_idx in range(seasons_count):
         temp_obj = {}
         episodes_page = getBSfromURL("https://www.imdb.com/title/" + imdbID + f"/episodes/?season={season_idx+1}")
-        episode_sections = episodes_page.find_all("div", class_="sc-ccd6e31b-1 fabWnN")   
+        episode_sections = episodes_page.find_all("article", class_="episode-item-wrapper")   
         for ep_idx , section in enumerate(episode_sections):
             ep_id = section.find("a").get("href").split("/")[2]
             temp_obj[f"episode-{ep_idx+1}"] = ep_id
@@ -93,11 +93,14 @@ def getDataFromImdbID(imdbID, print_feedback = True, item_type="", episode_detai
         if print_feedback:
             print(movie["Title"])
         try:    # Released
-            movie["Released"] = mainpage.find("div", class_="sc-f65f65be-0 bBlII", attrs={"data-testid" : "title-details-section"}).find("ul", class_ = "ipc-inline-list ipc-inline-list--show-dividers ipc-inline-list--inline ipc-metadata-list-item__list-content base").text
+            detials_section = mainpage.find("section", attrs={"data-testid" : "Details"})
+            details_subsection = detials_section.find("div", attrs={"data-testid" : "title-details-section"})
+            details_list = details_subsection.find("li", attrs={"data-testid" : "title-details-releasedate"})
+            movie["Released"] = details_list.find("ul").text
         except Exception as e:
             print(f"{Colors.GREY}unable to get release date of item due to -{e}-  on line {traceback.extract_tb(e.__traceback__)[0][1]}{Colors.RESET} for id:{imdbID}")
         try:    # imdbRating
-            movie["imdbRating"] = mainpage.find("div", class_ = "sc-bde20123-2 cdQqzc").find("span").text
+            movie["imdbRating"] = mainpage.find("div", attrs={"data-testid": "hero-rating-bar__aggregate-rating__score"}).find("span").text
         except Exception as e:
             print(f"{Colors.GREY}unable to get imdb rating of item due to -{e}-  on line {traceback.extract_tb(e.__traceback__)[0][1]}{Colors.RESET} for id:{imdbID}")
         try:
@@ -107,9 +110,11 @@ def getDataFromImdbID(imdbID, print_feedback = True, item_type="", episode_detai
             print(f"{Colors.GREY}unable to get Genre rating of item due to -{e}-  on line {traceback.extract_tb(e.__traceback__)[0][1]}{Colors.RESET} for id:{imdbID}")
                
         try: # Type, Year, Rated, Runtime and Episodes(for tv series)
-            tempVar = mainpage.find("ul", class_ ="ipc-inline-list ipc-inline-list--show-dividers sc-d8941411-2 cdJsTz baseAlt").find_all("li")
+            tempVar = mainpage.find("h1", attrs={"data-testid": "hero__pageTitle"}).parent
+            tempVar = tempVar.find("ul").find_all("li")
+            # tempVar = mainpage.find("ul", class_ ="ipc-inline-list ipc-inline-list--show-dividers sc-d8941411-2 cdJsTz baseAlt").find_all("li")
             if item_type == "":
-                item_type = getFilmType(tempVar[0])
+                item_type = getFilmType(tempVar[0].text)
             
             if item_type == "movie":
                 movie["Type"] = "Movie"
@@ -151,7 +156,8 @@ def getDataFromImdbID(imdbID, print_feedback = True, item_type="", episode_detai
                 imagesSiteUrl = "https://www.imdb.com/" + mainpage.find("a", class_="ipc-lockup-overlay ipc-focusable").get("href")
                 imageSoup = getBSfromURL(imagesSiteUrl)
                 try:
-                    movie["Poster"] = imageSoup.find("img", class_="sc-7c0a9e7c-0 eWmrns").get("src")
+                    media_viewer = imageSoup.find("div", attrs={"data-testid": "media-viewer"})
+                    movie["Poster"] = media_viewer.find("img").get("src")
                 except AttributeError:
                     movie["Poster"] = imageSoup.find("div", class_="sc-7c0a9e7c-3 cISuCS").find("img").get("src")
                 except Exception as e:
@@ -184,9 +190,9 @@ def getDataFromImdbID(imdbID, print_feedback = True, item_type="", episode_detai
                     movie["Writers"] = [x.text for x in tempVar[1].find_all("li")]
                     movie["Stars"] = [x.text for x in tempVar[2].find_all("li")]
             except Exception as e:
-                print(f"{Colors.GREY}unable to get crew due to -{e}-  on line {traceback.extract_tb(e.__traceback__)[0][1]}{Colors.RESET}")
+                print(f"{Colors.GREY}unable to get crew for imdb: {imdbID} due to -{e}-  on line {traceback.extract_tb(e.__traceback__)[0][1]}{Colors.RESET}")
         except Exception as e:
-            print(f"{Colors.GREY}unable to get crew due to -{e}-  on line {traceback.extract_tb(e.__traceback__)[0][1]}{Colors.RESET}")
+            print(f"{Colors.GREY}unable to get crew due for imdb: {imdbID} due to -{e}-  on line {traceback.extract_tb(e.__traceback__)[0][1]}{Colors.RESET}")
     
         getPlotSummary(imdbID, movie)
         getQuotes(imdbID, movie)

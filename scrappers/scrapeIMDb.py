@@ -6,6 +6,10 @@ import time
 
 from concurrent.futures import ThreadPoolExecutor
 
+MOVIE_DATA_FILE = "organisedData/movies/movies.json"
+SERIES_DATA_FILE = "organisedData/series/series.json"
+EPISODE_DATA_FILE = "organisedData/episodes/episodes.json"
+
 def load_json(filename):
     with open(filename) as file:
         return json.load(file)
@@ -43,9 +47,9 @@ if __name__ == "__main__":
     with open("data-filtered.txt") as file:
         imdbID_list_input = file.read().splitlines()
 
-    movieData = load_json("organisedData/movies.json")
-    seriesData = load_json("organisedData/series.json")
-    episodeData = load_json("organisedData/episodes.json")  # Assuming the correct file name
+    movieData = load_json(MOVIE_DATA_FILE)
+    seriesData = load_json(SERIES_DATA_FILE)
+    episodeData = load_json(EPISODE_DATA_FILE)  # Assuming the correct file name
 
     # Extract IMDb IDs from the JSON data
     imdbID_list_extracted = set(movieData.keys()) | set(seriesData.keys()) | set(episodeData.keys())
